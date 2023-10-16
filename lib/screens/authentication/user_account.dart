@@ -17,10 +17,11 @@ class _UserAccountState extends State<UserAccount> {
     return Scaffold(
       appBar: AppBar(title: const Text("Creator Account")),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            width: 120,
-            height: 120,
+            width: 200,
+            height: 200,
             decoration: BoxDecoration(
               border: Border.all(),
               borderRadius: BorderRadius.circular(10),
