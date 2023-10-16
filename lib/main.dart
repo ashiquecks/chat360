@@ -24,8 +24,6 @@ Future<void> main() async {
     clientKey: "PLnQc8VAHS4mXEC9PkmuopSco2dchkmtD6tse1C4",
     debug: true,
     liveQueryUrl: "https://chat360.b4a.io",
-    // autoSendSessionId: true,
-    // coreStore: CoreStoreMemoryImp(),
   );
   runApp(const MyApp());
 }
