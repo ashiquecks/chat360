@@ -1,0 +1,64 @@
+import 'package:chat360/resourses/colors.dart';
+import 'package:chat360/screens/authentication/otp_verification.dart';
+import 'package:flutter/material.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
+
+import '../../widgets/button/button_widget.dart';
+
+class PhoneVerification extends StatefulWidget {
+  const PhoneVerification({super.key});
+
+  @override
+  State<PhoneVerification> createState() => _PhoneVerificationState();
+}
+
+class _PhoneVerificationState extends State<PhoneVerification> {
+  @override
+  Widget build(BuildContext context) {
+    final widgetSize = MediaQuery.of(context).size;
+    return Scaffold(
+      backgroundColor: white,
+      body: Center(
+        child: SingleChildScrollView(
+          child: SizedBox(
+            height: widgetSize.height,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: widgetSize.width / 2,
+                  child: Image.asset('assets/images/logo_white.png'),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: IntlPhoneField(
+                    decoration: const InputDecoration(
+                      labelText: 'Phone Number',
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(),
+                      ),
+                    ),
+                    initialCountryCode: 'IN',
+                    onChanged: (phone) {
+                      print(phone.completeNumber);
+                    },
+                  ),
+                ),
+                loginButton(
+                  context: context,
+                  buttonText: "SEND OTP",
+                  buttonAction: () => showModalBottomSheet<void>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return OTPVerification();
+                      }),
+                ),
+                const Text("we will send you one time password"),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

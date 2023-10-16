@@ -30,11 +30,16 @@ class _HomeScreenState extends State<HomeScreen> {
             width: 120,
             child: Image.asset("assets/images/chatsidelogo.png"),
           ),
-          actions: const [
+          actions: [
             Padding(
-              padding: EdgeInsets.all(8.0),
-              child: CircleAvatar(
-                backgroundImage: AssetImage("assets/images/avatar.jpg"),
+              padding: const EdgeInsets.all(10),
+              child: InkWell(
+                onTap: () {
+                  Navigator.pushNamed(context, 'profile_screen');
+                },
+                child: const CircleAvatar(
+                  backgroundImage: AssetImage("assets/images/avatar.jpg"),
+                ),
               ),
             )
           ],
@@ -44,13 +49,13 @@ class _HomeScreenState extends State<HomeScreen> {
             itemBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.only(
-                  top: 15,
+                  top: 0,
                 ),
                 child: Column(
                   children: [
                     ListTile(
                       leading: CircleAvatar(
-                        maxRadius: 25,
+                        maxRadius: 20,
                         backgroundColor: primaryColor,
                         child: Icon(
                           Icons.chat_bubble_outline,
@@ -61,7 +66,18 @@ class _HomeScreenState extends State<HomeScreen> {
                         "https://www.flipkart.com/realme-c51-carbon-black-64-gb/p/",
                         overflow: TextOverflow.ellipsis,
                       ),
-                      trailing: const Text("12-July"),
+                      subtitle: const Text("12-July  12:30 AM"),
+                      trailing: Container(
+                        decoration: BoxDecoration(
+                            color: c1, borderRadius: BorderRadius.circular(10)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Text(
+                            "12",
+                            style: TextStyle(color: white),
+                          ),
+                        ),
+                      ),
                     ),
                     const Divider(),
                   ],
@@ -76,8 +92,8 @@ class _HomeScreenState extends State<HomeScreen> {
               Icons.chat_bubble_outline,
               color: white,
             ),
-            onPressed: () {
-              Navigator.pushNamed(context, 'chat_room');
+            onPressed: () async {
+              await Navigator.pushNamed(context, 'chat_room');
             },
           ),
         ),
