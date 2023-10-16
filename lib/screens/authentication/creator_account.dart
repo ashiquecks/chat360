@@ -15,28 +15,30 @@ class _CreatorAccountState extends State<CreatorAccount> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Creator Account")),
-      body: Column(
-        children: [
-          Container(
-            width: 120,
-            height: 120,
-            decoration: BoxDecoration(
-              border: Border.all(),
-              borderRadius: BorderRadius.circular(10),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              width: 200,
+              height: 200,
+              decoration: BoxDecoration(
+                border: Border.all(),
+                borderRadius: BorderRadius.circular(10),
+              ),
             ),
-          ),
-          mainTextField(labelName: "user name", controller: userName),
-          mainTextField(labelName: "organization name", controller: userName),
-          mainTextField(labelName: "gst number", controller: userName),
-          mainTextField(labelName: "building number", controller: userName),
-          loginButton(
-            context: context,
-            buttonText: "Continue",
-            buttonAction: () {
-              Navigator.pushNamed(context, 'category_screen');
-            },
-          )
-        ],
+            mainTextField(labelName: "user name", controller: userName),
+            mainTextField(labelName: "organization name", controller: userName),
+            mainTextField(labelName: "gst number", controller: userName),
+            mainTextField(labelName: "building number", controller: userName),
+            loginButton(
+              context: context,
+              buttonText: "Continue",
+              buttonAction: () {
+                Navigator.pushNamed(context, 'category_screen');
+              },
+            )
+          ],
+        ),
       ),
     );
   }
