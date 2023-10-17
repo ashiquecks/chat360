@@ -1,7 +1,9 @@
+import 'package:chat360/provider/main_provider.dart';
 import 'package:chat360/resourses/colors.dart';
 import 'package:chat360/screens/authentication/otp_verification.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:provider/provider.dart';
 
 import '../../widgets/button/button_widget.dart';
 
@@ -15,6 +17,7 @@ class PhoneVerification extends StatefulWidget {
 class _PhoneVerificationState extends State<PhoneVerification> {
   @override
   Widget build(BuildContext context) {
+    final mainProvider = Provider.of<MainProvider>(context, listen: false);
     final widgetSize = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: white,
@@ -32,6 +35,7 @@ class _PhoneVerificationState extends State<PhoneVerification> {
                 Padding(
                   padding: const EdgeInsets.all(15),
                   child: IntlPhoneField(
+                    controller: mainProvider.userPhone,
                     decoration: const InputDecoration(
                       labelText: 'Phone Number',
                       border: OutlineInputBorder(
@@ -40,7 +44,7 @@ class _PhoneVerificationState extends State<PhoneVerification> {
                     ),
                     initialCountryCode: 'IN',
                     onChanged: (phone) {
-                      print(phone.completeNumber);
+                      mainProvider.setUserPhone(phone.completeNumber);
                     },
                   ),
                 ),

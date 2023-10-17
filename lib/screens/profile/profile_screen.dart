@@ -14,6 +14,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     final widgetSize = MediaQuery.of(context).size;
     return Scaffold(
+      appBar: AppBar(
+        foregroundColor: white,
+        backgroundColor: primaryColor,
+      ),
       body: Column(
         children: [
           SizedBox(

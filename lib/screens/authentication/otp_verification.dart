@@ -1,6 +1,8 @@
 import 'package:chat360/resourses/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
+import 'package:provider/provider.dart';
+import '../../provider/main_provider.dart';
 import '../../widgets/button/button_widget.dart';
 import '../../widgets/text/text_widgets.dart';
 
@@ -12,7 +14,9 @@ class OTPVerification extends StatefulWidget {
 }
 
 class _OTPVerificationState extends State<OTPVerification> {
-  final pinController = TextEditingController();
+
+
+  // final pinController = TextEditingController();
   final FocusNode _pinOTPCodeFocus = FocusNode();
 
   final defaultPinTheme = PinTheme(
@@ -29,6 +33,7 @@ class _OTPVerificationState extends State<OTPVerification> {
   );
   @override
   Widget build(BuildContext context) {
+    final mainProvider = Provider.of<MainProvider>(context, listen: false);
     final widgetSize = MediaQuery.of(context).size;
     return SizedBox(
       width: widgetSize.width,
@@ -42,12 +47,13 @@ class _OTPVerificationState extends State<OTPVerification> {
             child: Pinput(
               length: 6,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              controller: pinController,
+              controller: mainProvider.userPassword,
               focusNode: _pinOTPCodeFocus,
               androidSmsAutofillMethod:
                   AndroidSmsAutofillMethod.smsUserConsentApi,
               listenForMultipleSmsOnAndroid: true,
               defaultPinTheme: defaultPinTheme,
+
             ),
           ),
           SizedBox(

@@ -13,7 +13,7 @@ class _FilterChatScreenState extends State<FilterChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Add Prompt"),
+        title: const Text("Add Message"),
       ),
       body: SingleChildScrollView(
         child: Padding(

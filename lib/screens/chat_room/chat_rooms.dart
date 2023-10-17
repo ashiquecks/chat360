@@ -7,6 +7,7 @@ import '../../provider/chat_room_provider.dart';
 import '../../resourses/colors.dart';
 import '../../service/api_integration/create/create_chat_message.dart';
 import '../../widgets/card/card_widget.dart';
+import '../../widgets/popup/message_box.dart';
 import '../../widgets/text/text_widgets.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart';
 import 'package:flutter_link_previewer/flutter_link_previewer.dart';
@@ -22,14 +23,7 @@ class _ChatRoomsState extends State<ChatRooms> {
   TextEditingController chatLink = TextEditingController();
   Map<String, PreviewData> datas = {};
 
-  ScaffoldMessengerState scafoldMessage({required String messagetext}) {
-    return ScaffoldMessenger.of(context)
-      ..removeCurrentSnackBar()
-      ..showSnackBar(SnackBar(
-        content: messageText(labelText: 'Successfully Created'),
-        duration: Duration(seconds: 3),
-      ));
-  }
+
 
   @override
   void initState() {
@@ -76,6 +70,7 @@ class _ChatRoomsState extends State<ChatRooms> {
           Consumer<ChatRoomProvider>(
             builder: (context, value, child) {
               return ListView.builder(
+                reverse: true,
                 physics: const AlwaysScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: value.messageList.length,
@@ -100,10 +95,7 @@ class _ChatRoomsState extends State<ChatRooms> {
                           enableAnimation: true,
                           onPreviewDataFetched: (data) {
                             setState(() {
-                              datas = {
-                                ...datas,
-                                responsePost.chatMessage: data
-                              };
+                              datas = {...datas, responsePost.chatMessage: data};
                             });
                           },
                           previewData: datas[responsePost.chatMessage],
@@ -124,15 +116,15 @@ class _ChatRoomsState extends State<ChatRooms> {
             child: messagecard(
               controller: chatLink,
               sendMessage: () async {
-                final response = await createNewMessage(
-                    userID: 'user11', chatMessage: chatLink.text);
+                final response =
+                    await createNewMessage(userID: 'user11', chatMessage: chatLink.text, chatMessages: ['s4,s4']);
                 chatLink.clear();
                 if (response.data != null) {
                   mainProvider.setTextField("");
-                  scafoldMessage(messagetext: response.message.toString());
+                  scafoldMessage(messagetext: response.message.toString(),context: context);
                   getChatMessageResponse(context: context);
                 } else {
-                  scafoldMessage(messagetext: response.message.toString());
+                  scafoldMessage(messagetext: response.message.toString(),context: context);
                 }
               },
             ),

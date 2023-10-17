@@ -20,7 +20,8 @@ import 'screens/splash/splash_screen.dart';
 
 Future<void> main() async {
   await Parse().initialize(
-    "pYLM3p7I3jiAocohGfLQMvWgx486muD1QtvD9mxk", "https://parseapi.back4app.com",
+    "pYLM3p7I3jiAocohGfLQMvWgx486muD1QtvD9mxk",
+    "https://parseapi.back4app.com",
     clientKey: "PLnQc8VAHS4mXEC9PkmuopSco2dchkmtD6tse1C4",
     debug: true,
     liveQueryUrl: "https://chat360.b4a.io",
