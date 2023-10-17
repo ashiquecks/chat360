@@ -1,4 +1,8 @@
+import 'package:chat360/provider/main_provider.dart';
+import 'package:chat360/service/api_integration/authentication/user_create.dart';
+import 'package:chat360/widgets/popup/message_box.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../widgets/button/button_widget.dart';
 import '../../widgets/text_field.dart/text_filed_widgets.dart';
@@ -14,6 +18,7 @@ class _UserAccountState extends State<UserAccount> {
   TextEditingController userName = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final mainProvider = Provider.of<MainProvider>(context);
     return Scaffold(
       appBar: AppBar(title: const Text("Creator Account")),
       body: Column(
@@ -28,11 +33,27 @@ class _UserAccountState extends State<UserAccount> {
             ),
           ),
           mainTextField(labelName: "user name", controller: userName),
+          mainTextFieldDisable(
+            labelName: mainProvider.phoneNumber.toString(),
+          ),
+          mainTextFieldDisable(
+            labelName: mainProvider.userPassword.text,
+          ),
           loginButton(
             context: context,
             buttonText: "Continue",
-            buttonAction: () {
-              Navigator.pushNamed(context, 'home_screen');
+            buttonAction: () async {
+              final response = await createUser(
+                userName: userName.text,
+                phoneNumber: mainProvider.phoneNumber.toString(),
+                password: mainProvider.userPassword.text,
+              );
+              if (response.isSuccessful == true) {
+                scafoldMessage(messagetext: response.message.toString(), context: context);
+                // Navigator.pushNamed(context, 'home_screen');
+              } else {
+                scafoldMessage(messagetext: response.message.toString(), context: context);
+              }
             },
           )
         ],

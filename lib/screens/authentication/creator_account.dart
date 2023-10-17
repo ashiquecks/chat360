@@ -1,6 +1,9 @@
 import 'package:chat360/widgets/button/button_widget.dart';
 import 'package:chat360/widgets/text_field.dart/text_filed_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:parse_server_sdk/parse_server_sdk.dart';
+
+import '../../widgets/text/text_widgets.dart';
 
 class CreatorAccount extends StatefulWidget {
   const CreatorAccount({super.key});
@@ -10,7 +13,15 @@ class CreatorAccount extends StatefulWidget {
 }
 
 class _CreatorAccountState extends State<CreatorAccount> {
+
   TextEditingController userName = TextEditingController();
+
+  TextEditingController userControll = TextEditingController();
+  TextEditingController passwordControll = TextEditingController();
+
+  
+
+  bool loading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

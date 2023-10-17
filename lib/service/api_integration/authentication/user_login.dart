@@ -1,20 +1,21 @@
+import 'package:parse_server_sdk/parse_server_sdk.dart';
 import 'dart:convert';
 import 'dart:io';
 import 'package:parse_server_sdk/parse_server_sdk.dart';
 import '../../../modal/chat_message_modal.dart';
 import '../../server_response/server_response.dart';
 
-Future<NetworkResponse<ChatMessageModal>> createNewMessage(
-    {required String userID, required String chatMessage, required List chatMessages}) async {
+Future<NetworkResponse<ChatMessageModal>> userLogin({
+  required String userName,
+  required String userToken,
+}) async {
   try {
-    final chatMessageResponse = ParseObject('ChatList')
-      ..set('chatTitle', chatMessage)
-      ..set('chatTime', DateTime.now())
-      ..setAddAll('chatMessages', chatMessages);
-    await chatMessageResponse.save();
+    final user = ParseUser(userName, userToken, null);
 
-    if (chatMessageResponse.objectId != null) {
-      final jsonString = jsonEncode(chatMessageResponse);
+    var response = await user.login();
+
+    if (response.statusCode == 200) {
+      final jsonString = jsonEncode(response.results);
       ChatMessageModal responseData = ChatMessageModal.fromJson(jsonDecode(jsonString));
 
       return NetworkResponse(

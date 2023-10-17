@@ -7,7 +7,7 @@ import '../../server_response/server_response.dart';
 Future<NetworkResponse<List<ChatMessageModal>>> getChatMessage() async {
   try {
     QueryBuilder<ParseObject> queryPublisher =
-        QueryBuilder<ParseObject>(ParseObject('ChatMessage'))
+        QueryBuilder<ParseObject>(ParseObject('ChatMessage'),)
           ..orderByDescending('createdAt');
     final ParseResponse apiResponse = await queryPublisher.query();
 

@@ -14,4 +14,22 @@ class MainProvider extends ChangeNotifier {
     textFieldValue = text;
     notifyListeners();
   }
+
+  // User Creation
+
+  TextEditingController userPhone = TextEditingController();
+  TextEditingController userPassword = TextEditingController();
+
+  String? phoneNumber;
+
+
+  setUserPhone(String setUserPhone) {
+    phoneNumber = setUserPhone;
+    notifyListeners();
+  }
+
+  setUserPassword(TextEditingController setUserPassword) {
+    userPhone = setUserPassword;
+    notifyListeners();
+  }
 }
