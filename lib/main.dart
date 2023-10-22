@@ -5,6 +5,7 @@ import 'package:chat360/screens/authentication/otp_verification.dart';
 import 'package:chat360/screens/authentication/phone_verification.dart';
 import 'package:chat360/screens/authentication/user_account.dart';
 import 'package:chat360/screens/category/category_screen.dart';
+import 'package:chat360/screens/chat_screen.dart/chat_screen.dart';
 import 'package:chat360/screens/location/location_screen.dart';
 import 'package:chat360/screens/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => ChatRoomProvider()),
+        ChangeNotifierProvider(create: (context) => ChatRoomProvider())  ,
         ChangeNotifierProvider(create: (context) => MainProvider())
       ],
       child: MaterialApp(
@@ -62,6 +63,7 @@ class MyApp extends StatelessWidget {
           'creator_account': (context) => const CreatorAccount(),
           'user_account': (context) => const UserAccount(),
           'creator_approval': (context) => const CreatorApproval(),
+          'chat_screen': (context) => const ChatScreen(),
         },
       ),
     );

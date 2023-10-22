@@ -1,5 +1,6 @@
 import 'package:chat360/provider/main_provider.dart';
 import 'package:chat360/service/api_integration/authentication/user_create.dart';
+import 'package:chat360/service/shared_preference/shared_preference.dart';
 import 'package:chat360/widgets/popup/message_box.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -50,7 +51,14 @@ class _UserAccountState extends State<UserAccount> {
               );
               if (response.isSuccessful == true) {
                 scafoldMessage(messagetext: response.message.toString(), context: context);
-                // Navigator.pushNamed(context, 'home_screen');
+                setUserData(
+                  userId: response.data!.objectId,
+                  userPassword: response.data!.password,
+                  userName: response.data!.userName,
+                  registerStatus: true,
+                  userPhone: response.data!.phoneNumber,
+                );
+                Navigator.pushNamed(context, 'home_screen');
               } else {
                 scafoldMessage(messagetext: response.message.toString(), context: context);
               }

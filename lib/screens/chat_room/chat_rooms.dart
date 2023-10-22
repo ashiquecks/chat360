@@ -1,11 +1,14 @@
 import 'package:chat360/provider/main_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:parse_server_sdk/parse_server_sdk.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../api_functions/chat_message_api.dart';
 import '../../modal/chat_message_modal.dart';
 import '../../provider/chat_room_provider.dart';
 import '../../resourses/colors.dart';
 import '../../service/api_integration/create/create_chat_message.dart';
+import '../../service/shared_preference/shared_preference.dart';
 import '../../widgets/card/card_widget.dart';
 import '../../widgets/popup/message_box.dart';
 import '../../widgets/text/text_widgets.dart';
@@ -20,16 +23,33 @@ class ChatRooms extends StatefulWidget {
 }
 
 class _ChatRoomsState extends State<ChatRooms> {
+  String? userID;
   TextEditingController chatLink = TextEditingController();
   Map<String, PreviewData> datas = {};
-
-
 
   @override
   void initState() {
     super.initState();
-    getChatMessageResponse(context: context);
+    getSharedPreferences();
   }
+
+  getSharedPreferences() {
+    setState(() {
+      userID = preferences!.getString("userId");
+    });
+  }
+
+  List<ParseObject> authors = [
+    ParseObject('ChatMessage')
+      ..set('userId', 'John Doe')
+      ..set('message', 'John Doe is a best-selling author of fiction and non-fiction.'),
+    ParseObject('ChatMessage')
+      ..set('userId', 'Jane Doe')
+      ..set('message', 'Jane Doe is an award-winning author of children\'s books.'),
+    ParseObject('ChatMessage')
+      ..set('userId', 'William Shakespeare')
+      ..set('message', 'William Shakespeare is widely regarded as the greatest writer in the English language.'),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -39,8 +59,6 @@ class _ChatRoomsState extends State<ChatRooms> {
         foregroundColor: white,
         backgroundColor: primaryColor,
         elevation: 12,
-        // leadingWidth: 0,
-        // leading: const SizedBox(),
         title: TextButton.icon(
           onPressed: () {
             Navigator.pushNamed(context, 'location_screen');
@@ -51,7 +69,7 @@ class _ChatRoomsState extends State<ChatRooms> {
             size: 15,
           ),
           label: Text(
-            "Kozhokode",
+            "Kozhikode",
             style: TextStyle(color: white),
           ),
         ),
@@ -67,48 +85,48 @@ class _ChatRoomsState extends State<ChatRooms> {
       ),
       body: Stack(
         children: [
-          Consumer<ChatRoomProvider>(
-            builder: (context, value, child) {
-              return ListView.builder(
-                reverse: true,
-                physics: const AlwaysScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: value.messageList.length,
-                itemBuilder: (context, index) {
-                  ChatMessageModal responsePost = value.getPostByIndex(index);
-                  return Align(
-                    alignment: Alignment.centerLeft,
-                    child: Container(
-                      key: ValueKey(responsePost),
-                      margin: const EdgeInsets.all(16),
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(20),
-                        ),
-                        color: Color(0xfff7f7f8),
-                      ),
-                      child: ClipRRect(
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(20),
-                        ),
-                        child: LinkPreview(
-                          enableAnimation: true,
-                          onPreviewDataFetched: (data) {
-                            setState(() {
-                              datas = {...datas, responsePost.chatMessage: data};
-                            });
-                          },
-                          previewData: datas[responsePost.chatMessage],
-                          text: responsePost.chatMessage,
-                          width: MediaQuery.of(context).size.width,
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              );
-            },
-          ),
+          // Consumer<ChatRoomProvider>(
+          //   builder: (context, value, child) {
+          //     return ListView.builder(
+          //       reverse: true,
+          //       physics: const AlwaysScrollableScrollPhysics(),
+          //       shrinkWrap: true,
+          //       itemCount: value.messageList.length,
+          //       itemBuilder: (context, index) {
+          //         ChatMessageModal responsePost = value.getPostByIndex(index);
+          //         return Align(
+          //           alignment: Alignment.centerLeft,
+          //           child: Container(
+          //             key: ValueKey(responsePost),
+          //             margin: const EdgeInsets.all(16),
+          //             decoration: const BoxDecoration(
+          //               borderRadius: BorderRadius.all(
+          //                 Radius.circular(20),
+          //               ),
+          //               color: Color(0xfff7f7f8),
+          //             ),
+          //             child: ClipRRect(
+          //               borderRadius: const BorderRadius.all(
+          //                 Radius.circular(20),
+          //               ),
+          //               child: LinkPreview(
+          //                 enableAnimation: true,
+          //                 onPreviewDataFetched: (data) {
+          //                   setState(() {
+          //                     datas = {...datas, responsePost.chatMessage: data};
+          //                   });
+          //                 },
+          //                 previewData: datas[responsePost.chatMessage],
+          //                 text: responsePost.chatMessage,
+          //                 width: MediaQuery.of(context).size.width,
+          //               ),
+          //             ),
+          //           ),
+          //         );
+          //       },
+          //     );
+          //   },
+          // ),
           Positioned(
             bottom: 0,
             left: 0,
@@ -116,15 +134,15 @@ class _ChatRoomsState extends State<ChatRooms> {
             child: messagecard(
               controller: chatLink,
               sendMessage: () async {
-                final response =
-                    await createNewMessage(userID: 'user11', chatMessage: chatLink.text, chatMessages: ['s4,s4']);
+                final response = await createNewMessage(
+                    userID: userID.toString(), chatMessage: chatLink.text, chatMessages: authors);
                 chatLink.clear();
                 if (response.data != null) {
                   mainProvider.setTextField("");
-                  scafoldMessage(messagetext: response.message.toString(),context: context);
-                  getChatMessageResponse(context: context);
+                  scafoldMessage(messagetext: response.message.toString(), context: context);
+                  // getChatMessageResponse(context: context);
                 } else {
-                  scafoldMessage(messagetext: response.message.toString(),context: context);
+                  scafoldMessage(messagetext: response.message.toString(), context: context);
                 }
               },
             ),

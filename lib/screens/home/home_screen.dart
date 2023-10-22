@@ -55,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     ListTile(
                       onTap: () async{
-                        await Navigator.pushNamed(context, 'chat_room');
+                        await Navigator.pushNamed(context, 'chat_screen');
                       },
                       leading: CircleAvatar(
                         maxRadius: 20,

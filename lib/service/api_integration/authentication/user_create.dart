@@ -7,7 +7,7 @@ import '../../server_response/server_response.dart';
 Future<NetworkResponse<UserModal>> createUser(
     {required String userName, required String phoneNumber, required String password}) async {
   try {
-    ParseObject response = ParseObject('User')
+    ParseObject response = ParseObject('UserAccount')
       ..set('userName', userName)
       ..set('phoneNumber', phoneNumber)
       ..set('password', password);
@@ -16,14 +16,11 @@ Future<NetworkResponse<UserModal>> createUser(
     QueryBuilder queryPublisher = QueryBuilder(response);
     final userCreateResponse = await queryPublisher.query();
 
-    if (userCreateResponse.success == 200) {
-      final jsonString = jsonEncode(userCreateResponse);
-      UserModal responseData = UserModal.fromJson(jsonDecode(jsonString));
+    if (userCreateResponse.statusCode == 200 || userCreateResponse.success == true) {
+      final jsonString = jsonDecode(response.toString());
+      UserModal responseData = UserModal.fromJson(jsonString);
 
-      return NetworkResponse(
-        true,
-        responseData,
-      );
+      return NetworkResponse(true, responseData, message: "Your user Account successfully created");
     } else {
       return NetworkResponse(
         false,

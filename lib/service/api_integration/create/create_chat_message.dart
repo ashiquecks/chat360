@@ -5,27 +5,28 @@ import '../../../modal/chat_message_modal.dart';
 import '../../server_response/server_response.dart';
 
 Future<NetworkResponse<ChatMessageModal>> createNewMessage(
-    {required String userID, required String chatMessage, required List chatMessages}) async {
+    {required String userID, required String chatMessage, required List<ParseObject> chatMessages}) async {
   try {
-    final chatMessageResponse = ParseObject('ChatList')
+    final chatMessageResponse = ParseObject('MessageList')
+      ..set("userId", userID)
       ..set('chatTitle', chatMessage)
       ..set('chatTime', DateTime.now())
-      ..setAddAll('chatMessages', chatMessages);
+      ..addRelation("messages", chatMessages);
     await chatMessageResponse.save();
 
-    if (chatMessageResponse.objectId != null) {
-      final jsonString = jsonEncode(chatMessageResponse);
-      ChatMessageModal responseData = ChatMessageModal.fromJson(jsonDecode(jsonString));
+    QueryBuilder queryPublisher = QueryBuilder(chatMessageResponse);
+    final queryResponse = await queryPublisher.query();
 
-      return NetworkResponse(
-        true,
-        responseData,
-      );
+    if (queryResponse.statusCode == 200 || queryResponse.success == true) {
+      final jsonString = jsonDecode(queryResponse.toString());
+      ChatMessageModal responseData = ChatMessageModal.fromJson(jsonString);
+
+      return NetworkResponse(true, responseData, message: "Successfully sent");
     } else {
       return NetworkResponse(
         false,
         null,
-        message: 'Invalid response recived from server! please try again in a minutes or two',
+        message: 'Invalid response received from server! please try again in a minutes or two',
       );
     }
   } on SocketException {
@@ -38,10 +39,9 @@ Future<NetworkResponse<ChatMessageModal>> createNewMessage(
     return NetworkResponse(
       false,
       null,
-      message: "Invalid response receved form the server! Please try again in a minutes or two",
+      message: "Invalid response received form the server! Please try again in a minutes or two",
     );
   } catch (e) {
-    return NetworkResponse(false, null, message: 'somthing went wrong please try again in a minute or two');
+    return NetworkResponse(false, null, message: 'something went wrong please try again in a minute or two');
   }
-  throw Exception('Unexpected error occured!');
 }
