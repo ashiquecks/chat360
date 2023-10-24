@@ -39,8 +39,7 @@ Widget messagecard({
               minLines: 1,
               maxLines: 60,
               controller: controller,
-              decoration: const InputDecoration(
-                  border: InputBorder.none, hintText: "Link Here"),
+              decoration: const InputDecoration(border: InputBorder.none, hintText: "Link Here"),
             ),
             trailing: IconButton(
               icon: const Icon(Icons.send),
@@ -48,6 +47,49 @@ Widget messagecard({
             ),
           ),
         ),
+      ],
+    ),
+  );
+}
+
+Widget messageListCard({
+  required void Function() cardAction,
+  required String messageTitle,
+}) {
+  return Padding(
+    padding: const EdgeInsets.only(
+      top: 0,
+    ),
+    child: Column(
+      children: [
+        ListTile(
+          onTap: cardAction,
+          leading: CircleAvatar(
+            maxRadius: 20,
+            backgroundColor: primaryColor,
+            child: Icon(
+              Icons.chat_bubble_outline,
+              color: white,
+              size: 20,
+            ),
+          ),
+          title: Text(
+            messageTitle,
+            overflow: TextOverflow.ellipsis,
+          ),
+          subtitle: const Text("12-July  12:30 AM"),
+          trailing: Container(
+            decoration: BoxDecoration(color: c1, borderRadius: BorderRadius.circular(10)),
+            child: Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Text(
+                "12",
+                style: TextStyle(color: white),
+              ),
+            ),
+          ),
+        ),
+        const Divider(),
       ],
     ),
   );

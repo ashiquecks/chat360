@@ -3,9 +3,10 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:parse_server_sdk/parse_server_sdk.dart';
 import '../../../modal/chat_message_modal.dart';
+import '../../../modal/user_modal.dart';
 import '../../server_response/server_response.dart';
 
-Future<NetworkResponse<ChatMessageModal>> userLogin({
+Future<NetworkResponse<UserModal>> userLogin({
   required String userName,
   required String userToken,
 }) async {
@@ -16,7 +17,7 @@ Future<NetworkResponse<ChatMessageModal>> userLogin({
 
     if (response.statusCode == 200) {
       final jsonString = jsonEncode(response.results);
-      ChatMessageModal responseData = ChatMessageModal.fromJson(jsonDecode(jsonString));
+      UserModal responseData = UserModal.fromJson(jsonDecode(jsonString));
 
       return NetworkResponse(
         true,

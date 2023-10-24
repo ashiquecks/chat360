@@ -5,6 +5,13 @@ class MainProvider extends ChangeNotifier {
 
   String textFieldValue = "";
 
+  String? userID;
+
+  getUsrId({required String objectId}) {
+    userID = objectId;
+    notifyListeners();
+  }
+
   changeCategory(String category) {
     selectedCategory = category;
     notifyListeners();
@@ -21,7 +28,6 @@ class MainProvider extends ChangeNotifier {
   TextEditingController userPassword = TextEditingController();
 
   String? phoneNumber;
-
 
   setUserPhone(String setUserPhone) {
     phoneNumber = setUserPhone;

@@ -1,3 +1,4 @@
+import 'package:chat360/provider/home_page_provider.dart';
 import 'package:chat360/provider/main_provider.dart';
 import 'package:chat360/screens/authentication/creator_account.dart';
 import 'package:chat360/screens/authentication/creator_approval.dart';
@@ -37,7 +38,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => ChatRoomProvider())  ,
+        ChangeNotifierProvider(create: (context) => ChatRoomProvider()),
+        ChangeNotifierProvider(create: (context) => HomePageProvider()),
         ChangeNotifierProvider(create: (context) => MainProvider())
       ],
       child: MaterialApp(

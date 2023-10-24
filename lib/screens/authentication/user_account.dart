@@ -59,6 +59,7 @@ class _UserAccountState extends State<UserAccount> {
                   userPhone: response.data!.phoneNumber,
                 );
                 Navigator.pushNamed(context, 'home_screen');
+                mainProvider.getUsrId(objectId: response.data!.objectId);
               } else {
                 scafoldMessage(messagetext: response.message.toString(), context: context);
               }

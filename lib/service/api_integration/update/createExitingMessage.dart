@@ -1,18 +1,18 @@
+
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:parse_server_sdk/parse_server_sdk.dart';
+
 import '../../../modal/chat_message_modal.dart';
 import '../../server_response/server_response.dart';
 
-Future<NetworkResponse<ChatMessageModal>> createNewMessage({
-  required String userID,
-  required String chatMessage,
-}) async {
+Future<NetworkResponse<ChatMessageModal>> createExistingMessage(
+    {required String userID, required String chatMessage, required List<ParseObject> chatMessages}) async {
   try {
     final chatMessageResponse = ParseObject('MessageList')
-      ..set("userId", userID)
-      ..set('chatTitle', chatMessage)
-      ..set('chatTime', DateTime.now());
+      ..objectId = '0MSpL5ypRs'
+      ..addRelation("messages", chatMessages);
     await chatMessageResponse.save();
 
     QueryBuilder queryPublisher = QueryBuilder(chatMessageResponse);
