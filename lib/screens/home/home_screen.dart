@@ -63,6 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   MessageListModal responsePost = value.getPostByIndex(index);
                   return messageListCard(
                       cardAction: () async {
+                        getChatMessageResponse(context: context);
                         await Navigator.pushNamed(context, 'chat_screen');
                       },
                       messageTitle: responsePost.chatTitle);
