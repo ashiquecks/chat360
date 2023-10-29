@@ -6,14 +6,13 @@ import '../../server_response/server_response.dart';
 
 Future<NetworkResponse<List<ChatMessageModal>>> getChatMessage() async {
   try {
-    QueryBuilder<ParseObject> queryPublisher =
-        QueryBuilder<ParseObject>(ParseObject('ChatMessage'),)
-          ..orderByDescending('createdAt');
+    QueryBuilder<ParseObject> queryPublisher = QueryBuilder<ParseObject>(
+      ParseObject('ChatMessage'),
+    )..orderByDescending('createdAt');
     final ParseResponse apiResponse = await queryPublisher.query();
 
-    if (apiResponse.statusCode == 200) {
-      final jsonString = jsonEncode(apiResponse.results);
-      final convertJson = await jsonDecode(jsonString);
+    if (apiResponse.success == true) {
+      final convertJson = await jsonDecode(apiResponse.results.toString());
       List<ChatMessageModal> chatMessageList = [];
       convertJson.forEach((e) {
         ChatMessageModal chatMessageResponse = ChatMessageModal.fromJson(e);
@@ -46,5 +45,4 @@ Future<NetworkResponse<List<ChatMessageModal>>> getChatMessage() async {
     return NetworkResponse(false, null,
         message: 'somthing went wrong please try again in a minute or two');
   }
-  throw Exception('Unexpected error occured!');
 }

@@ -49,10 +49,13 @@ class _UserAccountState extends State<UserAccount> {
                 password: mainProvider.userPassword.text,
               );
               if (response.isSuccessful == true) {
-                scafoldMessage(messagetext: response.message.toString(), context: context);
-                // Navigator.pushNamed(context, 'home_screen');
+                scafoldMessage(
+                    messagetext: response.message.toString(), context: context);
+                Navigator.pushNamed(context, 'home_screen');
+                mainProvider.setUserId(response.data!.objectId);
               } else {
-                scafoldMessage(messagetext: response.message.toString(), context: context);
+                scafoldMessage(
+                    messagetext: response.message.toString(), context: context);
               }
             },
           )

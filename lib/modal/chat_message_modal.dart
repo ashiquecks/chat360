@@ -2,15 +2,17 @@ class ChatMessageModal {
   String className;
   String objectId;
   String createdAt;
-  String chatMessage;
+  String message;
   String userId;
+  String messageId;
 
   ChatMessageModal({
     required this.className,
     required this.objectId,
     required this.createdAt,
-    required this.chatMessage,
+    required this.message,
     required this.userId,
+    required this.messageId,
   });
 
   factory ChatMessageModal.fromJson(Map<String, dynamic> json) =>
@@ -18,15 +20,17 @@ class ChatMessageModal {
         className: json["className"],
         objectId: json["objectId"],
         createdAt: json["createdAt"],
-        chatMessage: json["chatMessage"],
-        userId: json["userID"],
+        message: json["message"],
+        userId: json["userId"],
+        messageId: json["messageId"],
       );
 
   Map<String, dynamic> toJson() => {
         "className": className,
         "objectId": objectId,
         "createdAt": createdAt,
-        "chatMessage": chatMessage,
-        "userID": userId,
+        "message": message,
+        "userId": userId,
+        "messageId": messageId,
       };
 }
