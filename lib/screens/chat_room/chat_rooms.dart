@@ -10,6 +10,7 @@ import '../../service/api_integration/create/create_chat_message.dart';
 import '../../widgets/card/card_widget.dart';
 import '../../widgets/popup/message_box.dart';
 import '../../widgets/text/text_widgets.dart';
+import 'package:flutter_chat_types/flutter_chat_types.dart';
 
 import 'package:flutter_link_previewer/flutter_link_previewer.dart';
 
@@ -26,7 +27,7 @@ class _ChatRoomsState extends State<ChatRooms> {
   @override
   void initState() {
     super.initState();
-    // getChatMessageResponse(context: context);
+    getChatMessageResponse(context: context);
   }
 
   @override
@@ -76,10 +77,10 @@ class _ChatRoomsState extends State<ChatRooms> {
         Consumer<ChatRoomProvider>(
           builder: (context, value, child) {
             return ListView.builder(
-              itemCount: value.urls.length,
+              itemCount: value.messageList.length,
               itemBuilder: (context, index) {
-                // ChatMessageModal responsePost = value.getPostByIndex(index);
-                return buildChatItem(index, value);
+                ChatMessageModal responsePost = value.getPostByIndex(index);
+                return buildChatItem(index, value, responsePost);
               },
             );
           },
@@ -99,7 +100,8 @@ class _ChatRoomsState extends State<ChatRooms> {
     );
   }
 
-  Widget buildChatItem(int index, ChatRoomProvider value) {
+  Widget buildChatItem(
+      int index, ChatRoomProvider value, ChatMessageModal response) {
     return Align(
       alignment: Alignment.centerLeft,
       child: Container(
@@ -116,15 +118,11 @@ class _ChatRoomsState extends State<ChatRooms> {
             Radius.circular(20),
           ),
           child: LinkPreview(
-            onLinkPressed: (values) {
-              scafoldMessage(
-                  messagetext: value.datas.toString(), context: context);
+            onPreviewDataFetched: (data) async {
+              await value.setPreviewData(data, index, response);
             },
-            onPreviewDataFetched: (data) {
-              value.setPreviewData(data, index);
-            },
-            previewData: value.datas[value.urls[index]],
-            text: value.urls[index],
+            previewData: value.datas[response.message],
+            text: response.message,
             width: MediaQuery.of(context).size.width,
           ),
         ),
@@ -156,6 +154,7 @@ class _ChatRoomsState extends State<ChatRooms> {
             messagetext: response.message.toString(),
             context: context,
           );
+          getChatMessageResponse(context: context);
         }
       },
     );
