@@ -1,4 +1,9 @@
+import 'package:chat360/api_functions/chat_message_api.dart';
+import 'package:chat360/modal/message_list_modal.dart';
+import 'package:chat360/provider/home_page_provider.dart';
+import 'package:chat360/widgets/card/card_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../resourses/colors.dart';
 import '../../widgets/popup/dialog_box_widget.dart';
 
@@ -15,6 +20,13 @@ class _HomeScreenState extends State<HomeScreen> {
             context: context,
             builder: (context) => exitDialogBox(context: context)) ??
         false;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getChatListResponse(context: context);
   }
 
   @override
@@ -44,49 +56,20 @@ class _HomeScreenState extends State<HomeScreen> {
             )
           ],
         ),
-        body: ListView.builder(
-            itemCount: 6,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.only(
-                  top: 0,
-                ),
-                child: Column(
-                  children: [
-                    ListTile(
-                      onTap: () {
-                        Navigator.pushNamed(context, 'chat_room');
-                      },
-                      leading: CircleAvatar(
-                        maxRadius: 20,
-                        backgroundColor: primaryColor,
-                        child: Icon(
-                          Icons.chat_bubble_outline,
-                          color: white,
-                        ),
-                      ),
-                      title: const Text(
-                        "https://www.flipkart.com/realme-c51-carbon-black-64-gb/p/",
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      subtitle: const Text("12-July  12:30 AM"),
-                      trailing: Container(
-                        decoration: BoxDecoration(
-                            color: c1, borderRadius: BorderRadius.circular(10)),
-                        child: Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: Text(
-                            "12",
-                            style: TextStyle(color: white),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const Divider(),
-                  ],
-                ),
-              );
-            }),
+        body: Consumer<HomePageProvider>(builder: (context, value, child) {
+          return ListView.builder(
+              itemCount: value.messageList.length,
+              itemBuilder: (context, index) {
+                MessageListModal responsePost = value.getPostByIndex(index);
+                return messageListCard(
+                  cardAction: () async {
+                    getChatMessageResponse(context: context);
+                    await Navigator.pushNamed(context, 'chat_screen');
+                  },
+                  messageTitle: responsePost.chatTitle,
+                );
+              });
+        }),
         floatingActionButton: CircleAvatar(
           maxRadius: 30,
           backgroundColor: primaryColor,
