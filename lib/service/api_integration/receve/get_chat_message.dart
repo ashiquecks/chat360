@@ -4,11 +4,14 @@ import 'package:parse_server_sdk/parse_server_sdk.dart';
 import '../../../modal/chat_message_modal.dart';
 import '../../server_response/server_response.dart';
 
-Future<NetworkResponse<List<ChatMessageModal>>> getChatMessage() async {
+Future<NetworkResponse<List<ChatMessageModal>>> getChatMessage(
+    {required String messageId}) async {
   try {
     QueryBuilder<ParseObject> queryPublisher = QueryBuilder<ParseObject>(
       ParseObject('ChatMessage'),
-    )..orderByDescending('createdAt');
+    );
+    queryPublisher.orderByDescending('createdAt');
+    queryPublisher.whereEqualTo('messageId', messageId);
     final ParseResponse apiResponse = await queryPublisher.query();
 
     if (apiResponse.success == true) {

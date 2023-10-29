@@ -1,6 +1,8 @@
 import 'package:chat360/api_functions/chat_message_api.dart';
 import 'package:chat360/modal/message_list_modal.dart';
 import 'package:chat360/provider/home_page_provider.dart';
+import 'package:chat360/provider/main_provider.dart';
+import 'package:chat360/screens/chat_room/chat_rooms.dart';
 import 'package:chat360/widgets/card/card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -31,6 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var mainProvider = Provider.of<MainProvider>(context, listen: false);
     return WillPopScope(
       onWillPop: showExitPopup,
       child: Scaffold(
@@ -58,17 +61,21 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         body: Consumer<HomePageProvider>(builder: (context, value, child) {
           return ListView.builder(
-              itemCount: value.messageList.length,
-              itemBuilder: (context, index) {
-                MessageListModal responsePost = value.getPostByIndex(index);
-                return messageListCard(
-                  cardAction: () async {
-                    getChatMessageResponse(context: context);
-                    await Navigator.pushNamed(context, 'chat_screen');
-                  },
-                  messageTitle: responsePost.chatTitle,
-                );
-              });
+            itemCount: value.messageList.length,
+            itemBuilder: (context, index) {
+              MessageListModal responsePost = value.getPostByIndex(index);
+              return messageListCard(
+                cardAction: () async {
+                  mainProvider.setMessageId(responsePost.objectId);
+                  getChatMessageResponse(
+                    context: context,
+                    messagedId: responsePost.objectId,
+                  );
+                },
+                messageTitle: responsePost.chatTitle,
+              );
+            },
+          );
         }),
         floatingActionButton: CircleAvatar(
           maxRadius: 30,
@@ -79,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
               color: white,
             ),
             onPressed: () async {
-              await Navigator.pushNamed(context, 'chat_room');
+              Navigator.pushNamed(context, 'chat_room');
             },
           ),
         ),
