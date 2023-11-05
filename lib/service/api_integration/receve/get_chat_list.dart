@@ -4,11 +4,15 @@ import 'package:chat360/modal/message_list_modal.dart';
 import 'package:parse_server_sdk/parse_server_sdk.dart';
 import '../../server_response/server_response.dart';
 
-Future<NetworkResponse<List<MessageListModal>>> getChatList() async {
+Future<NetworkResponse<List<MessageListModal>>> getChatList({
+  required String userId,
+}) async {
   try {
     QueryBuilder<ParseObject> queryPublisher = QueryBuilder<ParseObject>(
       ParseObject('ChatList'),
-    )..orderByDescending('createdAt');
+    );
+    queryPublisher.orderByDescending('createdAt');
+    queryPublisher.whereEqualTo('userId', userId);
     final ParseResponse apiResponse = await queryPublisher.query();
 
     if (apiResponse.success == true) {
