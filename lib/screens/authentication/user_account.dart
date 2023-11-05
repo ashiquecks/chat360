@@ -1,11 +1,9 @@
+import 'package:chat360/api_functions/create_function.dart';
 import 'package:chat360/provider/main_provider.dart';
-import 'package:chat360/service/api_integration/authentication/user_create.dart';
-import 'package:chat360/widgets/popup/message_box.dart';
+import 'package:chat360/widgets/button/button_widget.dart';
+import 'package:chat360/widgets/text_field.dart/text_filed_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../widgets/button/button_widget.dart';
-import '../../widgets/text_field.dart/text_filed_widgets.dart';
 
 class UserAccount extends StatefulWidget {
   const UserAccount({super.key});
@@ -34,29 +32,19 @@ class _UserAccountState extends State<UserAccount> {
           ),
           mainTextField(labelName: "user name", controller: userName),
           mainTextFieldDisable(
-            labelName: mainProvider.phoneNumber.toString(),
+            labelName: mainProvider.phoneNumber.text,
           ),
           mainTextFieldDisable(
-            labelName: mainProvider.userPassword.text,
+            labelName: mainProvider.password.text,
           ),
           loginButton(
             context: context,
             buttonText: "Continue",
-            buttonAction: () async {
-              final response = await createUser(
+            buttonAction: () {
+              createUserAccountResponse(
                 userName: userName.text,
-                phoneNumber: mainProvider.phoneNumber.toString(),
-                password: mainProvider.userPassword.text,
+                context: context,
               );
-              if (response.isSuccessful == true) {
-                scafoldMessage(
-                    messagetext: response.message.toString(), context: context);
-                Navigator.pushNamed(context, 'home_screen');
-                mainProvider.setUserId(response.data!.objectId);
-              } else {
-                scafoldMessage(
-                    messagetext: response.message.toString(), context: context);
-              }
             },
           )
         ],
