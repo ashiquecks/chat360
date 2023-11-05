@@ -1,24 +1,21 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:chat360/modal/message_list_modal.dart';
 import 'package:parse_server_sdk/parse_server_sdk.dart';
-import '../../../modal/chat_message_modal.dart';
 import '../../server_response/server_response.dart';
 
-Future<NetworkResponse<List<ChatMessageModal>>> getChatMessage(
-    {required String messageId}) async {
+Future<NetworkResponse<List<MessageListModal>>> getChatList() async {
   try {
     QueryBuilder<ParseObject> queryPublisher = QueryBuilder<ParseObject>(
-      ParseObject('ChatMessage'),
-    );
-    queryPublisher.orderByDescending('createdAt');
-    queryPublisher.whereEqualTo('messageId', messageId);
+      ParseObject('ChatList'),
+    )..orderByDescending('createdAt');
     final ParseResponse apiResponse = await queryPublisher.query();
 
     if (apiResponse.success == true) {
       final convertJson = await jsonDecode(apiResponse.results.toString());
-      List<ChatMessageModal> chatMessageList = [];
+      List<MessageListModal> chatMessageList = [];
       convertJson.forEach((e) {
-        ChatMessageModal chatMessageResponse = ChatMessageModal.fromJson(e);
+        MessageListModal chatMessageResponse = MessageListModal.fromJson(e);
         chatMessageList.add(chatMessageResponse);
       });
       return NetworkResponse(true, chatMessageList);

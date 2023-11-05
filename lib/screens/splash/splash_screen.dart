@@ -1,4 +1,6 @@
+import 'package:chat360/provider/main_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../resourses/colors.dart';
 
@@ -17,8 +19,14 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   timerFunction() {
+    final mainProvider = Provider.of<MainProvider>(context, listen: false);
+    mainProvider.setUserCredentials();
     Future.delayed(const Duration(seconds: 3), () {
-      Navigator.pushNamed(context, 'home_screen');
+      if (mainProvider.userID != null && mainProvider.userID != "") {
+        Navigator.pushNamed(context, 'home_screen');
+      } else {
+        Navigator.pushNamed(context, 'phone_verification');
+      }
     });
   }
 

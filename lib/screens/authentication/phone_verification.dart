@@ -35,7 +35,7 @@ class _PhoneVerificationState extends State<PhoneVerification> {
                 Padding(
                   padding: const EdgeInsets.all(15),
                   child: IntlPhoneField(
-                    controller: mainProvider.userPhone,
+                    controller: mainProvider.phoneNumber,
                     decoration: const InputDecoration(
                       labelText: 'Phone Number',
                       border: OutlineInputBorder(
@@ -43,9 +43,7 @@ class _PhoneVerificationState extends State<PhoneVerification> {
                       ),
                     ),
                     initialCountryCode: 'IN',
-                    onChanged: (phone) {
-                      mainProvider.setUserPhone(phone.completeNumber);
-                    },
+                    onChanged: (phone) {},
                   ),
                 ),
                 loginButton(

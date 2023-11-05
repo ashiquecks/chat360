@@ -14,8 +14,6 @@ class OTPVerification extends StatefulWidget {
 }
 
 class _OTPVerificationState extends State<OTPVerification> {
-
-
   // final pinController = TextEditingController();
   final FocusNode _pinOTPCodeFocus = FocusNode();
 
@@ -47,13 +45,12 @@ class _OTPVerificationState extends State<OTPVerification> {
             child: Pinput(
               length: 6,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              controller: mainProvider.userPassword,
+              controller: mainProvider.password,
               focusNode: _pinOTPCodeFocus,
               androidSmsAutofillMethod:
                   AndroidSmsAutofillMethod.smsUserConsentApi,
               listenForMultipleSmsOnAndroid: true,
               defaultPinTheme: defaultPinTheme,
-
             ),
           ),
           SizedBox(

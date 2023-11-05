@@ -9,14 +9,8 @@ class ChatRoomProvider extends ChangeNotifier {
 
   final Map<String, PreviewData> datas = {};
 
-  final List<String> urls = const [
-    'github.com/flyerhq',
-    'https://u24.gov.ua',
-    'https://twitter.com/SpaceX/status/1564975288655630338',
-  ];
-
-  setPreviewData(PreviewData previewData, int index) {
-    datas[urls[index]] = previewData;
+  setPreviewData(PreviewData previewData, int index, ChatMessageModal modal) {
+    datas[modal.message] = previewData;
     notifyListeners();
   }
 
