@@ -1,5 +1,7 @@
+import 'package:chat360/provider/category_list_provider.dart';
 import 'package:chat360/provider/home_page_provider.dart';
 import 'package:chat360/provider/main_provider.dart';
+import 'package:chat360/resourses/colors.dart';
 import 'package:chat360/screens/authentication/creator_account.dart';
 import 'package:chat360/screens/authentication/creator_approval.dart';
 import 'package:chat360/screens/authentication/otp_verification.dart';
@@ -11,7 +13,6 @@ import 'package:chat360/screens/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:parse_server_sdk/parse_server_sdk.dart';
 import 'package:provider/provider.dart';
-
 import 'provider/chat_room_provider.dart';
 import 'screens/authentication/user_launch.dart';
 import 'screens/chat_room/chat_rooms.dart';
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => ChatRoomProvider()),
         ChangeNotifierProvider(create: (context) => HomePageProvider()),
+        ChangeNotifierProvider(create: (context) => CategoryListProvider()),
         ChangeNotifierProvider(create: (context) => MainProvider())
       ],
       child: MaterialApp(

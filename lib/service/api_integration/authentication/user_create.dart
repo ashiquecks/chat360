@@ -4,15 +4,18 @@ import 'package:parse_server_sdk/parse_server_sdk.dart';
 import '../../../modal/user_modal.dart';
 import '../../server_response/server_response.dart';
 
-Future<NetworkResponse<UserModal>> createUser(
-    {required String userName,
-    required String phoneNumber,
-    required String password}) async {
+Future<NetworkResponse<UserModal>> createUser({
+  required String userName,
+  required String phoneNumber,
+  required String password,
+  required ParseFile profilePick,
+}) async {
   try {
     ParseObject response = ParseObject('UserAccount')
       ..set('userName', userName)
       ..set('phoneNumber', phoneNumber)
-      ..set('password', password);
+      ..set('password', password)
+      ..set('profilePick', profilePick);
     await response.save();
 
     QueryBuilder queryPublisher = QueryBuilder(response);

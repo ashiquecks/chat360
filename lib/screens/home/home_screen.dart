@@ -51,8 +51,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 onTap: () {
                   Navigator.pushNamed(context, 'profile_screen');
                 },
-                child: const CircleAvatar(
-                  backgroundImage: AssetImage("assets/images/avatar.jpg"),
+                child: CircleAvatar(
+                  backgroundImage:
+                      NetworkImage(mainProvider.userProfilePick.toString()),
                 ),
               ),
             )

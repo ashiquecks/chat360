@@ -13,13 +13,10 @@ class CreatorAccount extends StatefulWidget {
 }
 
 class _CreatorAccountState extends State<CreatorAccount> {
-
   TextEditingController userName = TextEditingController();
 
   TextEditingController userControll = TextEditingController();
   TextEditingController passwordControll = TextEditingController();
-
-  
 
   bool loading = false;
   @override

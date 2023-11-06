@@ -20,12 +20,14 @@ class MainProvider extends ChangeNotifier {
   String? userID;
   String? userName;
   String? userPhone;
+  String? userProfilePick;
 
   setUserCredentials() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     userID = preferences.getString("userID") ?? "";
     userName = preferences.getString("userName") ?? "";
     userPhone = preferences.getString("userPhone") ?? "";
+    userProfilePick = preferences.getString("profilePick") ?? "";
     notifyListeners();
   }
 
