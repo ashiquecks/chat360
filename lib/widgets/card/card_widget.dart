@@ -96,3 +96,49 @@ Widget messageListCard({
     ),
   );
 }
+
+Widget profileImageCard({
+  required String profileImage,
+  required BuildContext context,
+}) {
+  final widgetSize = MediaQuery.of(context).size;
+  return SizedBox(
+    height: widgetSize.height / 4,
+    child: Stack(
+      children: [
+        Container(
+          width: widgetSize.width,
+          height: widgetSize.height / 5,
+          color: primaryColor,
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Container(
+            width: 140,
+            height: 140,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image.network(
+                profileImage,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget titleCard({required String title}) {
+  return Card(
+    elevation: 4,
+    color: white,
+    margin: EdgeInsets.all(10),
+    child: ListTile(
+      title: Text(
+        title,
+      ),
+    ),
+  );
+}

@@ -1,39 +1,52 @@
-class UserModal {
+class OrganizationModal {
   String className;
   String objectId;
-  String createdAt;
+  DateTime createdAt;
   String userName;
   String phoneNumber;
   String password;
   ProfilePick profilePick;
+  String organizationName;
+  String gstNumber;
+  String buildingNumber;
 
-  UserModal({
+  OrganizationModal({
     required this.className,
     required this.objectId,
     required this.createdAt,
     required this.userName,
     required this.phoneNumber,
     required this.password,
+    required this.organizationName,
+    required this.gstNumber,
+    required this.buildingNumber,
     required this.profilePick,
   });
 
-  factory UserModal.fromJson(Map<String, dynamic> json) => UserModal(
+  factory OrganizationModal.fromJson(Map<String, dynamic> json) =>
+      OrganizationModal(
         className: json["className"] ?? "",
         objectId: json["objectId"] ?? "",
-        createdAt: json["createdAt"] ?? "",
+        createdAt: DateTime.parse(json["createdAt"].toString() ?? ""),
         userName: json["userName"] ?? "",
         phoneNumber: json["phoneNumber"] ?? "",
         password: json["password"] ?? "",
-        profilePick: ProfilePick.fromJson(json["profilePick"] ?? ""),
+        profilePick: ProfilePick.fromJson(json["profilePick"]),
+        organizationName: json["organizationName"],
+        gstNumber: json["gstNumber"] ?? "",
+        buildingNumber: json["buildingNumber"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {
         "className": className,
         "objectId": objectId,
-        "createdAt": createdAt,
+        "createdAt": createdAt.toIso8601String(),
         "userName": userName,
         "phoneNumber": phoneNumber,
         "password": password,
+        "organizationName": organizationName,
+        "gstNumber": gstNumber,
+        "buildingNumber": buildingNumber,
         "profilePick": profilePick.toJson(),
       };
 }

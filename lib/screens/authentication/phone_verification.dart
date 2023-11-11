@@ -35,7 +35,7 @@ class _PhoneVerificationState extends State<PhoneVerification> {
                 Padding(
                   padding: const EdgeInsets.all(15),
                   child: IntlPhoneField(
-                    controller: mainProvider.phoneNumber,
+                    controller: mainProvider.phoneNumberController,
                     decoration: const InputDecoration(
                       labelText: 'Phone Number',
                       border: OutlineInputBorder(

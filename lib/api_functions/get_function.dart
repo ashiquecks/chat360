@@ -1,5 +1,8 @@
+import 'package:chat360/provider/category_list_provider.dart';
 import 'package:chat360/provider/chat_room_provider.dart';
 import 'package:chat360/provider/home_page_provider.dart';
+import 'package:chat360/provider/main_provider.dart';
+import 'package:chat360/service/api_integration/receve/get_category_list.dart';
 import 'package:chat360/service/api_integration/receve/get_chat_list.dart';
 import 'package:chat360/service/api_integration/receve/get_chat_message.dart';
 import 'package:chat360/widgets/text/text_widgets.dart';
@@ -35,7 +38,29 @@ getChatListResponse({
   required BuildContext context,
 }) async {
   var provider = Provider.of<HomePageProvider>(context, listen: false);
-  var response = await getChatList();
+  var mainProvider = Provider.of<MainProvider>(context, listen: false);
+  var response = await getChatList(userId: mainProvider.userID.toString());
+  if (response.isSuccessful!) {
+    if (provider.messageList.length < response.data!.length) {
+      provider.messageList.clear();
+      provider.setLabourList(response.data!);
+    } else {}
+  } else {
+    ScaffoldMessenger.of(context)
+      ..removeCurrentSnackBar()
+      ..showSnackBar(SnackBar(
+        content: messageText(labelText: response.message.toString()),
+        duration: Duration(seconds: 3),
+      ));
+  }
+  provider.setProcessing(false);
+}
+
+getCategoryListResponse({
+  required BuildContext context,
+}) async {
+  var provider = Provider.of<CategoryListProvider>(context, listen: false);
+  var response = await getCategoryList();
   if (response.isSuccessful!) {
     if (provider.messageList.length < response.data!.length) {
       provider.messageList.clear();

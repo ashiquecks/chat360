@@ -1,25 +1,22 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:chat360/modal/message_list_modal.dart';
+import 'package:chat360/modal/category_list_model.dart';
 import 'package:parse_server_sdk/parse_server_sdk.dart';
 import '../../server_response/server_response.dart';
 
-Future<NetworkResponse<List<MessageListModal>>> getChatList({
-  required String userId,
-}) async {
+Future<NetworkResponse<List<CategoryListModal>>> getCategoryList() async {
   try {
     QueryBuilder<ParseObject> queryPublisher = QueryBuilder<ParseObject>(
-      ParseObject('ChatList'),
+      ParseObject('CreatorCategory'),
     );
     queryPublisher.orderByDescending('createdAt');
-    queryPublisher.whereEqualTo('userId', userId);
     final ParseResponse apiResponse = await queryPublisher.query();
 
     if (apiResponse.success == true) {
       final convertJson = await jsonDecode(apiResponse.results.toString());
-      List<MessageListModal> chatMessageList = [];
+      List<CategoryListModal> chatMessageList = [];
       convertJson.forEach((e) {
-        MessageListModal chatMessageResponse = MessageListModal.fromJson(e);
+        CategoryListModal chatMessageResponse = CategoryListModal.fromJson(e);
         chatMessageList.add(chatMessageResponse);
       });
       return NetworkResponse(true, chatMessageList);
