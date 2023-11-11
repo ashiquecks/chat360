@@ -1,3 +1,4 @@
+import 'package:chat360/api_functions/create_function.dart';
 import 'package:chat360/api_functions/get_function.dart';
 import 'package:chat360/modal/category_list_model.dart';
 import 'package:chat360/provider/category_list_provider.dart';
@@ -64,7 +65,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 context: context,
                 buttonText: "SUBMIT",
                 buttonAction: () {
-                  print(model.categoryList);
+                  createOrganizationAccountResponse(context: context);
                 },
               ),
             ),

@@ -1,42 +1,39 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:chat360/modal/organization_model.dart';
 import 'package:parse_server_sdk/parse_server_sdk.dart';
-import '../../../modal/user_modal.dart';
 import '../../server_response/server_response.dart';
 
-Future<NetworkResponse<UserModal>> createUser({
-  required String userId,
+Future<NetworkResponse<OrganizationModal>> createOrganization({
+  required String userID,
   required String userName,
   required String phoneNumber,
   required String password,
+  required String organizationName,
+  required String gstNumber,
+  required String buildingNumber,
   required ParseFile profilePick,
+  required bool verifiedOrganization,
+  required Object categoryTypes,
 }) async {
   try {
-    ParseObject? response;
+    ParseObject response = ParseObject('OrganizationAccount')
+      ..set('userName', userName)
+      ..set('phoneNumber', phoneNumber)
+      ..set('profilePick', profilePick)
+      ..set('organizationName', organizationName)
+      ..set('gstNumber', gstNumber)
+      ..set('buildingNumber', buildingNumber)
+      ..set('verifiedOrganization', false)
+      ..set('categoryTypes', categoryTypes);
+    await response.save();
 
-    if (userId != "" && userId != null) {
-      response = ParseObject('UserAccount')
-        ..objectId = userId
-        ..set('userName', userName)
-        ..set('phoneNumber', phoneNumber)
-        ..set('password', password)
-        ..set('profilePick', profilePick);
-      await response.save();
-    } else {
-      response = ParseObject('UserAccount')
-        ..set('userName', userName)
-        ..set('phoneNumber', phoneNumber)
-        ..set('password', password)
-        ..set('profilePick', profilePick);
-      await response.save();
-    }
-
-    QueryBuilder queryPublisher = QueryBuilder(response!);
+    QueryBuilder queryPublisher = QueryBuilder(response);
     final userCreateResponse = await queryPublisher.query();
 
     if (userCreateResponse.success == true) {
       final jsonString = jsonDecode(response.toString());
-      UserModal responseData = UserModal.fromJson(jsonString);
+      OrganizationModal responseData = OrganizationModal.fromJson(jsonString);
 
       return NetworkResponse(true, responseData,
           message: "success fully created");

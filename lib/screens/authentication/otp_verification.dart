@@ -45,7 +45,7 @@ class _OTPVerificationState extends State<OTPVerification> {
             child: Pinput(
               length: 6,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              controller: mainProvider.password,
+              controller: mainProvider.passwordController,
               focusNode: _pinOTPCodeFocus,
               androidSmsAutofillMethod:
                   AndroidSmsAutofillMethod.smsUserConsentApi,

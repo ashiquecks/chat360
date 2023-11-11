@@ -1,6 +1,5 @@
 import 'package:chat360/provider/main_provider.dart';
 import 'package:chat360/resourses/colors.dart';
-import 'package:chat360/screens/authentication/creator_account.dart';
 import 'package:chat360/screens/authentication/user_launch.dart';
 import 'package:chat360/widgets/button/button_widget.dart';
 import 'package:chat360/widgets/card/card_widget.dart';
@@ -25,32 +24,49 @@ class _ProfileScreenState extends State<ProfileScreen> {
       appBar: AppBar(
         foregroundColor: white,
         backgroundColor: primaryColor,
-      ),
-      body: Column(
-        children: [
-          profileImageCard(
-            profileImage: mainProvider.userProfilePick.toString(),
-            context: context,
-          ),
-          profileStatusCard(context: context),
-          profileDetailsCard(
-            context: context,
-            userName: mainProvider.userName.toString(),
-            userPhoneNumber: mainProvider.userPhone.toString(),
-          ),
-          loginButton(
-            context: context,
-            buttonText: "Make a Creator Account",
-            buttonAction: () => showModalBottomSheet(
-              enableDrag: true,
-              useSafeArea: true,
-              context: context,
-              builder: (BuildContext context) {
-                return const UserLaunch();
-              },
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.pushNamed(context, 'edit_profile');
+            },
+            icon: const Icon(
+              Icons.edit,
+              size: 20,
             ),
           ),
+          const SizedBox(width: 10),
         ],
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            profileImageCard(
+              profileImage: mainProvider.userProfilePick.toString(),
+              context: context,
+            ),
+            profileStatusCard(context: context),
+            profileDetailsCardUser(
+              context: context,
+              userName: mainProvider.userName.toString(),
+              userPhoneNumber: mainProvider.userPhone.toString(),
+              organizationName: mainProvider.organizationName.toString(),
+              gstNumber: mainProvider.gstNumber.toString(),
+              buildingNumber: mainProvider.buildingNumber.toString(),
+            ),
+            loginButton(
+              context: context,
+              buttonText: "Make a Creator Account",
+              buttonAction: () => showModalBottomSheet(
+                enableDrag: true,
+                useSafeArea: true,
+                context: context,
+                builder: (BuildContext context) {
+                  return const UserLaunch();
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

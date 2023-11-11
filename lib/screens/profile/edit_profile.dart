@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:chat360/api_functions/create_function.dart';
 import 'package:chat360/provider/main_provider.dart';
 import 'package:chat360/widgets/button/button_widget.dart';
@@ -9,14 +8,14 @@ import 'package:image_picker/image_picker.dart';
 import 'package:parse_server_sdk/parse_server_sdk.dart';
 import 'package:provider/provider.dart';
 
-class UserAccount extends StatefulWidget {
-  const UserAccount({super.key});
+class EditProfile extends StatefulWidget {
+  const EditProfile({super.key});
 
   @override
-  State<UserAccount> createState() => _UserAccountState();
+  State<EditProfile> createState() => _EditProfileState();
 }
 
-class _UserAccountState extends State<UserAccount> {
+class _EditProfileState extends State<EditProfile> {
   // get image from phone gallery..
   Future<void> getImage() async {
     XFile? image = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -31,7 +30,7 @@ class _UserAccountState extends State<UserAccount> {
   XFile? pickedFile;
 
   bool loading = false;
-  TextEditingController userName = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final mainProvider = Provider.of<MainProvider>(context);
@@ -63,16 +62,19 @@ class _UserAccountState extends State<UserAccount> {
           mainTextField(
               labelName: "user name",
               controller: mainProvider.userNameController),
-          mainTextFieldDisable(
-            labelName: mainProvider.phoneNumberController.text,
-          ),
-          mainTextFieldDisable(
-            labelName: mainProvider.passwordController.text,
-          ),
+          mainTextField(
+              labelName: "phone number",
+              controller: mainProvider.phoneNumberController),
+          mainTextField(
+              labelName: "password",
+              controller: mainProvider.passwordController),
           loginButton(
             context: context,
             buttonText: "Continue",
-            buttonAction: () {
+            buttonAction: () async {
+              if (mainProvider.userID != null && mainProvider.userID != "") {
+                mainProvider.clearCredential();
+              }
               createUserAccountResponse(
                 context: context,
                 profilePick: ParseFile(
