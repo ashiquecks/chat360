@@ -1,7 +1,6 @@
 import 'package:chat360/provider/category_list_provider.dart';
 import 'package:chat360/provider/home_page_provider.dart';
 import 'package:chat360/provider/main_provider.dart';
-import 'package:chat360/resourses/colors.dart';
 import 'package:chat360/screens/authentication/organization_account.dart';
 import 'package:chat360/screens/authentication/creator_approval.dart';
 import 'package:chat360/screens/authentication/otp_verification.dart';
@@ -61,7 +60,7 @@ class MyApp extends StatelessWidget {
           'filter_screen': (context) => const FilterChatScreen(),
           'phone_verification': (context) => const PhoneVerification(),
           'otp_verification': (context) => const OTPVerification(),
-          'category_screen': (context) => const CategoryScreen(),
+          'category_screen': (context) => const CategoryScreen(accountType: '',),
           'profile_screen': (context) => const ProfileScreen(),
           'user_launch': (context) => const UserLaunch(),
           'creator_account': (context) => const OrganizationAccount(),

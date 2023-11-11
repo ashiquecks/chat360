@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:chat360/provider/main_provider.dart';
 import 'package:chat360/widgets/card/list_card_widget.dart';
 import 'package:flutter/material.dart';
@@ -39,8 +41,7 @@ Widget messagecard({
               minLines: 1,
               maxLines: 60,
               controller: controller,
-              decoration: const InputDecoration(
-                  border: InputBorder.none, hintText: "Link Here"),
+              decoration: const InputDecoration(border: InputBorder.none, hintText: "Link Here"),
             ),
             trailing: IconButton(
               icon: const Icon(Icons.send),
@@ -80,8 +81,7 @@ Widget messageListCard({
           ),
           subtitle: const Text("12-July  12:30 AM"),
           trailing: Container(
-            decoration: BoxDecoration(
-                color: c1, borderRadius: BorderRadius.circular(10)),
+            decoration: BoxDecoration(color: c1, borderRadius: BorderRadius.circular(10)),
             child: Padding(
               padding: const EdgeInsets.all(5.0),
               child: Text(
@@ -98,10 +98,10 @@ Widget messageListCard({
 }
 
 Widget profileImageCard({
-  required String profileImage,
   required BuildContext context,
 }) {
   final widgetSize = MediaQuery.of(context).size;
+  final mainProvider = Provider.of<MainProvider>(context, listen: false);
   return SizedBox(
     height: widgetSize.height / 4,
     child: Stack(
@@ -118,10 +118,15 @@ Widget profileImageCard({
             height: 140,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: Image.network(
-                profileImage,
-                fit: BoxFit.cover,
-              ),
+              child: mainProvider.profilePick != null
+                  ? Image.file(
+                      File(mainProvider.profilePick!.file!.path),
+                      fit: BoxFit.cover,
+                    )
+                  : Image.network(
+                      mainProvider.userProfilePick.toString(),
+                      fit: BoxFit.cover,
+                    ),
             ),
           ),
         ),

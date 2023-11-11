@@ -7,7 +7,6 @@ import 'package:chat360/service/api_integration/create/create_chat_message.dart'
 import 'package:chat360/service/shared_preference.dart/shared_preference.dart';
 import 'package:chat360/widgets/popup/message_box.dart';
 import 'package:flutter/material.dart';
-import 'package:parse_server_sdk/parse_server_sdk.dart';
 import 'package:provider/provider.dart';
 
 createMessageResponse({
@@ -59,13 +58,13 @@ createMessageResponse({
 }
 
 createUserAccountResponse(
-    {required BuildContext context, required ParseFile profilePick}) async {
+    {required BuildContext context,}) async {
   final mainProvider = Provider.of<MainProvider>(context, listen: false);
   final response = await createUser(
     userName: mainProvider.userNameController.text,
     phoneNumber: mainProvider.phoneNumberController.text,
     password: mainProvider.passwordController.text,
-    profilePick: profilePick,
+    profilePick: mainProvider.profilePick!,
     userId: mainProvider.userID.toString() ?? '',
   );
   if (response.isSuccessful == true) {

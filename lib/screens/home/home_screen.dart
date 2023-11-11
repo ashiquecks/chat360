@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:chat360/api_functions/get_function.dart';
 import 'package:chat360/modal/message_list_modal.dart';
 import 'package:chat360/provider/home_page_provider.dart';
@@ -17,10 +19,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   Future<bool> showExitPopup() async {
-    return await showDialog(
-            context: context,
-            builder: (context) => exitDialogBox(context: context)) ??
-        false;
+    return await showDialog(context: context, builder: (context) => exitDialogBox(context: context)) ?? false;
   }
 
   @override
@@ -48,12 +47,15 @@ class _HomeScreenState extends State<HomeScreen> {
             Padding(
               padding: const EdgeInsets.all(10),
               child: InkWell(
-                onTap: () {
+                onTap: () async {
                   Navigator.pushNamed(context, 'profile_screen');
                 },
-                child: CircleAvatar(
-                  backgroundImage:
-                      NetworkImage(mainProvider.userProfilePick.toString()),
+                child: SizedBox(
+                  child: mainProvider.profilePick != null
+                      ? CircleAvatar(backgroundImage: FileImage(File(mainProvider.profilePick!.file!.path)),)
+                      : CircleAvatar(
+                        backgroundImage: NetworkImage(mainProvider.userProfilePick.toString()),
+                      ),
                 ),
               ),
             )

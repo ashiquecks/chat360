@@ -8,7 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CategoryScreen extends StatefulWidget {
-  const CategoryScreen({super.key});
+  final String accountType;
+  const CategoryScreen({super.key, required this.accountType});
 
   @override
   State<CategoryScreen> createState() => _CategoryScreenState();
@@ -42,17 +43,13 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       border: Border.all(),
-                      color: model.categoryList[response.categoryType] == null
-                          ? white
-                          : primaryColor,
+                      color: model.categoryList[response.categoryType] == null ? white : primaryColor,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Text(
                       response.categoryName,
                       style: TextStyle(
-                        color: model.categoryList[response.categoryType] == null
-                            ? primaryColor
-                            : white,
+                        color: model.categoryList[response.categoryType] == null ? primaryColor : white,
                       ),
                     ),
                   ),
@@ -65,7 +62,11 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 context: context,
                 buttonText: "SUBMIT",
                 buttonAction: () {
-                  createOrganizationAccountResponse(context: context);
+                  if (widget.accountType == "User") {
+                    createUserAccountResponse(context: context);
+                  } else {
+                    createOrganizationAccountResponse(context: context);
+                  }
                 },
               ),
             ),
