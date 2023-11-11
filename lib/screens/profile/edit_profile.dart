@@ -59,15 +59,9 @@ class _EditProfileState extends State<EditProfile> {
                     ),
             ),
           ),
-          mainTextField(
-              labelName: "user name",
-              controller: mainProvider.userNameController),
-          mainTextField(
-              labelName: "phone number",
-              controller: mainProvider.phoneNumberController),
-          mainTextField(
-              labelName: "password",
-              controller: mainProvider.passwordController),
+          mainTextField(labelName: "user name", controller: mainProvider.userNameController),
+          mainTextField(labelName: "phone number", controller: mainProvider.phoneNumberController),
+          mainTextField(labelName: "password", controller: mainProvider.passwordController),
           loginButton(
             context: context,
             buttonText: "Continue",
@@ -75,11 +69,13 @@ class _EditProfileState extends State<EditProfile> {
               if (mainProvider.userID != null && mainProvider.userID != "") {
                 mainProvider.clearCredential();
               }
-              createUserAccountResponse(
-                context: context,
-                profilePick: ParseFile(
+              mainProvider.setProfilePick(
+                ParseFile(
                   File(pickedFile!.path),
                 ),
+              );
+              createUserAccountResponse(
+                context: context,
               );
             },
           )

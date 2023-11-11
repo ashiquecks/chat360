@@ -41,7 +41,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Column(
           children: [
             profileImageCard(
-              profileImage: mainProvider.userProfilePick.toString(),
               context: context,
             ),
             profileStatusCard(context: context),

@@ -35,6 +35,6 @@ setUserData({
 //   organizationPreferences.setString('userID', userID);
 //   organizationPreferences.setString('userName', userName);
 //   organizationPreferences.setString('userPhone', userPhone);
-  
+
 //   organizationPreferences.setString('profilePick', profilePick);
 // }

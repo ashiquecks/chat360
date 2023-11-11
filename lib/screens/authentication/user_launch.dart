@@ -1,4 +1,5 @@
 import 'package:chat360/resourses/colors.dart';
+import 'package:chat360/screens/category/category_screen.dart';
 import 'package:chat360/widgets/button/button_widget.dart';
 import 'package:chat360/widgets/text/text_widgets.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +48,8 @@ class _UserLaunchState extends State<UserLaunch> {
                   ),
                 ),
                 onPressed: () {
-                  Navigator.pushNamed(context, 'category_screen');
+                  Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => const CategoryScreen(accountType: 'User')));
                 },
                 child: const Text(
                   "Skip",

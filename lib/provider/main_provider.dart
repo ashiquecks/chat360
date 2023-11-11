@@ -1,4 +1,3 @@
-import 'package:chat360/service/shared_preference.dart/shared_preference.dart';
 import 'package:flutter/material.dart';
 import 'package:parse_server_sdk/parse_server_sdk.dart';
 import 'package:shared_preferences/shared_preferences.dart';

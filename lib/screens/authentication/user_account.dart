@@ -73,11 +73,13 @@ class _UserAccountState extends State<UserAccount> {
             context: context,
             buttonText: "Continue",
             buttonAction: () {
+              mainProvider.setProfilePick(
+                  ParseFile(
+                    File(pickedFile!.path),
+                  ),
+                );
               createUserAccountResponse(
                 context: context,
-                profilePick: ParseFile(
-                  File(pickedFile!.path),
-                ),
               );
             },
           )

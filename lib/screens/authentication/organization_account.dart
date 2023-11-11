@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:chat360/api_functions/create_function.dart';
 import 'package:chat360/provider/main_provider.dart';
+import 'package:chat360/screens/category/category_screen.dart';
 import 'package:chat360/widgets/button/button_widget.dart';
 import 'package:chat360/widgets/text_field.dart/text_filed_widgets.dart';
 import 'package:flutter/material.dart';
@@ -60,15 +61,9 @@ class _OrganizationAccountState extends State<OrganizationAccount> {
             mainTextFieldDisable(
               labelName: mainProvider.userName.toString(),
             ),
-            mainTextField(
-                labelName: "organization name",
-                controller: mainProvider.organizationController),
-            mainTextField(
-                labelName: "gst number",
-                controller: mainProvider.gstNumberController),
-            mainTextField(
-                labelName: "building number",
-                controller: mainProvider.buildingNumberController),
+            mainTextField(labelName: "organization name", controller: mainProvider.organizationController),
+            mainTextField(labelName: "gst number", controller: mainProvider.gstNumberController),
+            mainTextField(labelName: "building number", controller: mainProvider.buildingNumberController),
             loginButton(
               context: context,
               buttonText: "Continue",
@@ -78,7 +73,8 @@ class _OrganizationAccountState extends State<OrganizationAccount> {
                     File(pickedFile!.path),
                   ),
                 );
-                Navigator.pushNamed(context, 'category_screen');
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => const CategoryScreen(accountType: 'Organization')));
               },
             )
           ],
