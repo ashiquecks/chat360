@@ -41,7 +41,8 @@ Widget messagecard({
               minLines: 1,
               maxLines: 60,
               controller: controller,
-              decoration: const InputDecoration(border: InputBorder.none, hintText: "Link Here"),
+              decoration: const InputDecoration(
+                  border: InputBorder.none, hintText: "Link Here"),
             ),
             trailing: IconButton(
               icon: const Icon(Icons.send),
@@ -81,7 +82,8 @@ Widget messageListCard({
           ),
           subtitle: const Text("12-July  12:30 AM"),
           trailing: Container(
-            decoration: BoxDecoration(color: c1, borderRadius: BorderRadius.circular(10)),
+            decoration: BoxDecoration(
+                color: c1, borderRadius: BorderRadius.circular(10)),
             child: Padding(
               padding: const EdgeInsets.all(5.0),
               child: Text(
@@ -118,15 +120,10 @@ Widget profileImageCard({
             height: 140,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: mainProvider.profilePick != null
-                  ? Image.file(
-                      File(mainProvider.profilePick!.file!.path),
-                      fit: BoxFit.cover,
-                    )
-                  : Image.network(
-                      mainProvider.userProfilePick.toString(),
-                      fit: BoxFit.cover,
-                    ),
+              child: Image.network(
+                mainProvider.userProfilePick.toString(),
+                fit: BoxFit.cover,
+              ),
             ),
           ),
         ),

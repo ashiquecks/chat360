@@ -9,6 +9,8 @@ class OrganizationModal {
   String organizationName;
   String gstNumber;
   String buildingNumber;
+  Map<String, String> categoryTypes;
+  String accountType;
 
   OrganizationModal({
     required this.className,
@@ -21,6 +23,8 @@ class OrganizationModal {
     required this.gstNumber,
     required this.buildingNumber,
     required this.profilePick,
+    required this.categoryTypes,
+    required this.accountType,
   });
 
   factory OrganizationModal.fromJson(Map<String, dynamic> json) =>
@@ -35,6 +39,9 @@ class OrganizationModal {
         organizationName: json["organizationName"],
         gstNumber: json["gstNumber"] ?? "",
         buildingNumber: json["buildingNumber"] ?? "",
+        accountType: json["accountType"] ?? "",
+        categoryTypes: Map.from(json["categoryTypes"])
+            .map((k, v) => MapEntry<String, String>(k, v)),
       );
 
   Map<String, dynamic> toJson() => {
@@ -47,7 +54,10 @@ class OrganizationModal {
         "organizationName": organizationName,
         "gstNumber": gstNumber,
         "buildingNumber": buildingNumber,
+        "accountType": accountType,
         "profilePick": profilePick.toJson(),
+        "categoryTypes": Map.from(categoryTypes)
+            .map((k, v) => MapEntry<String, dynamic>(k, v)),
       };
 }
 

@@ -15,52 +15,57 @@ Future<NetworkResponse<OrganizationModal>> createOrganization({
   required ParseFile profilePick,
   required bool verifiedOrganization,
   required Object categoryTypes,
+  required String accountType,
 }) async {
-  try {
-    ParseObject response = ParseObject('OrganizationAccount')
-      ..set('userName', userName)
-      ..set('phoneNumber', phoneNumber)
-      ..set('profilePick', profilePick)
-      ..set('organizationName', organizationName)
-      ..set('gstNumber', gstNumber)
-      ..set('buildingNumber', buildingNumber)
-      ..set('verifiedOrganization', false)
-      ..set('categoryTypes', categoryTypes);
-    await response.save();
+  // try {
+  ParseObject response = ParseObject('OrganizationAccount')
+    ..set('userName', userName)
+    ..set('phoneNumber', phoneNumber)
+    ..set('profilePick', profilePick)
+    ..set('organizationName', organizationName)
+    ..set('gstNumber', gstNumber)
+    ..set('buildingNumber', buildingNumber)
+    ..set('verifiedOrganization', false)
+    ..set('categoryTypes', categoryTypes)
+    ..set('accountType', accountType);
+  await response.save();
+  final jsonString = jsonDecode(response.toString());
+  OrganizationModal responseData = OrganizationModal.fromJson(jsonString);
+  return NetworkResponse(true, responseData, message: "success fully created");
 
-    QueryBuilder queryPublisher = QueryBuilder(response);
-    final userCreateResponse = await queryPublisher.query();
+  //   QueryBuilder queryPublisher = QueryBuilder(response);
+  //   final userCreateResponse = await queryPublisher.query();
 
-    if (userCreateResponse.success == true) {
-      final jsonString = jsonDecode(response.toString());
-      OrganizationModal responseData = OrganizationModal.fromJson(jsonString);
+  //   if (userCreateResponse.success == true) {
+  //     final jsonString = jsonDecode(response.toString());
+  //     OrganizationModal responseData = OrganizationModal.fromJson(jsonString);
 
-      return NetworkResponse(true, responseData,
-          message: "success fully created");
-    } else {
-      return NetworkResponse(
-        false,
-        null,
-        message:
-            'Invalid response received from server! please try again in a minutes or two',
-      );
-    }
-  } on SocketException {
-    return NetworkResponse(
-      false,
-      null,
-      message:
-          "Unable to reach the internet! Please try again in  a minutes or two",
-    );
-  } on FormatException {
-    return NetworkResponse(
-      false,
-      null,
-      message:
-          "Invalid response receded form the server! Please try again in a minutes or two",
-    );
-  } catch (e) {
-    return NetworkResponse(false, null,
-        message: 'something went wrong please try again in a minute or two');
-  }
+  //     return NetworkResponse(true, responseData,
+  //         message: "success fully created");
+  //   } else {
+  //     return NetworkResponse(
+  //       false,
+  //       null,
+  //       message:
+  //           'Invalid response received from server! please try again in a minutes or two',
+  //     );
+  //   }
+  // } on SocketException {
+  //   return NetworkResponse(
+  //     false,
+  //     null,
+  //     message:
+  //         "Unable to reach the internet! Please try again in  a minutes or two",
+  //   );
+  // } on FormatException {
+  //   return NetworkResponse(
+  //     false,
+  //     null,
+  //     message:
+  //         "Invalid response receded form the server! Please try again in a minutes or two",
+  //   );
+  // } catch (e) {
+  //   return NetworkResponse(false, null,
+  //       message: 'something went wrong please try again in a minute or two');
+  // }
 }

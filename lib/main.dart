@@ -11,6 +11,7 @@ import 'package:chat360/screens/location/location_screen.dart';
 import 'package:chat360/screens/profile/edit_profile.dart';
 import 'package:chat360/screens/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:parse_server_sdk/parse_server_sdk.dart';
 import 'package:provider/provider.dart';
 import 'provider/chat_room_provider.dart';
@@ -21,6 +22,9 @@ import 'screens/home/home_screen.dart';
 import 'screens/splash/splash_screen.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  await Hive.openBox('categoryType');
   await Parse().initialize(
     "pYLM3p7I3jiAocohGfLQMvWgx486muD1QtvD9mxk",
     "https://parseapi.back4app.com",
@@ -60,13 +64,16 @@ class MyApp extends StatelessWidget {
           'filter_screen': (context) => const FilterChatScreen(),
           'phone_verification': (context) => const PhoneVerification(),
           'otp_verification': (context) => const OTPVerification(),
-          'category_screen': (context) => const CategoryScreen(accountType: '',),
+          'category_screen': (context) => const CategoryScreen(
+                accountType: '',
+              ),
           'profile_screen': (context) => const ProfileScreen(),
           'user_launch': (context) => const UserLaunch(),
           'creator_account': (context) => const OrganizationAccount(),
           'user_account': (context) => const UserAccount(),
           'creator_approval': (context) => const CreatorApproval(),
           'edit_profile': (context) => const EditProfile(),
+          'category_types': (context) => const SelectCategoryType(),
         },
       ),
     );

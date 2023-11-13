@@ -10,6 +10,8 @@ Future<NetworkResponse<UserModal>> createUser({
   required String phoneNumber,
   required String password,
   required ParseFile profilePick,
+  required Object categoryTypes,
+  required String accountType,
 }) async {
   try {
     ParseObject? response;
@@ -20,14 +22,18 @@ Future<NetworkResponse<UserModal>> createUser({
         ..set('userName', userName)
         ..set('phoneNumber', phoneNumber)
         ..set('password', password)
-        ..set('profilePick', profilePick);
+        ..set('profilePick', profilePick)
+        ..set('categoryTypes', categoryTypes)
+        ..set('accountType', accountType);
       await response.save();
     } else {
       response = ParseObject('UserAccount')
         ..set('userName', userName)
         ..set('phoneNumber', phoneNumber)
         ..set('password', password)
-        ..set('profilePick', profilePick);
+        ..set('profilePick', profilePick)
+        ..set('categoryTypes', categoryTypes)
+        ..set('accountType', accountType);
       await response.save();
     }
 

@@ -3,11 +3,17 @@ import 'package:parse_server_sdk/parse_server_sdk.dart';
 import '../../../modal/chat_message_modal.dart';
 import '../../server_response/server_response.dart';
 
-Future<NetworkResponse<ChatMessageModal>> createMessage(
-    {required String userId, required String message}) async {
+Future<NetworkResponse<ChatMessageModal>> createMessage({
+  required String userId,
+  required String message,
+  required Object categoryTypes,
+  required int messageCount,
+}) async {
   final listResponse = ParseObject('ChatList')
     ..set("userId", userId)
-    ..set('chatTitle', message);
+    ..set('chatTitle', message)
+    ..set('categoryTypes', categoryTypes)
+    ..set('messageCount', messageCount);
   await listResponse.save();
 
   if (listResponse.objectId != null) {

@@ -14,6 +14,8 @@ createMessageResponse({
   required String messageId,
 }) async {
   final mainProvider = Provider.of<MainProvider>(context, listen: false);
+  final categoryProvider =
+      Provider.of<CategoryListProvider>(context, listen: false);
   if (messageId != null && messageId != "") {
     final response = await createExitingMessage(
       userId: mainProvider.userID.toString(),
@@ -38,6 +40,8 @@ createMessageResponse({
     final response = await createMessage(
       userId: mainProvider.userID.toString(),
       message: mainProvider.chatLink.text,
+      categoryTypes: categoryProvider.categoryList,
+      messageCount: 10,
     );
     mainProvider.chatLink.clear();
     if (response.data != null) {
@@ -57,15 +61,20 @@ createMessageResponse({
   }
 }
 
-createUserAccountResponse(
-    {required BuildContext context,}) async {
+createUserAccountResponse({
+  required BuildContext context,
+}) async {
   final mainProvider = Provider.of<MainProvider>(context, listen: false);
+  final categoryProvider =
+      Provider.of<CategoryListProvider>(context, listen: false);
   final response = await createUser(
     userName: mainProvider.userNameController.text,
     phoneNumber: mainProvider.phoneNumberController.text,
     password: mainProvider.passwordController.text,
     profilePick: mainProvider.profilePick!,
     userId: mainProvider.userID.toString() ?? '',
+    categoryTypes: categoryProvider.categoryList,
+    accountType: 'User',
   );
   if (response.isSuccessful == true) {
     scafoldMessage(messagetext: response.message.toString(), context: context);
@@ -77,8 +86,8 @@ createUserAccountResponse(
       organizationName: '',
       organizationGst: '',
       organizationBuildingNumber: '',
+      accountType: response.data!.accountType,
     );
-
     mainProvider.setUserCredentials();
     // ignore: use_build_context_synchronously
     Navigator.pushNamed(context, 'home_screen');
@@ -105,6 +114,7 @@ createOrganizationAccountResponse({
     phoneNumber: mainProvider.userPhone.toString(),
     password: "689568",
     categoryTypes: categoryProvider.categoryList,
+    accountType: 'Organization',
   );
   if (response.isSuccessful == true) {
     mainProvider.clearCredential();
@@ -118,11 +128,12 @@ createOrganizationAccountResponse({
       organizationName: response.data!.organizationName,
       organizationGst: response.data!.gstNumber,
       organizationBuildingNumber: response.data!.buildingNumber,
+      accountType: response.data!.accountType,
     );
 
     mainProvider.setUserCredentials();
     // ignore: use_build_context_synchronously
-    Navigator.pushNamed(context, 'category_screen');
+    Navigator.pushNamed(context, 'home_screen');
   } else {
     // ignore: use_build_context_synchronously
     scafoldMessage(messagetext: response.message.toString(), context: context);

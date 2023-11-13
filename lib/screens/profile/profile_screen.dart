@@ -52,18 +52,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
               gstNumber: mainProvider.gstNumber.toString(),
               buildingNumber: mainProvider.buildingNumber.toString(),
             ),
-            loginButton(
-              context: context,
-              buttonText: "Make a Creator Account",
-              buttonAction: () => showModalBottomSheet(
-                enableDrag: true,
-                useSafeArea: true,
-                context: context,
-                builder: (BuildContext context) {
-                  return const UserLaunch();
-                },
-              ),
-            ),
+            mainProvider.accountType != "Organization"
+                ? loginButton(
+                    context: context,
+                    buttonText: "Make a Creator Account",
+                    buttonAction: () => showModalBottomSheet(
+                      enableDrag: true,
+                      useSafeArea: true,
+                      context: context,
+                      builder: (BuildContext context) {
+                        return const UserLaunch();
+                      },
+                    ),
+                  )
+                : const SizedBox()
           ],
         ),
       ),

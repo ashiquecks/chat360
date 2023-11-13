@@ -5,6 +5,7 @@ import 'package:chat360/provider/main_provider.dart';
 import 'package:chat360/service/api_integration/receve/get_category_list.dart';
 import 'package:chat360/service/api_integration/receve/get_chat_list.dart';
 import 'package:chat360/service/api_integration/receve/get_chat_message.dart';
+import 'package:chat360/service/api_integration/receve/get_profile_details.dart';
 import 'package:chat360/widgets/text/text_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -75,4 +76,14 @@ getCategoryListResponse({
       ));
   }
   provider.setProcessing(false);
+}
+
+getProfileDetailsResponse({required BuildContext context}) async {
+  var mainProvider = Provider.of<MainProvider>(context, listen: false);
+  final response = await getProfileDetails(
+    userID: mainProvider.userID.toString(),
+  );
+  if (response.isSuccessful!) {
+    mainProvider.setCategoryList(response.data!.categoryTypes);
+  }
 }

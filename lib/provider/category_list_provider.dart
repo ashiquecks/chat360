@@ -9,16 +9,22 @@ class CategoryListProvider extends ChangeNotifier {
 
   Map<String, dynamic> categoryList = {};
 
+  List<dynamic> categoryLabel = [];
+
   setProcessing(bool value) {
     _isProcessing = value;
     notifyListeners();
   }
 
-  setCategoryList(String category) {
+  setCategoryList(String category, String label) {
     if (categoryList.containsKey(category)) {
       categoryList.remove(category);
+      if (categoryLabel.contains(label)) {
+        categoryLabel.remove(label);
+      }
     } else {
       categoryList.putIfAbsent(category, () => category);
+      categoryLabel.add(label);
     }
 
     notifyListeners();

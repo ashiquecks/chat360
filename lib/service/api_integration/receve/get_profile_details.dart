@@ -6,22 +6,20 @@ import '../../server_response/server_response.dart';
 
 Future<NetworkResponse<OrganizationModal>> getProfileDetails({
   required String userID,
-  required String userPhone,
 }) async {
   try {
     QueryBuilder<ParseObject> response = QueryBuilder<ParseObject>(
-      ParseObject('ChatList'),
+      ParseObject('OrganizationAccount'),
     );
-    response.whereEqualTo('userId', userID);
-    response.whereEqualTo('phoneNumber', userPhone);
+    response.whereEqualTo('objectId', userID);
     final ParseResponse apiResponse = await response.query();
 
     if (apiResponse.success == true) {
-      final jsonString = jsonDecode(response.toString());
-      OrganizationModal responseData = OrganizationModal.fromJson(jsonString);
+      final jsonString = jsonDecode(jsonEncode(apiResponse.results?.first));
+      OrganizationModal organizationModal =
+          OrganizationModal.fromJson(jsonString);
 
-      return NetworkResponse(true, responseData,
-          message: "success fully created");
+      return NetworkResponse(true, organizationModal);
     } else {
       return NetworkResponse(
         false,

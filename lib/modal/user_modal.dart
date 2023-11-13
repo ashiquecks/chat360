@@ -6,6 +6,8 @@ class UserModal {
   String phoneNumber;
   String password;
   ProfilePick profilePick;
+  Map<String, String> categoryTypes;
+  String accountType;
 
   UserModal({
     required this.className,
@@ -15,6 +17,8 @@ class UserModal {
     required this.phoneNumber,
     required this.password,
     required this.profilePick,
+    required this.categoryTypes,
+    required this.accountType,
   });
 
   factory UserModal.fromJson(Map<String, dynamic> json) => UserModal(
@@ -25,6 +29,9 @@ class UserModal {
         phoneNumber: json["phoneNumber"] ?? "",
         password: json["password"] ?? "",
         profilePick: ProfilePick.fromJson(json["profilePick"] ?? ""),
+        accountType: json["accountType"] ?? "",
+        categoryTypes: Map.from(json["categoryTypes"])
+            .map((k, v) => MapEntry<String, String>(k, v)),
       );
 
   Map<String, dynamic> toJson() => {
@@ -34,7 +41,10 @@ class UserModal {
         "userName": userName,
         "phoneNumber": phoneNumber,
         "password": password,
+        "accountType": accountType,
         "profilePick": profilePick.toJson(),
+        "categoryTypes": Map.from(categoryTypes)
+            .map((k, v) => MapEntry<String, dynamic>(k, v)),
       };
 }
 

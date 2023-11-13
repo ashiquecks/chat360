@@ -32,7 +32,15 @@ class MainProvider extends ChangeNotifier {
   String? gstNumber;
   String? buildingNumber;
   String? userProfilePick;
+  String? accountType;
   bool verified = false;
+
+  Map<String, dynamic> categoryList = {};
+
+  setCategoryList(Map<String, dynamic> category) {
+    categoryList = categoryList;
+    notifyListeners();
+  }
 
   setUserCredentials() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -44,6 +52,7 @@ class MainProvider extends ChangeNotifier {
     buildingNumber = preferences.getString("buildingNumber") ?? "";
     verified = preferences.getBool("verifiedOrganization") ?? false;
     userProfilePick = preferences.getString("profilePick") ?? "";
+    accountType = preferences.getString("accountType") ?? "";
     notifyListeners();
   }
 

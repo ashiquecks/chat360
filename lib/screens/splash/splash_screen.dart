@@ -1,3 +1,4 @@
+import 'package:chat360/api_functions/get_function.dart';
 import 'package:chat360/provider/main_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
   timerFunction() {
     final mainProvider = Provider.of<MainProvider>(context, listen: false);
     mainProvider.setUserCredentials();
+    getProfileDetailsResponse(context: context);
     Future.delayed(const Duration(seconds: 3), () {
       if (mainProvider.userID != null && mainProvider.userID != "") {
         Navigator.pushNamed(context, 'home_screen');
