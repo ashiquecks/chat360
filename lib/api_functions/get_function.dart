@@ -40,7 +40,9 @@ getChatListResponse({
 }) async {
   var provider = Provider.of<HomePageProvider>(context, listen: false);
   var mainProvider = Provider.of<MainProvider>(context, listen: false);
-  var response = await getChatList(userId: mainProvider.userID.toString());
+  var response = await getChatList(
+      userId: mainProvider.userID.toString(),
+      selectedKeys: mainProvider.categoryItems);
   if (response.isSuccessful!) {
     if (provider.messageList.length < response.data!.length) {
       provider.messageList.clear();
@@ -84,6 +86,8 @@ getProfileDetailsResponse({required BuildContext context}) async {
     userID: mainProvider.userID.toString(),
   );
   if (response.isSuccessful!) {
-    mainProvider.setCategoryList(response.data!.categoryTypes);
+    mainProvider.createCategoryList(
+        categoryTypes: response.data!.categoryTypes);
+    mainProvider.getCategory();
   }
 }

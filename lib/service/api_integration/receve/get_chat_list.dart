@@ -6,13 +6,18 @@ import '../../server_response/server_response.dart';
 
 Future<NetworkResponse<List<MessageListModal>>> getChatList({
   required String userId,
+  required Object selectedKeys,
 }) async {
   try {
+    print("%%%%%%%%%%%%%%%%");
+    print(selectedKeys);
+    print("%%%%%%%%%%%%%%%%");
     QueryBuilder<ParseObject> queryPublisher = QueryBuilder<ParseObject>(
       ParseObject('ChatList'),
     );
     queryPublisher.orderByDescending('createdAt');
-    queryPublisher.whereEqualTo('userId', userId);
+    // queryPublisher.whereEqualTo('userId', userId);
+    queryPublisher.whereLessThanOrEqualTo('categoryTypes', selectedKeys);
     final ParseResponse apiResponse = await queryPublisher.query();
 
     if (apiResponse.success == true) {

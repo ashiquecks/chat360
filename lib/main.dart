@@ -25,6 +25,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   await Hive.openBox('categoryType');
+  await Hive.openBox('selectedCategories');
   await Parse().initialize(
     "pYLM3p7I3jiAocohGfLQMvWgx486muD1QtvD9mxk",
     "https://parseapi.back4app.com",

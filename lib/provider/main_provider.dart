@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:parse_server_sdk/parse_server_sdk.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -87,5 +88,32 @@ class MainProvider extends ChangeNotifier {
     userPhone = "";
     userProfilePick = "";
     notifyListeners();
+  }
+
+  // List<Map<String, dynamic>> categoryItems = [];
+
+  Map<String, dynamic> categoryItems = {};
+
+  final categoryBox = Hive.box('selectedCategories');
+
+  void getCategory() {
+    print("^^^^^^^^^^^^^^^^^^^^");
+    print(categoryBox.values);
+    print("^^^^^^^^^^^^^^^^^^^^");
+    // final data = categoryBox.keys.map((key) {
+    //   final item = categoryBox.get(key);
+    //   return item;
+    // }).toList();
+    // categoryItems = data.reversed.toList();
+    // categoryItems = categoryBox.get('category');
+
+    categoryItems = categoryBox.keys as Map<String, dynamic>;
+
+    notifyListeners();
+  }
+
+  Future<void> createCategoryList(
+      {required Map<String, dynamic> categoryTypes}) async {
+    await categoryBox.add({'category': categoryTypes});
   }
 }

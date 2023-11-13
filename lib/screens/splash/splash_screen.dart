@@ -1,6 +1,7 @@
 import 'package:chat360/api_functions/get_function.dart';
 import 'package:chat360/provider/main_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../../resourses/colors.dart';
@@ -19,15 +20,22 @@ class _SplashScreenState extends State<SplashScreen> {
     timerFunction();
   }
 
+  final categoryBox = Hive.box('selectedCategories');
+
   timerFunction() {
+    categoryBox.clear();
     final mainProvider = Provider.of<MainProvider>(context, listen: false);
     mainProvider.setUserCredentials();
-    getProfileDetailsResponse(context: context);
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(Duration(seconds: 2), () {
       if (mainProvider.userID != null && mainProvider.userID != "") {
-        Navigator.pushNamed(context, 'home_screen');
-      } else {
-        Navigator.pushNamed(context, 'phone_verification');
+        getProfileDetailsResponse(context: context);
+        Future.delayed(const Duration(seconds: 3), () {
+          if (mainProvider.userID != null && mainProvider.userID != "") {
+            Navigator.pushNamed(context, 'home_screen');
+          } else {
+            Navigator.pushNamed(context, 'phone_verification');
+          }
+        });
       }
     });
   }
