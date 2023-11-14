@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:parse_server_sdk/parse_server_sdk.dart';
@@ -97,23 +99,17 @@ class MainProvider extends ChangeNotifier {
   final categoryBox = Hive.box('selectedCategories');
 
   void getCategory() {
-    print("^^^^^^^^^^^^^^^^^^^^");
-    print(categoryBox.values);
-    print("^^^^^^^^^^^^^^^^^^^^");
-    // final data = categoryBox.keys.map((key) {
-    //   final item = categoryBox.get(key);
-    //   return item;
-    // }).toList();
-    // categoryItems = data.reversed.toList();
-    // categoryItems = categoryBox.get('category');
 
-    categoryItems = categoryBox.keys as Map<String, dynamic>;
+    final boxItem = categoryBox.getAt(0);
+
+    final jsonData = jsonDecode(jsonEncode(boxItem));
+
+    categoryItems = jsonData['category'];
 
     notifyListeners();
   }
 
-  Future<void> createCategoryList(
-      {required Map<String, dynamic> categoryTypes}) async {
+  Future<void> createCategoryList({required Map<String, dynamic> categoryTypes}) async {
     await categoryBox.add({'category': categoryTypes});
   }
 }

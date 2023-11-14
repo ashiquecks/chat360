@@ -5,6 +5,7 @@ class MessageListModal {
   DateTime updatedAt;
   String userId;
   String chatTitle;
+  Map<String, String> categoryTypes;
 
   MessageListModal({
     required this.className,
@@ -13,6 +14,7 @@ class MessageListModal {
     required this.updatedAt,
     required this.userId,
     required this.chatTitle,
+    required this.categoryTypes,
   });
 
   factory MessageListModal.fromJson(Map<String, dynamic> json) =>
@@ -22,7 +24,8 @@ class MessageListModal {
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
         userId: json["userId"],
-        chatTitle: json["chatTitle"],
+        chatTitle: json["chatTitle"], categoryTypes: Map.from(json["categoryTypes"])
+            .map((k, v) => MapEntry<String, String>(k, v)),
       );
 
   Map<String, dynamic> toJson() => {
@@ -32,5 +35,7 @@ class MessageListModal {
         "updatedAt": updatedAt.toIso8601String(),
         "userId": userId,
         "chatTitle": chatTitle,
+        "categoryTypes": Map.from(categoryTypes)
+            .map((k, v) => MapEntry<String, dynamic>(k, v)),
       };
 }

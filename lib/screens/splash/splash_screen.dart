@@ -27,16 +27,14 @@ class _SplashScreenState extends State<SplashScreen> {
     final mainProvider = Provider.of<MainProvider>(context, listen: false);
     mainProvider.setUserCredentials();
     Future.delayed(Duration(seconds: 2), () {
-      if (mainProvider.userID != null && mainProvider.userID != "") {
-        getProfileDetailsResponse(context: context);
-        Future.delayed(const Duration(seconds: 3), () {
-          if (mainProvider.userID != null && mainProvider.userID != "") {
-            Navigator.pushNamed(context, 'home_screen');
-          } else {
-            Navigator.pushNamed(context, 'phone_verification');
-          }
-        });
-      }
+      getProfileDetailsResponse(context: context);
+      Future.delayed(const Duration(seconds: 3), () {
+        if (mainProvider.userID != null && mainProvider.userID != "") {
+          Navigator.pushNamed(context, 'home_screen');
+        } else {
+          Navigator.pushNamed(context, 'phone_verification');
+        }
+      });
     });
   }
 
