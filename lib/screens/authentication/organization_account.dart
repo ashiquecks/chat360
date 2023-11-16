@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:chat360/provider/main_provider.dart';
-import 'package:chat360/screens/category/category_screen.dart';
 import 'package:chat360/widgets/button/button_widget.dart';
 import 'package:chat360/widgets/text_field.dart/text_filed_widgets.dart';
 import 'package:flutter/material.dart';
