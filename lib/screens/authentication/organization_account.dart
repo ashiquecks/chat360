@@ -81,11 +81,7 @@ class _OrganizationAccountState extends State<OrganizationAccount> {
                     File(pickedFile!.path),
                   ),
                 );
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            const CategoryScreen(accountType: 'Organization')));
+                Navigator.pushNamed(context, 'category_screen');
               },
             )
           ],

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../provider/main_provider.dart';
-import '../../resourses/colors.dart';
+import '../../resources/colors.dart';
 
 Widget categoryListCard({
   required List<Map<String, dynamic>> categoryList,

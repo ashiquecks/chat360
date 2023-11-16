@@ -60,9 +60,7 @@ class _UserAccountState extends State<UserAccount> {
                     ),
             ),
           ),
-          mainTextField(
-              labelName: "user name",
-              controller: mainProvider.userNameController),
+          mainTextField(labelName: "user name", controller: mainProvider.userNameController),
           mainTextFieldDisable(
             labelName: mainProvider.phoneNumberController.text,
           ),
@@ -73,13 +71,11 @@ class _UserAccountState extends State<UserAccount> {
             context: context,
             buttonText: "Continue",
             buttonAction: () {
-              mainProvider.setProfilePick(
-                  ParseFile(
-                    File(pickedFile!.path),
-                  ),
-                );
+              
+              mainProvider.setProfilePick(ParseFile(File(pickedFile!.path)));
               createUserAccountResponse(
                 context: context,
+                isCreator: false,
               );
             },
           )

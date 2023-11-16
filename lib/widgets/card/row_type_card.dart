@@ -1,4 +1,4 @@
-import 'package:chat360/resourses/colors.dart';
+import 'package:chat360/resources/colors.dart';
 import 'package:chat360/widgets/card/mini_size_card.dart';
 import 'package:flutter/material.dart';
 

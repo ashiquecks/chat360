@@ -8,7 +8,7 @@
 //   child: const Text("Go Link"),
 // ),
 
-import 'package:chat360/resourses/colors.dart';
+import 'package:chat360/resources/colors.dart';
 import 'package:flutter/material.dart';
 
 Widget verifyButton({

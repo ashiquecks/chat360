@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../modal/chat_message_modal.dart';
 import '../../provider/chat_room_provider.dart';
-import '../../resourses/colors.dart';
+import '../../resources/colors.dart';
 import '../../widgets/card/card_widget.dart';
 
 import 'package:flutter_link_previewer/flutter_link_previewer.dart';

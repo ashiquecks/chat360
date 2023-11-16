@@ -1,5 +1,7 @@
 import 'package:chat360/provider/main_provider.dart';
-import 'package:chat360/resourses/colors.dart';
+import 'package:chat360/resources/colors.dart';
+import 'package:chat360/screens/authentication/user_launch.dart';
+import 'package:chat360/widgets/button/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -20,10 +22,7 @@ Widget profileDetailsCardUser({
     margin: const EdgeInsets.all(15),
     padding: const EdgeInsets.all(15),
     decoration: BoxDecoration(boxShadow: const [
-      BoxShadow(
-          spreadRadius: 6,
-          blurRadius: 6,
-          color: Color.fromARGB(255, 214, 214, 214)),
+      BoxShadow(spreadRadius: 6, blurRadius: 6, color: Color.fromARGB(255, 214, 214, 214)),
     ], color: white, borderRadius: BorderRadius.circular(15)),
     child: isOrganization
         ? Column(

@@ -1,4 +1,4 @@
-import 'package:chat360/resourses/colors.dart';
+import 'package:chat360/resources/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';

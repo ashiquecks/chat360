@@ -22,10 +22,7 @@ import 'screens/home/home_screen.dart';
 import 'screens/splash/splash_screen.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Hive.initFlutter();
-  await Hive.openBox('categoryType');
-  await Hive.openBox('selectedCategories');
+
   await Parse().initialize(
     "pYLM3p7I3jiAocohGfLQMvWgx486muD1QtvD9mxk",
     "https://parseapi.back4app.com",
@@ -33,6 +30,10 @@ Future<void> main() async {
     debug: true,
     liveQueryUrl: "https://chat360.b4a.io",
   );
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  await Hive.openBox('categoryType');
+  await Hive.openBox('selectedCategories');
   runApp(const MyApp());
 }
 
@@ -65,9 +66,7 @@ class MyApp extends StatelessWidget {
           'filter_screen': (context) => const FilterChatScreen(),
           'phone_verification': (context) => const PhoneVerification(),
           'otp_verification': (context) => const OTPVerification(),
-          'category_screen': (context) => const CategoryScreen(
-                accountType: '',
-              ),
+          'category_screen': (context) => const CategoryScreen(),
           'profile_screen': (context) => const ProfileScreen(),
           'user_launch': (context) => const UserLaunch(),
           'creator_account': (context) => const OrganizationAccount(),

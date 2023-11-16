@@ -17,7 +17,6 @@ Future<NetworkResponse<List<MessageListModal>>> getChatList({
       ParseObject('ChatList'),
     );
     userMessageResponse.whereEqualTo('userId', userId);
-    // connectMessageResponse.whereArrayContainsAll('categoryTypes', [selectedKeys]);
 
     ParseResponse userMessage = await userMessageResponse.query();
 

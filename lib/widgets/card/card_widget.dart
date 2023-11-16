@@ -5,7 +5,7 @@ import 'package:chat360/widgets/card/list_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../resourses/colors.dart';
+import '../../resources/colors.dart';
 
 List<Map<String, dynamic>> categoryList = [
   {'title': 'mobile'},
@@ -121,7 +121,7 @@ Widget profileImageCard({
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: Image.network(
-                mainProvider.userProfilePick.toString(),
+                mainProvider.profileImage.toString(),
                 fit: BoxFit.cover,
               ),
             ),

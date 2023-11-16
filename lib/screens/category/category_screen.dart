@@ -2,15 +2,14 @@ import 'package:chat360/api_functions/create_function.dart';
 import 'package:chat360/api_functions/get_function.dart';
 import 'package:chat360/modal/category_list_model.dart';
 import 'package:chat360/provider/category_list_provider.dart';
-import 'package:chat360/resourses/colors.dart';
+import 'package:chat360/provider/main_provider.dart';
+import 'package:chat360/resources/colors.dart';
 import 'package:chat360/widgets/button/button_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 
 class CategoryScreen extends StatefulWidget {
-  final String accountType;
-  const CategoryScreen({super.key, required this.accountType});
+  const CategoryScreen({super.key,});
 
   @override
   State<CategoryScreen> createState() => _CategoryScreenState();
@@ -25,6 +24,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final mainProvider = Provider.of<MainProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: const Text("Select Category"),
@@ -68,8 +68,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 context: context,
                 buttonText: "SUBMIT",
                 buttonAction: () {
-                  if (widget.accountType == "User") {
-                    createUserAccountResponse(context: context);
+                  if (mainProvider.accountType == "UserAccount") {
+                    createUserAccountResponse(context: context, isCreator: true);
                   } else {
                     createOrganizationAccountResponse(context: context);
                   }
@@ -97,25 +97,7 @@ class _SelectMessageCategoryState extends State<SelectCategoryType> {
     getCategoryListResponse(context: context);
   }
 
-  List<Map<String, dynamic>> categoryItems = [];
 
-  final categoryBox = Hive.box('categoryType');
-
-  void getCategory() {
-    final data = categoryBox.keys.map((key) {
-      final item = categoryBox.get(key);
-      return {"category": item['category'], "categoryId": item['categoryId']};
-    }).toList();
-    setState(() {
-      categoryItems = data.reversed.toList();
-      print(categoryItems);
-    });
-  }
-
-  Future<void> createCategoryList(
-      {required Map<String, dynamic> categoryTypes}) async {
-    await categoryBox.add(categoryTypes);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -162,13 +144,6 @@ class _SelectMessageCategoryState extends State<SelectCategoryType> {
                 context: context,
                 buttonText: "CONFIRM",
                 buttonAction: () {
-                  model.categoryList.forEach((key, value) {
-                    createCategoryList(categoryTypes: {
-                      'category': value,
-                      'categoryId': value,
-                    });
-                  });
-                  getCategory();
                   Navigator.pushNamed(context, 'chat_room');
                 },
               ),

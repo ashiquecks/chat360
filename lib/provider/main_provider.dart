@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:parse_server_sdk/parse_server_sdk.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -28,15 +25,19 @@ class MainProvider extends ChangeNotifier {
   TextEditingController gstNumberController = TextEditingController();
   TextEditingController buildingNumberController = TextEditingController();
 
+  ParseFile? userProfilePick; // As File Image
+
+  String? profileImage; //AS Network Image
+
   String? userID;
   String? userName;
   String? userPhone;
   String? organizationName;
   String? gstNumber;
   String? buildingNumber;
-  String? userProfilePick;
   String? accountType;
-  bool verified = false;
+  bool? verified;
+  bool? isCreator;
 
   Map<String, dynamic> categoryList = {};
 
@@ -45,19 +46,32 @@ class MainProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  setUserCredentials() async {
+  setSharePreferencesData() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    userID = preferences.getString("userID") ?? "";
-    userName = preferences.getString("userName") ?? "";
-    userPhone = preferences.getString("userPhone") ?? "";
-    organizationName = preferences.getString("organizationName") ?? "";
-    gstNumber = preferences.getString("gstNumber") ?? "";
-    buildingNumber = preferences.getString("buildingNumber") ?? "";
-    verified = preferences.getBool("verifiedOrganization") ?? false;
-    userProfilePick = preferences.getString("profilePick") ?? "";
-    accountType = preferences.getString("accountType") ?? "";
+
+    userID = preferences.getString("userID");
+    userName = preferences.getString("userName");
+    userPhone = preferences.getString("userPhone");
+    organizationName = preferences.getString("organizationName");
+    gstNumber = preferences.getString("gstNumber");
+    buildingNumber = preferences.getString("buildingNumber");
+    verified = preferences.getBool("isVerified");
+    accountType = preferences.getString("accountType");
+    profileImage = preferences.getString("profilePick");
+    isCreator = preferences.getBool("isCreator");
     notifyListeners();
   }
+
+  // setCredentials(NetworkResponse<AccountCredentialModal> response) {
+  //   userName = response.data!.userName;
+  //   userPhone = response.data!.phoneNumber;
+  //   organizationName = response.data!.phoneNumber;
+  //   gstNumber = response.data!.phoneNumber;
+  //   buildingNumber = response.data!.phoneNumber;
+  //   isCreator = response.data!.creator;
+  //   categoryList = response.data!.categoryTypes;
+  //   notifyListeners();
+  // }
 
   setProfilePick(ParseFile profileImage) {
     profilePick = profileImage;
@@ -87,29 +101,28 @@ class MainProvider extends ChangeNotifier {
     preferences.clear();
     userID = "";
     userName = "";
+    profileImage = "";
     userPhone = "";
-    userProfilePick = "";
     notifyListeners();
   }
 
   // List<Map<String, dynamic>> categoryItems = [];
 
-  Map<String, dynamic> categoryItems = {};
+  // Map<String, dynamic> categoryItems = {};
 
-  final categoryBox = Hive.box('selectedCategories');
+  // final categoryBox = Hive.box('selectedCategories');
 
-  void getCategory() {
+  // void getCategory() {
+  //   final boxItem = categoryBox.getAt(0);
 
-    final boxItem = categoryBox.getAt(0);
+  //   final jsonData = jsonDecode(jsonEncode(boxItem));
 
-    final jsonData = jsonDecode(jsonEncode(boxItem));
+  //   categoryItems = jsonData['category'];
 
-    categoryItems = jsonData['category'];
+  //   notifyListeners();
+  // }
 
-    notifyListeners();
-  }
-
-  Future<void> createCategoryList({required Map<String, dynamic> categoryTypes}) async {
-    await categoryBox.add({'category': categoryTypes});
-  }
+  // Future<void> createCategoryList({required Map<String, dynamic> categoryTypes}) async {
+  //   await categoryBox.add({'category': categoryTypes});
+  // }
 }

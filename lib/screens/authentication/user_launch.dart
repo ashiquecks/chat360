@@ -1,8 +1,10 @@
-import 'package:chat360/resourses/colors.dart';
+import 'package:chat360/provider/main_provider.dart';
+import 'package:chat360/resources/colors.dart';
 import 'package:chat360/screens/category/category_screen.dart';
 import 'package:chat360/widgets/button/button_widget.dart';
 import 'package:chat360/widgets/text/text_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class UserLaunch extends StatefulWidget {
   const UserLaunch({super.key});
@@ -14,7 +16,7 @@ class UserLaunch extends StatefulWidget {
 class _UserLaunchState extends State<UserLaunch> {
   @override
   Widget build(BuildContext context) {
-    final widgetSize = MediaQuery.of(context).size;
+
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -32,7 +34,7 @@ class _UserLaunchState extends State<UserLaunch> {
                   ),
                 ),
                 onPressed: () {
-                  Navigator.pushNamed(context, 'creator_account');
+
                 },
                 child: const Text(
                   "Organization Account",
@@ -48,11 +50,10 @@ class _UserLaunchState extends State<UserLaunch> {
                   ),
                 ),
                 onPressed: () {
-                  Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => const CategoryScreen(accountType: 'User')));
+                  Navigator.pushNamed(context, 'category_screen');
                 },
                 child: const Text(
-                  "Skip",
+                  "User Account",
                   style: TextStyle(color: primaryColor),
                 ),
               ),
