@@ -24,7 +24,6 @@ import 'screens/home/home_screen.dart';
 import 'screens/splash/splash_screen.dart';
 
 Future<void> main() async {
-
   await Parse().initialize(
     "pYLM3p7I3jiAocohGfLQMvWgx486muD1QtvD9mxk",
     "https://parseapi.back4app.com",

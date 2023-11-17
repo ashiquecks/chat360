@@ -32,7 +32,7 @@ class CategoryListProvider extends ChangeNotifier {
 
   List<CategoryListModal> get messageList => _messageList;
 
-  setLabourList(List<CategoryListModal> list) {
+  setCategory(List<CategoryListModal> list) {
     _messageList.addAll(list);
     notifyListeners();
   }

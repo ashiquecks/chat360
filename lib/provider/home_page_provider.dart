@@ -13,7 +13,7 @@ class HomePageProvider extends ChangeNotifier {
 
   List<MessageListModal> get messageList => _messageList;
 
-  setLabourList(List<MessageListModal> list) {
+  setMessageList(List<MessageListModal> list) {
     _messageList.addAll(list);
     notifyListeners();
   }

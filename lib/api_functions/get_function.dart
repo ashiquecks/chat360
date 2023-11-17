@@ -18,7 +18,7 @@ getChatMessageResponse({required BuildContext context, required String messagedI
   if (response.isSuccessful!) {
     if (provider.messageList.length < response.data!.length) {
       provider.messageList.clear();
-      provider.setLabourList(response.data!);
+      provider.setChatMessageList(response.data!);
       // ignore: use_build_context_synchronously
       Navigator.pushNamed(context, 'chat_room');
     } else {}
@@ -38,7 +38,7 @@ getChatListResponse({
   if (response.isSuccessful!) {
     if (provider.messageList.length < response.data!.length) {
       provider.messageList.clear();
-      provider.setLabourList(response.data!);
+      provider.setMessageList(response.data!);
     } else {}
   } else {
     // ignore: use_build_context_synchronously
@@ -55,7 +55,7 @@ getCategoryListResponse({
   if (response.isSuccessful!) {
     if (provider.messageList.length < response.data!.length) {
       provider.messageList.clear();
-      provider.setLabourList(response.data!);
+      provider.setCategory(response.data!);
     } else {}
   } else {
     // ignore: use_build_context_synchronously
