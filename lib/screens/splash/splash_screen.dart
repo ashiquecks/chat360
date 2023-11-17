@@ -1,4 +1,3 @@
-
 import 'package:chat360/provider/main_provider.dart';
 import 'package:chat360/resources/colors.dart';
 import 'package:flutter/material.dart';
@@ -19,12 +18,11 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   timerFunction() {
-    var mainProvider = Provider.of<MainProvider>(context, listen: false);
+    final mainProvider = Provider.of<MainProvider>(context, listen: false);
     mainProvider.setSharePreferencesData();
     Future.delayed(const Duration(seconds: 3), () async {
       if (mainProvider.userID != null && mainProvider.userID != "") {
         mainProvider.getCategoryList();
-        // ignore: use_build_context_synchronously
         Navigator.pushNamed(context, 'home_screen');
       } else {
         Navigator.pushNamed(context, 'phone_verification');

@@ -41,15 +41,15 @@ Future<NetworkResponse<List<MessageListModal>>> getChatList({
 
       convertJsonConnection.forEach((e) {
         MessageListModal responseUser = MessageListModal.fromJson(e);
-        mainProvider.restSuccessCount();
+        mainProvider.restFailedCount();
         selectedKeys.forEach((key, value) {
           if (responseUser.categoryTypes.containsValue(value)) {
             messageList.contains(responseUser) ? print("already created") : messageList.add(responseUser);
           } else {
-            mainProvider.increaseSuccessCount();
-            if (mainProvider.successCount < 3) {
-              messageList.contains(responseUser) ? messageList.remove(responseUser) : print("value exist");
-            }
+            mainProvider.increaseFailedCount();
+          }
+          if (mainProvider.failedCount < 3) {
+            messageList.contains(responseUser) ? messageList.remove(responseUser) : print("value exist");
           }
         });
       });

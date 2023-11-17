@@ -1,7 +1,5 @@
 import 'package:chat360/provider/main_provider.dart';
 import 'package:chat360/resources/colors.dart';
-import 'package:chat360/screens/authentication/user_launch.dart';
-import 'package:chat360/widgets/button/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

@@ -45,6 +45,18 @@ class MainProvider extends ChangeNotifier {
   bool? verified;
   bool? isCreator;
 
+  int failedCount = 0;
+
+  increaseFailedCount() {
+    failedCount++;
+    notifyListeners();
+  }
+
+  restFailedCount(){
+    failedCount =0;
+    notifyListeners();
+  }
+
   setSharePreferencesData() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
@@ -95,38 +107,20 @@ class MainProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  clearCredential() async {
+  clearSharePreferenceCredential() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.clear();
-    userID = "";
-    userName = "";
-    profileImage = "";
-    userPhone = "";
-    notifyListeners();
   }
 
   void getCategoryList() {
     final boxItem = categoryBox.getAt(0);
     final jsonData = jsonDecode(jsonEncode(boxItem));
     categoryList = jsonData['category'];
-
     notifyListeners();
   }
 
   Future<void> setCategoryList({required Map<String, dynamic> categoryTypes}) async {
     await categoryBox.add({'category': categoryTypes});
     getCategoryList();
-  }
-
-  int successCount = 0;
-
-  increaseSuccessCount() {
-    successCount++;
-    notifyListeners();
-  }
-
-  restSuccessCount(){
-    successCount =0;
-    notifyListeners();
   }
 }

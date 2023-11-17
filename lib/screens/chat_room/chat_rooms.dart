@@ -74,7 +74,7 @@ class _ChatRoomsState extends State<ChatRooms> {
               bottom: 0,
               left: 0,
               right: 0,
-              child: messagecard(
+              child: messageCard(
                 controller: mainProvider.chatLink,
                 sendMessage: () async {
                   createMessageResponse(

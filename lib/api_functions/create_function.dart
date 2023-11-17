@@ -1,5 +1,6 @@
 import 'package:chat360/api_functions/get_function.dart';
 import 'package:chat360/modal/account_credential_modal.dart';
+import 'package:chat360/modal/chat_message_modal.dart';
 import 'package:chat360/provider/category_list_provider.dart';
 import 'package:chat360/provider/main_provider.dart';
 import 'package:chat360/service/api_integration/authentication/organization_create.dart';
@@ -17,48 +18,36 @@ createMessageResponse({
 }) async {
   final mainProvider = Provider.of<MainProvider>(context, listen: false);
   final categoryProvider = Provider.of<CategoryListProvider>(context, listen: false);
+
+  NetworkResponse<ChatMessageModal> response;
   if (messageId != null && messageId != "") {
-    final response = await createExitingMessage(
+    response = await createExitingMessage(
       userId: mainProvider.userID.toString(),
       message: mainProvider.chatLink.text,
       messageId: messageId,
     );
-    mainProvider.chatLink.clear();
-    if (response.data != null) {
-      mainProvider.setTextField("");
-      mainProvider.setMessageId(messageId);
-      // ignore: use_build_context_synchronously
-      getChatMessageResponse(context: context, messagedId: messageId);
-      // ignore: use_build_context_synchronously
-      getChatListResponse(context: context);
-    }
-    // ignore: use_build_context_synchronously
-    scaffoldMessage(
-      messages: response.message.toString(),
-      context: context,
-    );
   } else {
-    final response = await createMessage(
+    response = await createMessage(
       userId: mainProvider.userID.toString(),
       message: mainProvider.chatLink.text,
       categoryTypes: categoryProvider.categoryList,
       messageCount: 10,
     );
-    mainProvider.chatLink.clear();
-    if (response.data != null) {
-      mainProvider.setTextField("");
-      mainProvider.setMessageId(response.data!.messageId);
-      // ignore: use_build_context_synchronously
-      getChatMessageResponse(context: context, messagedId: response.data!.messageId);
-      // ignore: use_build_context_synchronously
-      getChatListResponse(context: context);
-    }
-    // ignore: use_build_context_synchronously
-    scaffoldMessage(
-      messages: response.message.toString(),
-      context: context,
-    );
   }
+  mainProvider.chatLink.clear();
+  if (response.data != null) {
+    mainProvider.setTextField("");
+    mainProvider.setMessageId(response.data!.messageId);
+    // ignore: use_build_context_synchronously
+    getChatMessageResponse(context: context, messagedId: response.data!.messageId);
+    // ignore: use_build_context_synchronously
+    getChatListResponse(context: context);
+  }
+  // ignore: use_build_context_synchronously
+  scaffoldMessage(
+    messages: response.message.toString(),
+    context: context,
+  );
 }
 
 createUserAccountResponse({
@@ -77,6 +66,7 @@ createUserAccountResponse({
       accountType: mainProvider.accountType.toString(),
       creator: true,
     );
+    // if update to creator account save selected category in your hive box
     mainProvider.setCategoryList(categoryTypes: response.data!.categoryTypes);
   } else {
     response = await createUser(
@@ -118,17 +108,19 @@ createOrganizationAccountResponse({
     verifiedOrganization: false,
     userName: mainProvider.userName.toString(),
     phoneNumber: mainProvider.phoneNumberController.text,
-    password: "689568",
+    password: mainProvider.passwordController.text,
     categoryTypes: categoryProvider.categoryList,
     accountType: 'OrganizationAccount',
     creator: true,
   );
   if (response.isSuccessful == true) {
-    mainProvider.clearCredential();
+    categoryProvider.categoryList.clear();
+    // mainProvider.clearCredential();
     // ignore: use_build_context_synchronously
     scaffoldMessage(messages: response.message.toString(), context: context);
     setSharedPreferences(response);
     mainProvider.setSharePreferencesData();
+    // Is Organization creator account you can save selected category in your hive box
     mainProvider.setCategoryList(categoryTypes: response.data!.categoryTypes);
     // ignore: use_build_context_synchronously
     Navigator.pushNamed(context, 'home_screen');

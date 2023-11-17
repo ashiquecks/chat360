@@ -1,21 +1,10 @@
-import 'dart:io';
-
 import 'package:chat360/provider/main_provider.dart';
+import 'package:chat360/resources/colors.dart';
 import 'package:chat360/widgets/card/list_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../resources/colors.dart';
-
-List<Map<String, dynamic>> categoryList = [
-  {'title': 'mobile'},
-  {'title': 'laptop'},
-  {'title': 'camara'},
-  {'title': 'kitchen items'},
-  {'title': 'cleaning'}
-];
-
-Widget messagecard({
+Widget messageCard({
   required TextEditingController controller,
   required void Function() sendMessage,
 }) {
@@ -24,7 +13,7 @@ Widget messagecard({
       children: [
         modal.textFieldValue.isEmpty
             ? const SizedBox()
-            : categoryListCard(categoryList: categoryList, context: context),
+            : categoryListCard( context: context),
         Card(
           shadowColor: secondaryColor,
           color: white,

@@ -7,6 +7,7 @@ import 'package:chat360/screens/authentication/otp_verification.dart';
 import 'package:chat360/screens/authentication/phone_verification.dart';
 import 'package:chat360/screens/authentication/user_account.dart';
 import 'package:chat360/screens/category/category_screen.dart';
+import 'package:chat360/screens/category/select_category_type.dart';
 import 'package:chat360/screens/location/location_screen.dart';
 import 'package:chat360/screens/manage_creator/manage_creator.dart';
 import 'package:chat360/screens/profile/edit_profile.dart';
@@ -33,7 +34,6 @@ Future<void> main() async {
   );
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
-  await Hive.openBox('categoryType');
   await Hive.openBox('selectedCategories');
   runApp(const MyApp());
 }
