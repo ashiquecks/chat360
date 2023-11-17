@@ -58,7 +58,7 @@ class _OTPVerificationState extends State<OTPVerification> {
             child: verifyButton(
               context: context,
               buttonText: "VERIFY OTP",
-              buttonAction: () => Navigator.pushNamed(context, 'user_account'),
+              buttonAction: () => Navigator.pushNamed(context, 'user_launch'),
             ),
           ),
           normalRichText(

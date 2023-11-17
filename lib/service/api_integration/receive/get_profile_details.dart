@@ -4,7 +4,8 @@ import 'package:chat360/modal/account_credential_modal.dart';
 import 'package:parse_server_sdk/parse_server_sdk.dart';
 import '../../server_response/server_response.dart';
 
-Future<NetworkResponse<AccountCredentialModal>> getProfileDetailsUser({
+
+getProfileDetailsUser({
   required String userID,
   required String tableName,
 }) async {
@@ -13,7 +14,7 @@ Future<NetworkResponse<AccountCredentialModal>> getProfileDetailsUser({
       ParseObject(tableName),
     );
     response.whereEqualTo('objectId', userID);
-    final ParseResponse apiResponse = await response.query();
+    ParseResponse apiResponse = await response.query();
 
     if (apiResponse.success == true) {
       final jsonString = jsonDecode(jsonEncode(apiResponse.results?.first));

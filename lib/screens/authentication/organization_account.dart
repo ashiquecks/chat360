@@ -56,21 +56,22 @@ class _OrganizationAccountState extends State<OrganizationAccount> {
                       ),
               ),
             ),
-            mainProvider.userName != ""
-                ? mainTextFieldDisable(
-                    labelName: mainProvider.userName.toString(),
-                  )
-                : mainTextFieldDisable(
-                    labelName: mainProvider.userNameController.text),
             mainTextField(
-                labelName: "organization name",
-                controller: mainProvider.organizationController),
+              labelName: "organization name",
+              controller: mainProvider.organizationController,
+            ),
+            mainTextFieldDisable(
+              labelName: "phone number",
+              controller: mainProvider.phoneNumberController
+            ),
             mainTextField(
-                labelName: "gst number",
-                controller: mainProvider.gstNumberController),
+              labelName: "gst number",
+              controller: mainProvider.gstNumberController,
+            ),
             mainTextField(
-                labelName: "building number",
-                controller: mainProvider.buildingNumberController),
+              labelName: "building number",
+              controller: mainProvider.buildingNumberController,
+            ),
             loginButton(
               context: context,
               buttonText: "Continue",

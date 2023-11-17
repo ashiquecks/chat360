@@ -8,6 +8,7 @@ import 'package:chat360/screens/authentication/phone_verification.dart';
 import 'package:chat360/screens/authentication/user_account.dart';
 import 'package:chat360/screens/category/category_screen.dart';
 import 'package:chat360/screens/location/location_screen.dart';
+import 'package:chat360/screens/manage_creator/manage_creator.dart';
 import 'package:chat360/screens/profile/edit_profile.dart';
 import 'package:chat360/screens/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
@@ -74,6 +75,7 @@ class MyApp extends StatelessWidget {
           'creator_approval': (context) => const CreatorApproval(),
           'edit_profile': (context) => const EditProfile(),
           'category_types': (context) => const SelectCategoryType(),
+          'manage_creator': (context) => const ManageCreator(),
         },
       ),
     );

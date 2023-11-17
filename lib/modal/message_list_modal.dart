@@ -24,7 +24,8 @@ class MessageListModal {
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
         userId: json["userId"],
-        chatTitle: json["chatTitle"], categoryTypes: Map.from(json["categoryTypes"])
+        chatTitle: json["chatTitle"],
+        categoryTypes: Map.from(json["categoryTypes"])
             .map((k, v) => MapEntry<String, String>(k, v)),
       );
 

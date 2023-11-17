@@ -1,13 +1,18 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:chat360/modal/message_list_modal.dart';
+import 'package:chat360/provider/main_provider.dart';
+import 'package:flutter/material.dart';
 import 'package:parse_server_sdk/parse_server_sdk.dart';
+import 'package:provider/provider.dart';
 import '../../server_response/server_response.dart';
 
 Future<NetworkResponse<List<MessageListModal>>> getChatList({
   required String userId,
   required Map<String, dynamic> selectedKeys,
+  required BuildContext context,
 }) async {
+  final mainProvider = Provider.of<MainProvider>(context, listen: false);
   try {
     QueryBuilder<ParseObject> userMessageResponse = QueryBuilder<ParseObject>(
       ParseObject('ChatList'),
@@ -23,19 +28,28 @@ Future<NetworkResponse<List<MessageListModal>>> getChatList({
     ParseResponse connectedMessage = await connectMessageResponse.query();
 
     if (userMessage.success == true) {
-      final convertJsonUser = await jsonDecode(userMessage.results.toString());
-      final convertJsonConnection = await jsonDecode(connectedMessage.results.toString());
+      final convertJsonUser = await jsonDecode(jsonEncode(userMessage.results));
+      final convertJsonConnection = await jsonDecode(jsonEncode(connectedMessage.results));
       List<MessageListModal> messageList = [];
-      convertJsonUser.forEach((e) {
-        MessageListModal responseUser = MessageListModal.fromJson(e);
-        messageList.contains(responseUser) ? print("already created") : messageList.add(responseUser);
-      });
+
+      if (convertJsonUser != null) {
+        convertJsonUser.forEach((e) {
+          MessageListModal responseUser = MessageListModal.fromJson(e);
+          messageList.contains(responseUser) ? print("already created") : messageList.add(responseUser);
+        });
+      }
 
       convertJsonConnection.forEach((e) {
         MessageListModal responseUser = MessageListModal.fromJson(e);
+        mainProvider.restSuccessCount();
         selectedKeys.forEach((key, value) {
           if (responseUser.categoryTypes.containsValue(value)) {
             messageList.contains(responseUser) ? print("already created") : messageList.add(responseUser);
+          } else {
+            mainProvider.increaseSuccessCount();
+            if (mainProvider.successCount < 3) {
+              messageList.contains(responseUser) ? messageList.remove(responseUser) : print("value exist");
+            }
           }
         });
       });

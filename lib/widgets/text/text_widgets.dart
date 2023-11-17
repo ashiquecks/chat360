@@ -26,6 +26,7 @@ Widget normalRichText({
   required String textTwo,
 }) {
   return RichText(
+    textAlign: TextAlign.center,
     text: TextSpan(
       children: [
         TextSpan(

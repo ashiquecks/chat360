@@ -62,16 +62,17 @@ class _UserAccountState extends State<UserAccount> {
           ),
           mainTextField(labelName: "user name", controller: mainProvider.userNameController),
           mainTextFieldDisable(
-            labelName: mainProvider.phoneNumberController.text,
+            labelName: "phone number",
+            controller: mainProvider.phoneNumberController,
           ),
           mainTextFieldDisable(
-            labelName: mainProvider.passwordController.text,
+            labelName: "password",
+            controller: mainProvider.passwordController,
           ),
           loginButton(
             context: context,
             buttonText: "Continue",
             buttonAction: () {
-              
               mainProvider.setProfilePick(ParseFile(File(pickedFile!.path)));
               createUserAccountResponse(
                 context: context,

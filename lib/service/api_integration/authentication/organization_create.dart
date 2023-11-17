@@ -14,20 +14,24 @@ Future<NetworkResponse<AccountCredentialModal>> createOrganization({
   required String buildingNumber,
   required ParseFile profilePick,
   required bool verifiedOrganization,
+  required bool creator,
   required Object categoryTypes,
   required String accountType,
 }) async {
+  ParseFile convertName = ParseFile(name: phoneNumber + gstNumber, null);
+  convertName.file = File(profilePick.file!.path);
   try {
     ParseObject response = ParseObject(accountType)
       ..set('userName', userName)
       ..set('phoneNumber', phoneNumber)
-      ..set('profilePick', profilePick)
+      ..set('profilePick', convertName)
       ..set('organizationName', organizationName)
       ..set('gstNumber', gstNumber)
       ..set('buildingNumber', buildingNumber)
       ..set('verifiedOrganization', false)
       ..set('categoryTypes', categoryTypes)
-      ..set('accountType', accountType);
+      ..set('accountType', accountType)
+      ..set('creator', creator);
     await response.save();
 
     QueryBuilder queryPublisher = QueryBuilder(response);

@@ -15,7 +15,7 @@ Widget profileDetailsCardUser({
 }) {
   final widgetSize = MediaQuery.of(context).size;
   final mainProvider = Provider.of<MainProvider>(context, listen: false);
-  final isOrganization = mainProvider.accountType == "Organization";
+  final isOrganization = mainProvider.accountType == "OrganizationAccount";
   Widget divider = const Divider();
   return Container(
     width: widgetSize.width,
@@ -36,8 +36,6 @@ Widget profileDetailsCardUser({
                   color: c1,
                 ),
               ),
-              divider,
-              ListTile(title: Text(userName)),
               divider,
               ListTile(title: Text(userPhoneNumber)),
               divider,

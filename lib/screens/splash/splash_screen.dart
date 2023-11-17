@@ -1,7 +1,7 @@
+
 import 'package:chat360/provider/main_provider.dart';
 import 'package:chat360/resources/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -18,16 +18,12 @@ class _SplashScreenState extends State<SplashScreen> {
     timerFunction();
   }
 
-  final categoryBox = Hive.box('selectedCategories');
-
   timerFunction() {
     var mainProvider = Provider.of<MainProvider>(context, listen: false);
-    categoryBox.clear();
-
     mainProvider.setSharePreferencesData();
     Future.delayed(const Duration(seconds: 3), () async {
       if (mainProvider.userID != null && mainProvider.userID != "") {
-        // getProfileDetailsResponse(context: context);
+        mainProvider.getCategoryList();
         // ignore: use_build_context_synchronously
         Navigator.pushNamed(context, 'home_screen');
       } else {

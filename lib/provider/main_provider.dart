@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:parse_server_sdk/parse_server_sdk.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -13,6 +15,10 @@ class MainProvider extends ChangeNotifier {
   String textFieldValue = "";
 
   ParseFile? profilePick;
+
+  Map<String, dynamic> categoryList = {};
+
+  final categoryBox = Hive.box('selectedCategories');
 
   // Controllers for input form filed
   TextEditingController chatLink = TextEditingController();
@@ -38,13 +44,6 @@ class MainProvider extends ChangeNotifier {
   String? accountType;
   bool? verified;
   bool? isCreator;
-
-  Map<String, dynamic> categoryList = {};
-
-  setCategoryList(Map<String, dynamic> category) {
-    categoryList = categoryList;
-    notifyListeners();
-  }
 
   setSharePreferencesData() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -106,23 +105,28 @@ class MainProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // List<Map<String, dynamic>> categoryItems = [];
+  void getCategoryList() {
+    final boxItem = categoryBox.getAt(0);
+    final jsonData = jsonDecode(jsonEncode(boxItem));
+    categoryList = jsonData['category'];
 
-  // Map<String, dynamic> categoryItems = {};
+    notifyListeners();
+  }
 
-  // final categoryBox = Hive.box('selectedCategories');
+  Future<void> setCategoryList({required Map<String, dynamic> categoryTypes}) async {
+    await categoryBox.add({'category': categoryTypes});
+    getCategoryList();
+  }
 
-  // void getCategory() {
-  //   final boxItem = categoryBox.getAt(0);
+  int successCount = 0;
 
-  //   final jsonData = jsonDecode(jsonEncode(boxItem));
+  increaseSuccessCount() {
+    successCount++;
+    notifyListeners();
+  }
 
-  //   categoryItems = jsonData['category'];
-
-  //   notifyListeners();
-  // }
-
-  // Future<void> createCategoryList({required Map<String, dynamic> categoryTypes}) async {
-  //   await categoryBox.add({'category': categoryTypes});
-  // }
+  restSuccessCount(){
+    successCount =0;
+    notifyListeners();
+  }
 }

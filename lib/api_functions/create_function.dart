@@ -77,6 +77,7 @@ createUserAccountResponse({
       accountType: mainProvider.accountType.toString(),
       creator: true,
     );
+    mainProvider.setCategoryList(categoryTypes: response.data!.categoryTypes);
   } else {
     response = await createUser(
       userName: mainProvider.userNameController.text,
@@ -116,16 +117,19 @@ createOrganizationAccountResponse({
     buildingNumber: mainProvider.buildingNumberController.text,
     verifiedOrganization: false,
     userName: mainProvider.userName.toString(),
-    phoneNumber: mainProvider.userPhone.toString(),
+    phoneNumber: mainProvider.phoneNumberController.text,
     password: "689568",
     categoryTypes: categoryProvider.categoryList,
     accountType: 'OrganizationAccount',
+    creator: true,
   );
   if (response.isSuccessful == true) {
     mainProvider.clearCredential();
     // ignore: use_build_context_synchronously
     scaffoldMessage(messages: response.message.toString(), context: context);
     setSharedPreferences(response);
+    mainProvider.setSharePreferencesData();
+    mainProvider.setCategoryList(categoryTypes: response.data!.categoryTypes);
     // ignore: use_build_context_synchronously
     Navigator.pushNamed(context, 'home_screen');
   } else {
