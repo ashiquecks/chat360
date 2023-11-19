@@ -1,3 +1,7 @@
+
+import 'package:chat360/resources/colors.dart';
+import 'package:flutter/material.dart';
+
 // ElevatedButton(
 //   onPressed: () async {
 //     final url = Uri.parse("https://www.flipkart.com/");
@@ -8,8 +12,7 @@
 //   child: const Text("Go Link"),
 // ),
 
-import 'package:chat360/resourses/colors.dart';
-import 'package:flutter/material.dart';
+
 
 Widget verifyButton({
   required BuildContext context,

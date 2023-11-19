@@ -1,5 +1,5 @@
 import 'package:chat360/provider/main_provider.dart';
-import 'package:chat360/resourses/colors.dart';
+import 'package:chat360/resources/colors.dart';
 import 'package:chat360/screens/authentication/otp_verification.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -52,7 +52,7 @@ class _PhoneVerificationState extends State<PhoneVerification> {
                   buttonAction: () => showModalBottomSheet<void>(
                       context: context,
                       builder: (BuildContext context) {
-                        return OTPVerification();
+                        return const OTPVerification();
                       }),
                 ),
                 const Text("we will send you one time password"),

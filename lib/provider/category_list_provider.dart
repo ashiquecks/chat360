@@ -9,7 +9,7 @@ class CategoryListProvider extends ChangeNotifier {
 
   Map<String, dynamic> categoryList = {};
 
-  List<dynamic> categoryLabel = [];
+  List<String> categoryValue = [];
 
   setProcessing(bool value) {
     _isProcessing = value;
@@ -19,20 +19,25 @@ class CategoryListProvider extends ChangeNotifier {
   setCategoryList(String category, String label) {
     if (categoryList.containsKey(category)) {
       categoryList.remove(category);
-      if (categoryLabel.contains(label)) {
-        categoryLabel.remove(label);
-      }
     } else {
-      categoryList.putIfAbsent(category, () => category);
-      categoryLabel.add(label);
+      categoryList.putIfAbsent(category, () => label);
     }
-
     notifyListeners();
+  }
+
+  createCategoryValueList() {
+    categoryList.forEach((key, value) {
+      if (categoryValue.contains(value)) {
+        print("Already Created");
+      } else {
+        categoryValue.add(value);
+      }
+    });
   }
 
   List<CategoryListModal> get messageList => _messageList;
 
-  setLabourList(List<CategoryListModal> list) {
+  setCategory(List<CategoryListModal> list) {
     _messageList.addAll(list);
     notifyListeners();
   }

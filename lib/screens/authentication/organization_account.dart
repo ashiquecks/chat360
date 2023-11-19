@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:chat360/provider/main_provider.dart';
-import 'package:chat360/screens/category/category_screen.dart';
 import 'package:chat360/widgets/button/button_widget.dart';
 import 'package:chat360/widgets/text_field.dart/text_filed_widgets.dart';
 import 'package:flutter/material.dart';
@@ -57,21 +56,22 @@ class _OrganizationAccountState extends State<OrganizationAccount> {
                       ),
               ),
             ),
-            mainProvider.userName != ""
-                ? mainTextFieldDisable(
-                    labelName: mainProvider.userName.toString(),
-                  )
-                : mainTextFieldDisable(
-                    labelName: mainProvider.userNameController.text),
             mainTextField(
-                labelName: "organization name",
-                controller: mainProvider.organizationController),
+              labelName: "organization name",
+              controller: mainProvider.organizationController,
+            ),
+            mainTextFieldDisable(
+              labelName: "phone number",
+              controller: mainProvider.phoneNumberController
+            ),
             mainTextField(
-                labelName: "gst number",
-                controller: mainProvider.gstNumberController),
+              labelName: "gst number",
+              controller: mainProvider.gstNumberController,
+            ),
             mainTextField(
-                labelName: "building number",
-                controller: mainProvider.buildingNumberController),
+              labelName: "building number",
+              controller: mainProvider.buildingNumberController,
+            ),
             loginButton(
               context: context,
               buttonText: "Continue",
@@ -81,11 +81,7 @@ class _OrganizationAccountState extends State<OrganizationAccount> {
                     File(pickedFile!.path),
                   ),
                 );
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            const CategoryScreen(accountType: 'Organization')));
+                Navigator.pushNamed(context, 'category_screen');
               },
             )
           ],

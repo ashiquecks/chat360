@@ -17,25 +17,22 @@ class _LocationScreenState extends State<LocationScreen> {
       body: Column(
         children: [
           // Search Bar Space<==========>
-          const ListTile(
-            leading: Icon(Icons.location_on_outlined),
-            title: Text("Use current location"),
-            subtitle: Text("Palazhi, Kozhikode"),
+          ListTile(
+            onTap: () {},
+            leading: const Icon(Icons.location_on_outlined),
+            title: const Text("Use current location"),
+            subtitle: const Text("Palazhi, Kozhikode"),
           ),
-          // Recent Selected Location <==========>
-          ListView.builder(
+          ListView.separated(
             shrinkWrap: true,
-            itemCount: 6,
+            itemCount: 7,
             itemBuilder: (context, index) {
-              return ListTile(
-                title: const Text("Kerala"),
-                trailing: IconButton(
-                  icon: const Icon(Icons.arrow_forward_ios),
-                  onPressed: () {},
-                ),
-              );
+              return const ListTile(title: Text("Kozhikode"));
             },
-          )
+            separatorBuilder: (context, index) {
+              return const Divider();
+            },
+          ),
         ],
       ),
     );

@@ -1,30 +1,20 @@
-import 'dart:io';
-
 import 'package:chat360/provider/main_provider.dart';
+import 'package:chat360/resources/colors.dart';
 import 'package:chat360/widgets/card/list_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../resourses/colors.dart';
-
-List<Map<String, dynamic>> categoryList = [
-  {'title': 'mobile'},
-  {'title': 'laptop'},
-  {'title': 'camara'},
-  {'title': 'kitchen items'},
-  {'title': 'cleaning'}
-];
-
-Widget messagecard({
+Widget messageCard({
   required TextEditingController controller,
   required void Function() sendMessage,
+  required void Function() getImage,
+  required bool imageButton,
+  required String navigateScreen,
 }) {
   return Consumer<MainProvider>(
     builder: (context, modal, child) => Column(
       children: [
-        modal.textFieldValue.isEmpty
-            ? const SizedBox()
-            : categoryListCard(categoryList: categoryList, context: context),
+        modal.textFieldValue.isNotEmpty ? categoryListCard(context: context,navigateScreen: navigateScreen):  const SizedBox(),
         Card(
           shadowColor: secondaryColor,
           color: white,
@@ -33,7 +23,13 @@ Widget messagecard({
             borderRadius: BorderRadius.circular(12),
           ),
           child: ListTile(
-            leading: const Icon(Icons.camera_alt),
+            leading: Visibility(
+              visible: imageButton,
+              child: IconButton(
+                icon: const Icon(Icons.camera_alt),
+                onPressed: getImage,
+              ),
+            ),
             title: TextField(
               onChanged: (value) {
                 modal.setTextField(value);
@@ -41,8 +37,53 @@ Widget messagecard({
               minLines: 1,
               maxLines: 60,
               controller: controller,
-              decoration: const InputDecoration(
-                  border: InputBorder.none, hintText: "Link Here"),
+              decoration: const InputDecoration(border: InputBorder.none, hintText: "Text Here"),
+            ),
+            trailing: IconButton(
+              icon: const Icon(Icons.send),
+              onPressed: sendMessage,
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+
+Widget replyMessageCard({
+  required TextEditingController controller,
+  required void Function() sendMessage,
+  required void Function() getImage,
+  required bool imageButton,
+  required String navigateScreen,
+}) {
+  return Consumer<MainProvider>(
+    builder: (context, modal, child) => Column(
+      children: [
+        Card(
+          shadowColor: secondaryColor,
+          color: white,
+          margin: const EdgeInsets.all(10),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: ListTile(
+            leading: Visibility(
+              visible: imageButton,
+              child: IconButton(
+                icon: const Icon(Icons.camera_alt),
+                onPressed: getImage,
+              ),
+            ),
+            title: TextField(
+              onChanged: (value) {
+                modal.setTextField(value);
+              },
+              minLines: 1,
+              maxLines: 60,
+              controller: controller,
+              decoration: const InputDecoration(border: InputBorder.none, hintText: "Text Here"),
             ),
             trailing: IconButton(
               icon: const Icon(Icons.send),
@@ -82,8 +123,7 @@ Widget messageListCard({
           ),
           subtitle: const Text("12-July  12:30 AM"),
           trailing: Container(
-            decoration: BoxDecoration(
-                color: c1, borderRadius: BorderRadius.circular(10)),
+            decoration: BoxDecoration(color: c1, borderRadius: BorderRadius.circular(10)),
             child: Padding(
               padding: const EdgeInsets.all(5.0),
               child: Text(
@@ -121,7 +161,9 @@ Widget profileImageCard({
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: Image.network(
-                mainProvider.userProfilePick.toString(),
+                mainProvider.profileImage.toString(),
+                height: 140,
+                width: 140,
                 fit: BoxFit.cover,
               ),
             ),

@@ -1,5 +1,5 @@
 import 'package:chat360/provider/main_provider.dart';
-import 'package:chat360/resourses/colors.dart';
+import 'package:chat360/resources/colors.dart';
 import 'package:chat360/screens/authentication/user_launch.dart';
 import 'package:chat360/widgets/button/button_widget.dart';
 import 'package:chat360/widgets/card/card_widget.dart';
@@ -19,7 +19,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final mainProvider = Provider.of<MainProvider>(context, listen: false);
-    final widgetSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         foregroundColor: white,
@@ -52,20 +51,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
               gstNumber: mainProvider.gstNumber.toString(),
               buildingNumber: mainProvider.buildingNumber.toString(),
             ),
-            mainProvider.accountType != "Organization"
-                ? loginButton(
-                    context: context,
-                    buttonText: "Make a Creator Account",
-                    buttonAction: () => showModalBottomSheet(
-                      enableDrag: true,
-                      useSafeArea: true,
-                      context: context,
-                      builder: (BuildContext context) {
-                        return const UserLaunch();
-                      },
-                    ),
-                  )
-                : const SizedBox()
+            loginButton(
+              context: context,
+              buttonText: mainProvider.isCreator != true ? "Make a Creator Account" : "Manage Creator Account",
+              buttonAction: () {
+                if (mainProvider.isCreator != true) {
+                  Navigator.pushNamed(context, 'category_screen');
+                } else {
+                  Navigator.pushNamed(context, 'manage_creator');
+                }
+              },
+            ),
           ],
         ),
       ),

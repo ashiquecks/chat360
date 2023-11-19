@@ -1,10 +1,11 @@
 import 'package:chat360/api_functions/create_function.dart';
 import 'package:chat360/provider/main_provider.dart';
+import 'package:chat360/widgets/chat_box/chatlist_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../modal/chat_message_modal.dart';
 import '../../provider/chat_room_provider.dart';
-import '../../resourses/colors.dart';
+import '../../resources/colors.dart';
 import '../../widgets/card/card_widget.dart';
 
 import 'package:flutter_link_previewer/flutter_link_previewer.dart';
@@ -65,7 +66,13 @@ class _ChatRoomsState extends State<ChatRooms> {
                   itemCount: value.messageList.length,
                   itemBuilder: (context, index) {
                     ChatMessageModal responsePost = value.getPostByIndex(index);
-                    return buildChatItem(index, value, responsePost);
+                    return chatListItemBox(
+                      index: index,
+                      value: value,
+                      response: responsePost,
+                      mainProvider: mainProvider,
+                      context: context,
+                    );
                   },
                 );
               },
@@ -74,14 +81,22 @@ class _ChatRoomsState extends State<ChatRooms> {
               bottom: 0,
               left: 0,
               right: 0,
-              child: messagecard(
+              child: messageCard(
+                imageButton: true,
                 controller: mainProvider.chatLink,
                 sendMessage: () async {
                   createMessageResponse(
                     context: context,
-                    messageId: mainProvider.messageId.toString(),
+                    messageId: mainProvider.messageId.toString(), isFirst: true,
                   );
                 },
+                getImage: () {
+                  Navigator.pushNamed(context, 'image_chat');
+                  Future.delayed(const Duration(seconds: 2), () {
+                    mainProvider.setTextField("images");
+                  });
+                },
+                navigateScreen: 'chat_room',
               ),
             ),
             Positioned(
@@ -95,32 +110,66 @@ class _ChatRoomsState extends State<ChatRooms> {
     );
   }
 
-  Widget buildChatItem(
-      int index, ChatRoomProvider value, ChatMessageModal response) {
+  Widget buildChatItem(int index, ChatRoomProvider value, ChatMessageModal response) {
     return Align(
       alignment: Alignment.centerLeft,
-      child: Container(
-        key: ValueKey([index]),
-        margin: const EdgeInsets.all(16),
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(
-            Radius.circular(20),
-          ),
-          color: Color(0xfff7f7f8),
-        ),
-        child: ClipRRect(
-          borderRadius: const BorderRadius.all(
-            Radius.circular(20),
-          ),
-          child: LinkPreview(
-            onPreviewDataFetched: (data) async {
-              await value.setPreviewData(data, index, response);
-            },
-            previewData: value.datas[response.message],
-            text: response.message,
-            width: MediaQuery.of(context).size.width,
-          ),
-        ),
+      child: Column(
+        children: [
+          response.photoMessage.url != ""
+              ? Container(
+                  key: ValueKey([index]),
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10),
+                    ),
+                    color: Color(0xfff7f7f8),
+                  ),
+                  padding: const EdgeInsets.all(5),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ClipRRect(
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                        child: Image.network(response.photoMessage.url),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          response.message,
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              : Container(
+                  key: ValueKey([index]),
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(20),
+                    ),
+                    color: Color(0xfff7f7f8),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(20),
+                    ),
+                    child: LinkPreview(
+                      onPreviewDataFetched: (data) async {
+                        await value.setPreviewData(data, index, response);
+                      },
+                      previewData: value.datas[response.message],
+                      text: response.message,
+                      width: MediaQuery.of(context).size.width,
+                      // onLinkPressed: (link) async {
+                      //   final url = Uri.parse(link);
+                      //   await launchUrl(url);
+                      // },
+                    ),
+                  ),
+                ),
+        ],
       ),
     );
   }

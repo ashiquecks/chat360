@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-import '../../resourses/colors.dart';
+import '../../resources/colors.dart';
 
 exitDialogBox({required BuildContext context}) {
   return AlertDialog(

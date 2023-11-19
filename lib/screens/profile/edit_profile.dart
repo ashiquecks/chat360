@@ -67,7 +67,7 @@ class _EditProfileState extends State<EditProfile> {
             buttonText: "Continue",
             buttonAction: () async {
               if (mainProvider.userID != null && mainProvider.userID != "") {
-                mainProvider.clearCredential();
+                mainProvider.clearSharePreferenceCredential();
               }
               mainProvider.setProfilePick(
                 ParseFile(
@@ -75,7 +75,7 @@ class _EditProfileState extends State<EditProfile> {
                 ),
               );
               createUserAccountResponse(
-                context: context,
+                context: context, isCreator: false,
               );
             },
           )

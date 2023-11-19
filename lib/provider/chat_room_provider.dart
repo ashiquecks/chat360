@@ -21,7 +21,7 @@ class ChatRoomProvider extends ChangeNotifier {
 
   List<ChatMessageModal> get messageList => _messageList;
 
-  setLabourList(List<ChatMessageModal> list) {
+  setChatMessageList(List<ChatMessageModal> list) {
     _messageList.addAll(list);
     notifyListeners();
   }

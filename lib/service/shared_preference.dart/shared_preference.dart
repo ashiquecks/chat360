@@ -1,22 +1,17 @@
+import 'package:chat360/modal/account_credential_modal.dart';
+import 'package:chat360/service/server_response/server_response.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-setUserData({
-  required String userID,
-  required String userName,
-  required String userPhone,
-  required String profilePick,
-  required String organizationName,
-  required String organizationGst,
-  required String organizationBuildingNumber,
-  required String accountType,
-}) async {
+setSharedPreferences(NetworkResponse<AccountCredentialModal> response) async {
   SharedPreferences userPreferences = await SharedPreferences.getInstance();
-  userPreferences.setString('userID', userID);
-  userPreferences.setString('userName', userName);
-  userPreferences.setString('userPhone', userPhone);
-  userPreferences.setString('profilePick', profilePick);
-  userPreferences.setString('organizationName', organizationName);
-  userPreferences.setString('gstNumber', organizationGst);
-  userPreferences.setString('buildingNumber', organizationBuildingNumber);
-  userPreferences.setString('accountType', accountType);
+  userPreferences.setString('userID', response.data!.objectId);
+  userPreferences.setString('userName', response.data!.userName);
+  userPreferences.setString('userPhone', response.data!.phoneNumber);
+  userPreferences.setString('profilePick', response.data!.profilePick.url);
+  userPreferences.setString('organizationName', response.data!.organizationName);
+  userPreferences.setString('gstNumber', response.data!.gstNumber);
+  userPreferences.setString('buildingNumber', response.data!.buildingNumber);
+  userPreferences.setString('accountType', response.data!.accountType);
+  userPreferences.setBool("isCreator", response.data!.creator);
+  userPreferences.setBool("isVerified", response.data!.verified);
 }
