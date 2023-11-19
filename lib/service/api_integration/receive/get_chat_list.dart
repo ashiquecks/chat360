@@ -30,26 +30,27 @@ Future<NetworkResponse<List<MessageListModal>>> getChatList({
     if (userMessage.success == true) {
       final convertJsonUser = await jsonDecode(jsonEncode(userMessage.results));
       final convertJsonConnection = await jsonDecode(jsonEncode(connectedMessage.results));
+
       List<MessageListModal> messageList = [];
 
       if (convertJsonUser != null) {
         convertJsonUser.forEach((e) {
           MessageListModal responseUser = MessageListModal.fromJson(e);
-          messageList.contains(responseUser) ? print("already created") : messageList.add(responseUser);
+          if (!messageList.contains(responseUser)) {
+            messageList.add(responseUser);
+          }
         });
       }
 
       convertJsonConnection.forEach((e) {
+        mainProvider.failedList.clear();
         MessageListModal responseUser = MessageListModal.fromJson(e);
-        mainProvider.restFailedCount();
         selectedKeys.forEach((key, value) {
-          if (responseUser.categoryTypes.containsValue(value)) {
-            messageList.contains(responseUser) ? print("already created") : messageList.add(responseUser);
-          } else {
-            mainProvider.increaseFailedCount();
+          if (!responseUser.categoryTypes.containsKey(key) && responseUser.userId == userId) {
+            mainProvider.increaseFailedCount(0);
           }
-          if (mainProvider.failedCount < 3) {
-            messageList.contains(responseUser) ? messageList.remove(responseUser) : print("value exist");
+          if (mainProvider.failedList.length < 3) {
+            messageList.add(responseUser);
           }
         });
       });
@@ -71,9 +72,9 @@ Future<NetworkResponse<List<MessageListModal>>> getChatList({
     return NetworkResponse(
       false,
       null,
-      message: "Invalid response receved form the server! Please try again in a minutes or two",
+      message: "Invalid response received form the server! Please try again in a minutes or two",
     );
   } catch (e) {
-    return NetworkResponse(false, null, message: 'somthing went wrong please try again in a minute or two');
+    return NetworkResponse(false, null, message: 'something went wrong please try again in a minute or two');
   }
 }

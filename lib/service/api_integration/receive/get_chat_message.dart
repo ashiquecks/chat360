@@ -10,7 +10,7 @@ Future<NetworkResponse<List<ChatMessageModal>>> getChatMessage(
     QueryBuilder<ParseObject> queryPublisher = QueryBuilder<ParseObject>(
       ParseObject('ChatMessage'),
     );
-    queryPublisher.orderByDescending('createdAt');
+    queryPublisher.orderByAscending('createdAt');
     queryPublisher.whereEqualTo('messageId', messageId);
     final ParseResponse apiResponse = await queryPublisher.query();
 

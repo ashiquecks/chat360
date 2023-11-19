@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../service/api_integration/receive/get_profile_details.dart';
 
-getChatMessageResponse({required BuildContext context, required String messagedId}) async {
+getChatMessageResponse({required BuildContext context, required String messagedId, required bool isFirst}) async {
   var provider = Provider.of<ChatRoomProvider>(context, listen: false);
 
   var response = await getChatMessage(messageId: messagedId);
@@ -20,7 +20,7 @@ getChatMessageResponse({required BuildContext context, required String messagedI
       provider.messageList.clear();
       provider.setChatMessageList(response.data!);
       // ignore: use_build_context_synchronously
-      Navigator.pushNamed(context, 'chat_room');
+      isFirst ? Navigator.pushNamed(context, 'chat_room') : Navigator.pushNamed(context, 'chat_screen');
     } else {}
   } else {
     // ignore: use_build_context_synchronously
@@ -34,7 +34,8 @@ getChatListResponse({
 }) async {
   var provider = Provider.of<HomePageProvider>(context, listen: false);
   var mainProvider = Provider.of<MainProvider>(context, listen: false);
-  var response = await getChatList(userId: mainProvider.userID.toString(), selectedKeys: mainProvider.categoryList, context: context);
+  var response = await getChatList(
+      userId: mainProvider.userID.toString(), selectedKeys: mainProvider.categoryList, context: context);
   if (response.isSuccessful!) {
     if (provider.messageList.length < response.data!.length) {
       provider.messageList.clear();

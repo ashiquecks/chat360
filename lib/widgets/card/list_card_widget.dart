@@ -1,17 +1,18 @@
 import 'package:chat360/provider/category_list_provider.dart';
 import 'package:chat360/resources/colors.dart';
+import 'package:chat360/screens/category/select_category_type.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 Widget categoryListCard({
   required BuildContext context,
+  required String navigateScreen
 }) {
-  final categoryProvider =
-      Provider.of<CategoryListProvider>(context, listen: false);
+  final categoryProvider = Provider.of<CategoryListProvider>(context, listen: false);
   final widgetSize = MediaQuery.of(context).size;
   return SizedBox(
     height: 60,
-    child: categoryProvider.categoryList.isEmpty
+    child: categoryProvider.categoryValue.isEmpty
         ? Padding(
             padding: const EdgeInsets.all(8.0),
             child: SizedBox(
@@ -25,7 +26,8 @@ Widget categoryListCard({
                   ),
                 ),
                 onPressed: () {
-                  Navigator.pushNamed(context, 'category_types');
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (context) =>  SelectCategoryType(navigateScreen: navigateScreen)));
                 },
                 child: const Text("Select Keywords For This Message"),
               ),
@@ -45,14 +47,15 @@ Widget categoryListCard({
                     ),
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(context, 'category_types');
+                    Navigator.push(
+                      context, MaterialPageRoute(builder: (context) =>  SelectCategoryType(navigateScreen: navigateScreen)));
                   },
                   child: const Text("More"),
                 ),
               ),
               ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: categoryProvider.categoryLabel.length,
+                itemCount: categoryProvider.categoryValue.length,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   return Container(
@@ -65,7 +68,7 @@ Widget categoryListCard({
                     child: Padding(
                       padding: const EdgeInsets.all(10),
                       child: Text(
-                        categoryProvider.categoryLabel[index].toString(),
+                        categoryProvider.categoryValue[index],
                         style: const TextStyle(
                           color: primaryColor,
                         ),

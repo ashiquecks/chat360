@@ -45,7 +45,8 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.all(10),
               child: InkWell(
                 onTap: () async {
-                  Navigator.pushNamed(context, 'profile_screen');
+                  getChatListResponse(context: context);
+                  // Navigator.pushNamed(context, 'profile_screen');
                 },
                 child: CircleAvatar(
                   backgroundImage: NetworkImage(
@@ -66,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainProvider.setMessageId(responsePost.objectId);
                   getChatMessageResponse(
                     context: context,
-                    messagedId: responsePost.objectId,
+                    messagedId: responsePost.objectId, isFirst: false,
                   );
                 },
                 messageTitle: responsePost.chatTitle,

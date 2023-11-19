@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:chat360/api_functions/get_function.dart';
 import 'package:chat360/modal/account_credential_modal.dart';
 import 'package:chat360/modal/chat_message_modal.dart';
@@ -6,40 +7,64 @@ import 'package:chat360/provider/main_provider.dart';
 import 'package:chat360/service/api_integration/authentication/organization_create.dart';
 import 'package:chat360/service/api_integration/authentication/user_create.dart';
 import 'package:chat360/service/api_integration/create/create_chat_message.dart';
+import 'package:chat360/service/api_integration/update_message/update_chat_message.dart';
 import 'package:chat360/service/server_response/server_response.dart';
 import 'package:chat360/service/shared_preference.dart/shared_preference.dart';
 import 'package:chat360/widgets/popup/message_box.dart';
 import 'package:flutter/material.dart';
+import 'package:parse_server_sdk/parse_server_sdk.dart';
 import 'package:provider/provider.dart';
 
 createMessageResponse({
   required BuildContext context,
   required String messageId,
+  required bool isFirst,
 }) async {
   final mainProvider = Provider.of<MainProvider>(context, listen: false);
   final categoryProvider = Provider.of<CategoryListProvider>(context, listen: false);
 
   NetworkResponse<ChatMessageModal> response;
   if (messageId != null && messageId != "") {
-    response = await createExitingMessage(
-      userId: mainProvider.userID.toString(),
-      message: mainProvider.chatLink.text,
-      messageId: messageId,
-    );
+    if (mainProvider.pickedFile != null) {
+      response = await createExitingMessageImage(
+        userId: mainProvider.userID.toString(),
+        message: mainProvider.chatLink.text,
+        messageId: messageId,
+        photo: ParseFile(File(mainProvider.pickedFile!.path)),
+      );
+    } else {
+      response = await createExitingMessageText(
+        userId: mainProvider.userID.toString(),
+        message: mainProvider.chatLink.text,
+        messageId: messageId,
+      );
+    }
   } else {
-    response = await createMessage(
-      userId: mainProvider.userID.toString(),
-      message: mainProvider.chatLink.text,
-      categoryTypes: categoryProvider.categoryList,
-      messageCount: 10,
-    );
+    if (mainProvider.pickedFile != null) {
+      response = await createMessageImage(
+        userId: mainProvider.userID.toString(),
+        message: mainProvider.chatLink.text,
+        categoryTypes: categoryProvider.categoryList,
+        messageCount: 10,
+        photo: ParseFile(File(mainProvider.pickedFile!.path)),
+      );
+    } else {
+      response = await createMessageText(
+        userId: mainProvider.userID.toString(),
+        message: mainProvider.chatLink.text,
+        categoryTypes: categoryProvider.categoryList,
+        messageCount: 10,
+      );
+    }
   }
   mainProvider.chatLink.clear();
   if (response.data != null) {
     mainProvider.setTextField("");
     mainProvider.setMessageId(response.data!.messageId);
+    categoryProvider.categoryValue.clear();
+    mainProvider.clearImage();
     // ignore: use_build_context_synchronously
-    getChatMessageResponse(context: context, messagedId: response.data!.messageId);
+    getChatMessageResponse(context: context, messagedId: response.data!.messageId, isFirst: isFirst);
     // ignore: use_build_context_synchronously
     getChatListResponse(context: context);
   }

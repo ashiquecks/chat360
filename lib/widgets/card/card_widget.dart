@@ -7,13 +7,14 @@ import 'package:provider/provider.dart';
 Widget messageCard({
   required TextEditingController controller,
   required void Function() sendMessage,
+  required void Function() getImage,
+  required bool imageButton,
+  required String navigateScreen,
 }) {
   return Consumer<MainProvider>(
     builder: (context, modal, child) => Column(
       children: [
-        modal.textFieldValue.isEmpty
-            ? const SizedBox()
-            : categoryListCard( context: context),
+        modal.textFieldValue.isNotEmpty ? categoryListCard(context: context,navigateScreen: navigateScreen):  const SizedBox(),
         Card(
           shadowColor: secondaryColor,
           color: white,
@@ -22,7 +23,13 @@ Widget messageCard({
             borderRadius: BorderRadius.circular(12),
           ),
           child: ListTile(
-            leading: const Icon(Icons.camera_alt),
+            leading: Visibility(
+              visible: imageButton,
+              child: IconButton(
+                icon: const Icon(Icons.camera_alt),
+                onPressed: getImage,
+              ),
+            ),
             title: TextField(
               onChanged: (value) {
                 modal.setTextField(value);
@@ -30,7 +37,53 @@ Widget messageCard({
               minLines: 1,
               maxLines: 60,
               controller: controller,
-              decoration: const InputDecoration(border: InputBorder.none, hintText: "Link Here"),
+              decoration: const InputDecoration(border: InputBorder.none, hintText: "Text Here"),
+            ),
+            trailing: IconButton(
+              icon: const Icon(Icons.send),
+              onPressed: sendMessage,
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+
+Widget replyMessageCard({
+  required TextEditingController controller,
+  required void Function() sendMessage,
+  required void Function() getImage,
+  required bool imageButton,
+  required String navigateScreen,
+}) {
+  return Consumer<MainProvider>(
+    builder: (context, modal, child) => Column(
+      children: [
+        Card(
+          shadowColor: secondaryColor,
+          color: white,
+          margin: const EdgeInsets.all(10),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: ListTile(
+            leading: Visibility(
+              visible: imageButton,
+              child: IconButton(
+                icon: const Icon(Icons.camera_alt),
+                onPressed: getImage,
+              ),
+            ),
+            title: TextField(
+              onChanged: (value) {
+                modal.setTextField(value);
+              },
+              minLines: 1,
+              maxLines: 60,
+              controller: controller,
+              decoration: const InputDecoration(border: InputBorder.none, hintText: "Text Here"),
             ),
             trailing: IconButton(
               icon: const Icon(Icons.send),

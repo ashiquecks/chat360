@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SelectCategoryType extends StatefulWidget {
-  const SelectCategoryType({super.key});
+  final String navigateScreen;
+  const SelectCategoryType({super.key, required this.navigateScreen});
 
   @override
   State<SelectCategoryType> createState() => _SelectMessageCategoryState();
@@ -19,8 +20,6 @@ class _SelectMessageCategoryState extends State<SelectCategoryType> {
     super.initState();
     getCategoryListResponse(context: context);
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -36,25 +35,20 @@ class _SelectMessageCategoryState extends State<SelectCategoryType> {
                 CategoryListModal response = model.getPostByIndex(index);
                 return InkWell(
                   onTap: () {
-                    model.setCategoryList(
-                        response.categoryType, response.categoryName);
+                    model.setCategoryList(response.categoryType, response.categoryName);
                   },
                   child: Container(
                     margin: const EdgeInsets.all(8),
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       border: Border.all(),
-                      color: model.categoryList[response.categoryType] == null
-                          ? white
-                          : primaryColor,
+                      color: model.categoryList[response.categoryType] == null ? white : primaryColor,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Text(
                       response.categoryName,
                       style: TextStyle(
-                        color: model.categoryList[response.categoryType] == null
-                            ? primaryColor
-                            : white,
+                        color: model.categoryList[response.categoryType] == null ? primaryColor : white,
                       ),
                     ),
                   ),
@@ -67,7 +61,8 @@ class _SelectMessageCategoryState extends State<SelectCategoryType> {
                 context: context,
                 buttonText: "CONFIRM",
                 buttonAction: () {
-                  Navigator.pushNamed(context, 'chat_room');
+                  model.createCategoryValueList();
+                  Navigator.pushNamed(context, widget.navigateScreen);
                 },
               ),
             ),

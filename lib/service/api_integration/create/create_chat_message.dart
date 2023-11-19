@@ -1,14 +1,19 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:parse_server_sdk/parse_server_sdk.dart';
 import '../../../modal/chat_message_modal.dart';
 import '../../server_response/server_response.dart';
 
-Future<NetworkResponse<ChatMessageModal>> createMessage({
+Future<NetworkResponse<ChatMessageModal>> createMessageImage({
   required String userId,
   required String message,
   required Object categoryTypes,
   required int messageCount,
+  required ParseFile photo,
 }) async {
+  ParseFile convertNamePhoto = ParseFile(name: "image$userId", null);
+  convertNamePhoto.file = File(photo.file!.path);
+
   final listResponse = ParseObject('ChatList')
     ..set("userId", userId)
     ..set('chatTitle', message)
@@ -20,7 +25,9 @@ Future<NetworkResponse<ChatMessageModal>> createMessage({
     final messageResponse = ParseObject('ChatMessage')
       ..set("message", message)
       ..set('userId', userId)
-      ..set("messageId", listResponse.objectId);
+      ..set("messageId", listResponse.objectId)
+      ..set("photo", convertNamePhoto)
+      ..set('creatorId', userId);
     await messageResponse.save();
 
     final jsonString = jsonDecode(messageResponse.toString());
@@ -31,23 +38,33 @@ Future<NetworkResponse<ChatMessageModal>> createMessage({
     return NetworkResponse(
       false,
       null,
-      message:
-          'Invalid response received from server! please try again in a minutes or two',
+      message: 'Invalid response received from server! please try again in a minutes or two',
     );
   }
 }
 
-Future<NetworkResponse<ChatMessageModal>> createExitingMessage(
-    {required String userId,
-    required String message,
-    required String messageId}) async {
-  final messageResponse = ParseObject('ChatMessage')
-    ..set("userId", userId)
-    ..set('message', message)
-    ..set("messageId", messageId);
-  await messageResponse.save();
+Future<NetworkResponse<ChatMessageModal>> createMessageText({
+  required String userId,
+  required String message,
+  required Object categoryTypes,
+  required int messageCount,
+}) async {
 
-  if (messageResponse.objectId != null) {
+  final listResponse = ParseObject('ChatList')
+    ..set("userId", userId)
+    ..set('chatTitle', message)
+    ..set('categoryTypes', categoryTypes)
+    ..set('messageCount', messageCount);
+  await listResponse.save();
+
+  if (listResponse.objectId != null) {
+    final messageResponse = ParseObject('ChatMessage')
+      ..set("message", message)
+      ..set('userId', userId)
+      ..set("messageId", listResponse.objectId)
+      ..set('creatorId', userId);
+    await messageResponse.save();
+
     final jsonString = jsonDecode(messageResponse.toString());
     ChatMessageModal responseData = ChatMessageModal.fromJson(jsonString);
 
@@ -56,8 +73,7 @@ Future<NetworkResponse<ChatMessageModal>> createExitingMessage(
     return NetworkResponse(
       false,
       null,
-      message:
-          'Invalid response received from server! please try again in a minutes or two',
+      message: 'Invalid response received from server! please try again in a minutes or two',
     );
   }
 }

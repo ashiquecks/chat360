@@ -56,16 +56,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
               buttonText: mainProvider.isCreator != true ? "Make a Creator Account" : "Manage Creator Account",
               buttonAction: () {
                 if (mainProvider.isCreator != true) {
-                  showModalBottomSheet(
-                    enableDrag: true,
-                    useSafeArea: true,
-                    context: context,
-                    builder: (BuildContext context) {
-                      return const UserLaunch();
-                    },
-                  );
-                }else{
-                  // Manage Creator Account
+                  Navigator.pushNamed(context, 'category_screen');
+                } else {
+                  Navigator.pushNamed(context, 'manage_creator');
                 }
               },
             ),

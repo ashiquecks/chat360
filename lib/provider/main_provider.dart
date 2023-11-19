@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:parse_server_sdk/parse_server_sdk.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,6 +18,8 @@ class MainProvider extends ChangeNotifier {
   ParseFile? profilePick;
 
   Map<String, dynamic> categoryList = {};
+
+  List<String> categoryValue = [];
 
   final categoryBox = Hive.box('selectedCategories');
 
@@ -45,17 +48,41 @@ class MainProvider extends ChangeNotifier {
   bool? verified;
   bool? isCreator;
 
-  int failedCount = 0;
 
-  increaseFailedCount() {
-    failedCount++;
+
+  List<int> failedList = [];
+
+  XFile? pickedFile;
+  XFile? image;
+  XFile? emptyImage;
+
+  bool createReply = false;
+
+  setCreateReply() {
+    createReply = !createReply;
     notifyListeners();
   }
 
-  restFailedCount(){
-    failedCount =0;
+  // get image from phone gallery..
+  Future<void> getImage() async {
+    image = await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      pickedFile = image;
+    }
     notifyListeners();
   }
+
+  clearImage() {
+    pickedFile = null;
+    notifyListeners();
+  }
+
+  increaseFailedCount(int count) {
+    failedList.add(count);
+    notifyListeners();
+  }
+
 
   setSharePreferencesData() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -113,13 +140,19 @@ class MainProvider extends ChangeNotifier {
   }
 
   void getCategoryList() {
-    final boxItem = categoryBox.getAt(0);
-    final jsonData = jsonDecode(jsonEncode(boxItem));
-    categoryList = jsonData['category'];
-    notifyListeners();
+    if (categoryBox.isNotEmpty) {
+      final boxItem = categoryBox.getAt(0);
+      final jsonData = jsonDecode(jsonEncode(boxItem));
+      categoryList = jsonData['category'];
+      categoryList.forEach((key, value) {
+        categoryValue.add(value);
+      });
+      notifyListeners();
+    }
   }
 
   Future<void> setCategoryList({required Map<String, dynamic> categoryTypes}) async {
+    categoryValue.clear();
     await categoryBox.add({'category': categoryTypes});
     getCategoryList();
   }
