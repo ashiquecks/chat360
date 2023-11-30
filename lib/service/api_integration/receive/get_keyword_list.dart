@@ -1,25 +1,25 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:chat360/modal/category_list_model.dart';
+import 'package:chat360/modal/keyword_list_model.dart';
 import 'package:parse_server_sdk/parse_server_sdk.dart';
 import '../../server_response/server_response.dart';
 
-Future<NetworkResponse<List<CategoryListModal>>> getCategoryList() async {
+Future<NetworkResponse<List<KeywordsModal>>> getKeywordList() async {
   try {
     QueryBuilder<ParseObject> queryPublisher = QueryBuilder<ParseObject>(
-      ParseObject('CreatorCategory'),
+      ParseObject('Keywords'),
     );
     queryPublisher.orderByDescending('createdAt');
     final ParseResponse apiResponse = await queryPublisher.query();
 
     if (apiResponse.success == true) {
       final convertJson = await jsonDecode(apiResponse.results.toString());
-      List<CategoryListModal> chatMessageList = [];
+      List<KeywordsModal> dataList = [];
       convertJson.forEach((e) {
-        CategoryListModal chatMessageResponse = CategoryListModal.fromJson(e);
-        chatMessageList.add(chatMessageResponse);
+        KeywordsModal chatMessageResponse = KeywordsModal.fromJson(e);
+        dataList.add(chatMessageResponse);
       });
-      return NetworkResponse(true, chatMessageList);
+      return NetworkResponse(true, dataList);
     } else {
       return NetworkResponse(
         false,
@@ -40,10 +40,10 @@ Future<NetworkResponse<List<CategoryListModal>>> getCategoryList() async {
       false,
       null,
       message:
-          "Invalid response receved form the server! Please try again in a minutes or two",
+          "Invalid response received form the server! Please try again in a minutes or two",
     );
   } catch (e) {
     return NetworkResponse(false, null,
-        message: 'somthing went wrong please try again in a minute or two');
+        message: 'something went wrong please try again in a minute or two');
   }
 }

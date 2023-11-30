@@ -1,4 +1,4 @@
-import 'package:chat360/provider/category_list_provider.dart';
+import 'package:chat360/provider/keyword_list_provider.dart';
 import 'package:chat360/resources/colors.dart';
 import 'package:chat360/screens/category/select_category_type.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +8,7 @@ Widget categoryListCard({
   required BuildContext context,
   required String navigateScreen
 }) {
-  final categoryProvider = Provider.of<CategoryListProvider>(context, listen: false);
+  final categoryProvider = Provider.of<KeywordListProvider>(context, listen: false);
   final widgetSize = MediaQuery.of(context).size;
   return SizedBox(
     height: 60,

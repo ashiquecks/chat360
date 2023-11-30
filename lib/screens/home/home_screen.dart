@@ -46,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: InkWell(
                 onTap: () async {
                   getChatListResponse(context: context);
-                  // Navigator.pushNamed(context, 'profile_screen');
+                  Navigator.pushNamed(context, 'profile_screen');
                 },
                 child: CircleAvatar(
                   backgroundImage: NetworkImage(

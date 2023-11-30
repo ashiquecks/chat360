@@ -1,10 +1,10 @@
-import 'package:chat360/modal/category_list_model.dart';
+import 'package:chat360/modal/keyword_list_model.dart';
 import 'package:flutter/material.dart';
 
-class CategoryListProvider extends ChangeNotifier {
+class KeywordListProvider extends ChangeNotifier {
   bool checkedValue = false;
   bool _isProcessing = true;
-  List<CategoryListModal> _messageList = [];
+  List<KeywordsModal> _dataList = [];
   bool get isProcessing => _isProcessing;
 
   Map<String, dynamic> categoryList = {};
@@ -35,17 +35,17 @@ class CategoryListProvider extends ChangeNotifier {
     });
   }
 
-  List<CategoryListModal> get messageList => _messageList;
+  List<KeywordsModal> get keywordList => _dataList;
 
-  setCategory(List<CategoryListModal> list) {
-    _messageList.addAll(list);
+  setDataList(List<KeywordsModal> list) {
+    _dataList.addAll(list);
     notifyListeners();
   }
 
-  mergeLabourList(List<CategoryListModal> list) {
-    _messageList = list;
+  mergeDataList(List<KeywordsModal> list) {
+    _dataList = list;
     notifyListeners();
   }
 
-  CategoryListModal getPostByIndex(int index) => _messageList[index];
+  KeywordsModal getPostByIndex(int index) => _dataList[index];
 }

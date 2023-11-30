@@ -1,7 +1,7 @@
 import 'package:chat360/api_functions/create_function.dart';
 import 'package:chat360/api_functions/get_function.dart';
-import 'package:chat360/modal/category_list_model.dart';
-import 'package:chat360/provider/category_list_provider.dart';
+import 'package:chat360/modal/keyword_list_model.dart';
+import 'package:chat360/provider/keyword_list_provider.dart';
 import 'package:chat360/provider/main_provider.dart';
 import 'package:chat360/resources/colors.dart';
 import 'package:chat360/widgets/button/button_widget.dart';
@@ -9,7 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CategoryScreen extends StatefulWidget {
-  const CategoryScreen({super.key,});
+  const CategoryScreen({
+    super.key,
+  });
 
   @override
   State<CategoryScreen> createState() => _CategoryScreenState();
@@ -19,66 +21,93 @@ class _CategoryScreenState extends State<CategoryScreen> {
   @override
   void initState() {
     super.initState();
-    getCategoryListResponse(context: context);
+    getKeywordListResponse(context: context);
   }
 
   @override
   Widget build(BuildContext context) {
     final mainProvider = Provider.of<MainProvider>(context, listen: false);
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Select Category"),
-      ),
-      body: Consumer<CategoryListProvider>(builder: (context, model, child) {
-        return Stack(
-          children: [
-            Wrap(
-              children: List.generate(model.messageList.length, (index) {
-                CategoryListModal response = model.getPostByIndex(index);
+    return SafeArea(
+      child: Scaffold(
+        appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(90),
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Card(
+                      color: white,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            enabledBorder: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            hintText: "   Search Keyword",
+                            suffixIcon: IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Card(
+                    color: white,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.grid_view),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            )),
+        body: Consumer<KeywordListProvider>(builder: (context, model, child) {
+          return SingleChildScrollView(
+            child: Wrap(
+              children: List.generate(model.keywordList.length, (index) {
+                KeywordsModal response = model.getPostByIndex(index);
                 return InkWell(
                   onTap: () {
-                    model.setCategoryList(
-                        response.categoryType, response.categoryName);
+                    model.setCategoryList(response.keywordType, response.categoryName);
                   },
                   child: Container(
                     margin: const EdgeInsets.all(8),
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       border: Border.all(),
-                      color: model.categoryList[response.categoryType] == null
-                          ? white
-                          : primaryColor,
+                      color: model.categoryList[response.keywordType] == null ? white : primaryColor,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Text(
-                      response.categoryName,
+                      response.keywordName,
                       style: TextStyle(
-                        color: model.categoryList[response.categoryType] == null
-                            ? primaryColor
-                            : white,
+                        color: model.categoryList[response.keywordType] == null ? primaryColor : white,
                       ),
                     ),
                   ),
                 );
               }),
             ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: loginButton(
-                context: context,
-                buttonText: "SUBMIT",
-                buttonAction: () {
-                  if (mainProvider.accountType == "UserAccount") {
-                    createUserAccountResponse(context: context, isCreator: true);
-                  } else {
-                    createOrganizationAccountResponse(context: context);
-                  }
-                },
-              ),
-            ),
-          ],
-        );
-      }),
+          );
+        }),
+        floatingActionButton: CircleAvatar(
+          radius: 30,
+          backgroundColor: primaryColor,
+          child: IconButton(
+            onPressed: () {
+              if (mainProvider.accountType == "UserAccount") {
+                createUserAccountResponse(context: context, isCreator: true);
+              } else {
+                createOrganizationAccountResponse(context: context);
+              }
+            },
+            icon: Icon(Icons.add, color: white),
+          ),
+        ),
+      ),
     );
   }
 }

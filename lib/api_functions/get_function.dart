@@ -1,8 +1,8 @@
-import 'package:chat360/provider/category_list_provider.dart';
+import 'package:chat360/provider/keyword_list_provider.dart';
 import 'package:chat360/provider/chat_room_provider.dart';
 import 'package:chat360/provider/home_page_provider.dart';
 import 'package:chat360/provider/main_provider.dart';
-import 'package:chat360/service/api_integration/receive/get_category_list.dart';
+import 'package:chat360/service/api_integration/receive/get_keyword_list.dart';
 import 'package:chat360/service/api_integration/receive/get_chat_list.dart';
 import 'package:chat360/service/api_integration/receive/get_chat_message.dart';
 import 'package:chat360/widgets/popup/message_box.dart';
@@ -48,15 +48,15 @@ getChatListResponse({
   provider.setProcessing(false);
 }
 
-getCategoryListResponse({
+getKeywordListResponse({
   required BuildContext context,
 }) async {
-  var provider = Provider.of<CategoryListProvider>(context, listen: false);
-  var response = await getCategoryList();
+  var provider = Provider.of<KeywordListProvider>(context, listen: false);
+  var response = await getKeywordList();
   if (response.isSuccessful!) {
-    if (provider.messageList.length < response.data!.length) {
-      provider.messageList.clear();
-      provider.setCategory(response.data!);
+    if (provider.keywordList.length < response.data!.length) {
+      provider.keywordList.clear();
+      provider.setDataList(response.data!);
     } else {}
   } else {
     // ignore: use_build_context_synchronously
