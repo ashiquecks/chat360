@@ -4,9 +4,11 @@ import 'package:chat360/modal/keyword_list_model.dart';
 import 'package:chat360/provider/keyword_list_provider.dart';
 import 'package:chat360/provider/main_provider.dart';
 import 'package:chat360/resources/colors.dart';
+import 'package:chat360/screens/category/category_drawer.dart';
 import 'package:chat360/widgets/button/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:side_sheet/side_sheet.dart';
 
 class CategoryScreen extends StatefulWidget {
   const CategoryScreen({
@@ -56,7 +58,12 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          SideSheet.left(
+                            body: const DrawerCategory(),
+                            context: context,
+                          );
+                        },
                         icon: const Icon(Icons.grid_view),
                       ),
                     ),
