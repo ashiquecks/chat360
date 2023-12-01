@@ -5,7 +5,6 @@ import 'package:chat360/provider/keyword_list_provider.dart';
 import 'package:chat360/provider/main_provider.dart';
 import 'package:chat360/resources/colors.dart';
 import 'package:chat360/screens/category/category_drawer.dart';
-import 'package:chat360/widgets/button/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:side_sheet/side_sheet.dart';
@@ -23,8 +22,10 @@ class _CategoryScreenState extends State<CategoryScreen> {
   @override
   void initState() {
     super.initState();
-    getKeywordListResponse(context: context);
+    getKeywordListResponse(context: context, searchKeyword: '', subCategory: '');
   }
+
+  TextEditingController searchControl = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -43,11 +44,20 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
+                          controller: searchControl,
                           decoration: InputDecoration(
                             enabledBorder: InputBorder.none,
                             focusedBorder: InputBorder.none,
                             hintText: "   Search Keyword",
-                            suffixIcon: IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
+                            suffixIcon: IconButton(
+                                onPressed: () {
+                                  getKeywordListResponse(
+                                    context: context,
+                                    searchKeyword: searchControl.text,
+                                    subCategory: '',
+                                  );
+                                },
+                                icon: const Icon(Icons.search)),
                           ),
                         ),
                       ),

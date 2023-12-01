@@ -54,9 +54,14 @@ getChatListResponse({
 
 getKeywordListResponse({
   required BuildContext context,
+  required String searchKeyword,
+  required String subCategory,
 }) async {
   var provider = Provider.of<KeywordListProvider>(context, listen: false);
-  var response = await getKeywordList();
+  if (searchKeyword != "" || subCategory !="") {
+    provider.keywordList.clear();
+  }
+  var response = await getKeywordList(searchKeyword: searchKeyword, subCategory: subCategory);
   if (response.isSuccessful!) {
     if (provider.keywordList.length < response.data!.length) {
       provider.keywordList.clear();
@@ -82,7 +87,6 @@ getProfileDetailsResponse({required BuildContext context}) async {
   }
 }
 
-
 getCategoryListResponse({
   required BuildContext context,
 }) async {
@@ -99,7 +103,6 @@ getCategoryListResponse({
   }
   provider.setProcessing(false);
 }
-
 
 getSubCategoryListResponse({
   required BuildContext context,

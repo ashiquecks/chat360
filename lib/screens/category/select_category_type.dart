@@ -18,7 +18,7 @@ class _SelectMessageCategoryState extends State<SelectCategoryType> {
   @override
   void initState() {
     super.initState();
-    getKeywordListResponse(context: context);
+    getKeywordListResponse(context: context, searchKeyword: '', subCategory: '');
   }
 
   @override

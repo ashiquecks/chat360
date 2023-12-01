@@ -1,3 +1,4 @@
+import 'package:chat360/api_functions/get_function.dart';
 import 'package:chat360/modal/category_model.dart';
 import 'package:chat360/provider/category_list_provider.dart';
 import 'package:chat360/provider/sub_category_list_provider.dart';
@@ -34,6 +35,11 @@ class _DrawerCategoryState extends State<DrawerCategory> {
                           var response = subCategoryValue.drawerList[categoryResponse.objectId]?[index];
                           return ListTile(
                             onTap: () {
+                              getKeywordListResponse(
+                                    context: context,
+                                    searchKeyword: '',
+                                    subCategory: response.objectId,
+                                  );
                               // subCategoryValue.setSelectedSubCategory(response);
                               Navigator.pop(context);
                             },
