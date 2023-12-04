@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:side_sheet/side_sheet.dart';
 
-class KeywordScreen extends StatefulWidget {   
+class KeywordScreen extends StatefulWidget {
   const KeywordScreen({
     super.key,
   });
@@ -49,21 +49,7 @@ class _KeywordScreenState extends State<KeywordScreen> {
                       );
                     },
                   ),
-                  Card(
-                    color: white,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: IconButton(
-                        onPressed: () {
-                          SideSheet.left(
-                            body: const DrawerCategory(),
-                            context: context,
-                          );
-                        },
-                        icon: const Icon(Icons.grid_view),
-                      ),
-                    ),
-                  )
+                  categoryButtonCard(context: context),
                 ],
               ),
             )),

@@ -23,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(const Duration(seconds: 3), () async {
       if (mainProvider.userID != null && mainProvider.userID != "") {
         mainProvider.getCategoryList();
-        Navigator.pushNamed(context, 'home_screen');
+        Navigator.pushNamed(context, 'home_screen_live');
       } else {
         Navigator.pushNamed(context, 'phone_verification');
       }

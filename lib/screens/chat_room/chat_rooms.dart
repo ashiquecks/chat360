@@ -87,7 +87,8 @@ class _ChatRoomsState extends State<ChatRooms> {
                 sendMessage: () async {
                   createMessageResponse(
                     context: context,
-                    messageId: mainProvider.messageId.toString(), isFirst: true,
+                    messageId: mainProvider.messageId.toString(),
+                    isFirst: true,
                   );
                 },
                 getImage: () {
@@ -99,11 +100,11 @@ class _ChatRoomsState extends State<ChatRooms> {
                 navigateScreen: 'chat_room',
               ),
             ),
-            Positioned(
-              right: 10,
-              top: 10,
-              child: buildFilterButton(),
-            ),
+            // Positioned(
+            //   right: 10,
+            //   top: 10,
+            //   child: buildFilterButton(),
+            // ),
           ],
         ),
       ),

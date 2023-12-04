@@ -49,7 +49,7 @@ createMessageResponse({
         photo: ParseFile(File(mainProvider.pickedFile!.path)),
       );
     } else {
-      response = await createMessageText(
+      response = await createMessageText( 
         userId: mainProvider.userID.toString(),
         message: mainProvider.chatLink.text,
         categoryTypes: categoryProvider.categoryList,
@@ -62,6 +62,7 @@ createMessageResponse({
     mainProvider.setTextField("");
     mainProvider.setMessageId(response.data!.messageId);
     categoryProvider.categoryValue.clear();
+    categoryProvider.categoryList.clear();
     mainProvider.clearImage();
     // ignore: use_build_context_synchronously
     getChatMessageResponse(context: context, messagedId: response.data!.messageId, isFirst: isFirst);
