@@ -1,9 +1,13 @@
 import 'package:chat360/modal/chat_message_modal.dart';
+import 'package:chat360/provider/category_list_provider.dart';
 import 'package:chat360/provider/chat_room_provider.dart';
 import 'package:chat360/provider/main_provider.dart';
+import 'package:chat360/provider/sub_category_list_provider.dart';
 import 'package:chat360/resources/app_them.dart';
 import 'package:chat360/resources/colors.dart';
+import 'package:chat360/screens/category/category_drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:side_sheet/side_sheet.dart';
 
 Widget textColumCard({
   required String textCount,
@@ -91,3 +95,43 @@ Widget searchBoxCard({required TextEditingController searchController, required 
     ),
   );
 }
+
+Widget profileCircleButton({
+  required BuildContext context,
+  required void Function() buttonAction,
+  required String profileImage,
+}) {
+  return Padding(
+    padding: const EdgeInsets.all(10),
+    child: InkWell(
+      onTap: buttonAction,
+      child: CircleAvatar(
+        backgroundImage: NetworkImage(
+          profileImage.toString(),
+        ),
+      ),
+    ),
+  );
+}
+
+categoryButtonCard({
+  required BuildContext context,
+}) {
+  return Card(
+    color: white,
+    child: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: IconButton(
+        onPressed: () {
+          SideSheet.left(
+            body: const DrawerCategory(drawerType: 'select',),
+            context: context,
+          );
+        },
+        icon: const Icon(Icons.grid_view),
+      ),
+    ),
+  );
+}
+
+

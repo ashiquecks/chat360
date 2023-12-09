@@ -24,16 +24,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
         foregroundColor: white,
         backgroundColor: primaryColor,
         actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.pushNamed(context, 'edit_profile');
-            },
-            icon: const Icon(
-              Icons.edit,
-              size: 20,
-            ),
-          ),
-          const SizedBox(width: 10),
+          // IconButton(
+          //   onPressed: () {
+          //     Navigator.pushNamed(context, 'edit_profile');
+          //   },
+          //   icon: const Icon(
+          //     Icons.edit,
+          //     size: 20,
+          //   ),
+          // ),
+          // const SizedBox(width: 10),
         ],
       ),
       body: SingleChildScrollView(

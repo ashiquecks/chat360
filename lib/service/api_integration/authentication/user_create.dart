@@ -13,6 +13,8 @@ Future<NetworkResponse<AccountCredentialModal>> createUser({
   required Object categoryTypes,
   required String accountType,
   required bool creator,
+  required String latLong,
+  required String address,
 }) async {
   ParseFile convertName = ParseFile(name: phoneNumber + userName, null);
   convertName.file = File(profilePick.file!.path);
@@ -25,7 +27,9 @@ Future<NetworkResponse<AccountCredentialModal>> createUser({
       ..set('profilePick', convertName)
       ..set('categoryTypes', categoryTypes)
       ..set('accountType', accountType)
-      ..set('creator', creator);
+      ..set('creator', creator)
+      ..set('latLong', latLong)
+      ..set('address', address);
     await response.save();
 
     QueryBuilder queryPublisher = QueryBuilder(response);

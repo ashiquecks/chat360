@@ -1,6 +1,6 @@
 import 'package:chat360/provider/keyword_list_provider.dart';
 import 'package:chat360/resources/colors.dart';
-import 'package:chat360/screens/category/select_category_type.dart';
+import 'package:chat360/screens/category/select_keyword_type.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -27,7 +27,7 @@ Widget categoryListCard({
                 ),
                 onPressed: () {
                   Navigator.push(
-                      context, MaterialPageRoute(builder: (context) =>  SelectCategoryType(navigateScreen: navigateScreen)));
+                      context, MaterialPageRoute(builder: (context) =>  SelectKeyword(navigateScreen: navigateScreen)));
                 },
                 child: const Text("Select Keywords For This Message"),
               ),
@@ -48,7 +48,7 @@ Widget categoryListCard({
                   ),
                   onPressed: () {
                     Navigator.push(
-                      context, MaterialPageRoute(builder: (context) =>  SelectCategoryType(navigateScreen: navigateScreen)));
+                      context, MaterialPageRoute(builder: (context) =>  SelectKeyword(navigateScreen: navigateScreen)));
                   },
                   child: const Text("More"),
                 ),

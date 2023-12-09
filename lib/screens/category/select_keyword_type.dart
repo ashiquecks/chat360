@@ -1,29 +1,20 @@
-import 'package:chat360/api_functions/create_function.dart';
 import 'package:chat360/api_functions/get_function.dart';
 import 'package:chat360/modal/keyword_list_model.dart';
 import 'package:chat360/provider/keyword_list_provider.dart';
-import 'package:chat360/provider/main_provider.dart';
 import 'package:chat360/resources/colors.dart';
-import 'package:chat360/screens/category/category_drawer.dart';
-import 'package:chat360/screens/filter_chat/filter_chat.dart';
-import 'package:chat360/widgets/button/button_widget.dart';
 import 'package:chat360/widgets/card/mini_size_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:quickalert/models/quickalert_type.dart';
-import 'package:quickalert/widgets/quickalert_dialog.dart';
-import 'package:side_sheet/side_sheet.dart';
 
-class KeywordScreen extends StatefulWidget {
-  const KeywordScreen({
-    super.key,
-  });
+class SelectKeyword extends StatefulWidget {
+  final String navigateScreen;
+  const SelectKeyword({super.key, required this.navigateScreen});
 
   @override
-  State<KeywordScreen> createState() => _KeywordScreenState();
+  State<SelectKeyword> createState() => _SelectMessageCategoryState();
 }
 
-class _KeywordScreenState extends State<KeywordScreen> {
+class _SelectMessageCategoryState extends State<SelectKeyword> {
   @override
   void initState() {
     super.initState();
@@ -34,8 +25,7 @@ class _KeywordScreenState extends State<KeywordScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final widgetSize = MediaQuery.of(context).size;
-    final mainProvider = Provider.of<MainProvider>(context, listen: false);
+    final keywordListProvider = Provider.of<KeywordListProvider>(context, listen: false);
     return SafeArea(
       child: Scaffold(
         appBar: PreferredSize(
@@ -87,48 +77,16 @@ class _KeywordScreenState extends State<KeywordScreen> {
             ),
           );
         }),
-        floatingActionButton: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            CircleAvatar(
-              radius: 30,
-              backgroundColor: primaryColor,
-              child: IconButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, 'create_keyword');
-                },
-                icon: Icon(Icons.add, color: white),
-              ),
-            ),
-            const SizedBox(width: 10),
-            CircleAvatar(
-              radius: 30,
-              backgroundColor: primaryColor,
-              child: IconButton(
-                onPressed: () {
-                  QuickAlert.show(
-                    context: context,
-                    text: "Your Account has a Creator Type",
-                    confirmBtnColor: Colors.black,
-                    type: QuickAlertType.confirm,
-                    confirmBtnText: "Confirm",
-                    onConfirmBtnTap: () {
-                      // Navigator.pushNamed(context, 'filter_screen');
-                      if (mainProvider.accountType == "UserAccount") {
-                        createUserAccountResponse(context: context, isCreator: true);
-                      } else {
-                        createOrganizationAccountResponse(context: context);
-                      }
-                      Future.delayed(const Duration(seconds: 3), () {
-                        Navigator.pop(context);
-                      });
-                    },
-                  );
-                },
-                icon: Icon(Icons.arrow_forward_ios, color: white),
-              ),
-            ),
-          ],
+        floatingActionButton: CircleAvatar(
+          radius: 30,
+          backgroundColor: primaryColor,
+          child: IconButton(
+            onPressed: () {
+              keywordListProvider.createCategoryValueList();
+              Navigator.pushNamed(context, widget.navigateScreen);
+            },
+            icon: Icon(Icons.add, color: white),
+          ),
         ),
       ),
     );

@@ -13,6 +13,8 @@ class AccountCredentialModal {
   String accountType;
   bool creator;
   bool verified;
+  String latLong;
+  String address;
 
   AccountCredentialModal({
     required this.className,
@@ -29,6 +31,8 @@ class AccountCredentialModal {
     required this.accountType,
     required this.creator,
     required this.verified,
+    required this.latLong,
+    required this.address,
   });
 
   factory AccountCredentialModal.fromJson(Map<String, dynamic> json) => AccountCredentialModal(
@@ -46,6 +50,8 @@ class AccountCredentialModal {
         verified: json["verified"] ?? false,
         accountType: json["accountType"] ?? "",
         categoryTypes: Map.from(json["categoryTypes"]).map((k, v) => MapEntry<String, String>(k, v)),
+        latLong: json['latLong'] ?? "",
+        address: json["address"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -60,9 +66,11 @@ class AccountCredentialModal {
         "password": password,
         "accountType": accountType,
         "creator": creator,
-        "verified":verified,
+        "verified": verified,
         "profilePick": profilePick.toJson(),
         "categoryTypes": Map.from(categoryTypes).map((k, v) => MapEntry<String, dynamic>(k, v)),
+        "latLong": latLong,
+        "address": address,
       };
 }
 

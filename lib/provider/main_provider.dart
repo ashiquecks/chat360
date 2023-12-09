@@ -15,6 +15,10 @@ class MainProvider extends ChangeNotifier {
   //It's a Message Card widget property
   String textFieldValue = "";
 
+  // filter bottom sheet hight
+
+  bool filterMessageFiledEdit = false;
+
   ParseFile? profilePick;
 
   Map<String, dynamic> categoryList = {};
@@ -38,6 +42,13 @@ class MainProvider extends ChangeNotifier {
 
   String? profileImage; //AS Network Image
 
+  var currentLocationLatlong;
+  var currentLocationAddress;
+
+  String? latitude;
+  String? longitude;
+  String? pinCode;
+  //================
   String? userID;
   String? userName;
   String? userPhone;
@@ -47,8 +58,8 @@ class MainProvider extends ChangeNotifier {
   String? accountType;
   bool? verified;
   bool? isCreator;
-
-
+  String? latLong;
+  String? address;
 
   List<int> failedList = [];
 
@@ -60,6 +71,17 @@ class MainProvider extends ChangeNotifier {
 
   setCreateReply() {
     createReply = !createReply;
+    notifyListeners();
+  }
+
+  setCurrentLocation(var locationAddress, var locationLatlong) {
+    currentLocationAddress = locationAddress;
+    currentLocationLatlong = locationLatlong;
+    notifyListeners();
+  }
+
+  setFilterBottomSheetEdit(bool value) {
+    filterMessageFiledEdit = value;
     notifyListeners();
   }
 
@@ -83,13 +105,14 @@ class MainProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-
   setSharePreferencesData() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
     userID = preferences.getString("userID");
     userName = preferences.getString("userName");
     userPhone = preferences.getString("userPhone");
+    latLong = preferences.getString("latLong");
+    address = preferences.getString("address");
     organizationName = preferences.getString("organizationName");
     gstNumber = preferences.getString("gstNumber");
     buildingNumber = preferences.getString("buildingNumber");

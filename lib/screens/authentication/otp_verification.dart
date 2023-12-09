@@ -14,6 +14,9 @@ class OTPVerification extends StatefulWidget {
 }
 
 class _OTPVerificationState extends State<OTPVerification> {
+
+
+
   // final pinController = TextEditingController();
   final FocusNode _pinOTPCodeFocus = FocusNode();
 
@@ -58,7 +61,7 @@ class _OTPVerificationState extends State<OTPVerification> {
             child: verifyButton(
               context: context,
               buttonText: "VERIFY OTP",
-              buttonAction: () => Navigator.pushNamed(context, 'user_launch'),
+              buttonAction: () => Navigator.pushNamed(context, 'user_account'),
             ),
           ),
           normalRichText(
