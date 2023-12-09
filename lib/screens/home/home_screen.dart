@@ -1,7 +1,9 @@
 import 'package:chat360/api_functions/get_function.dart';
 import 'package:chat360/modal/message_list_modal.dart';
+import 'package:chat360/provider/category_list_provider.dart';
 import 'package:chat360/provider/home_page_provider.dart';
 import 'package:chat360/provider/main_provider.dart';
+import 'package:chat360/provider/sub_category_list_provider.dart';
 import 'package:chat360/resources/colors.dart';
 import 'package:chat360/widgets/card/card_widget.dart';
 import 'package:chat360/widgets/popup/dialog_box_widget.dart';
@@ -24,11 +26,16 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     getChatListResponse(context: context);
+    getCategoryListResponse(context: context);
+    getSubCategoryListResponse(context: context);
   }
 
   @override
   Widget build(BuildContext context) {
     var mainProvider = Provider.of<MainProvider>(context, listen: false);
+
+    var subCategory = Provider.of<SubCategoryListProvider>(context, listen: false);
+    var category = Provider.of<CategoryListProvider>(context, listen: false);
     return WillPopScope(
       onWillPop: showExitPopup,
       child: Scaffold(
@@ -46,7 +53,8 @@ class _HomeScreenState extends State<HomeScreen> {
               child: InkWell(
                 onTap: () async {
                   getChatListResponse(context: context);
-                  // Navigator.pushNamed(context, 'profile_screen');
+                  Navigator.pushNamed(context, 'profile_screen');
+                  subCategory.setDrawerCategory(category.categoryList);
                 },
                 child: CircleAvatar(
                   backgroundImage: NetworkImage(
@@ -67,7 +75,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainProvider.setMessageId(responsePost.objectId);
                   getChatMessageResponse(
                     context: context,
-                    messagedId: responsePost.objectId, isFirst: false,
+                    messagedId: responsePost.objectId,
+                    isFirst: false,
                   );
                 },
                 messageTitle: responsePost.chatTitle,

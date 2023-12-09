@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:chat360/api_functions/get_function.dart';
 import 'package:chat360/modal/account_credential_modal.dart';
 import 'package:chat360/modal/chat_message_modal.dart';
-import 'package:chat360/provider/category_list_provider.dart';
+import 'package:chat360/provider/keyword_list_provider.dart';
 import 'package:chat360/provider/main_provider.dart';
 import 'package:chat360/service/api_integration/authentication/organization_create.dart';
 import 'package:chat360/service/api_integration/authentication/user_create.dart';
@@ -21,7 +21,7 @@ createMessageResponse({
   required bool isFirst,
 }) async {
   final mainProvider = Provider.of<MainProvider>(context, listen: false);
-  final categoryProvider = Provider.of<CategoryListProvider>(context, listen: false);
+  final categoryProvider = Provider.of<KeywordListProvider>(context, listen: false);
 
   NetworkResponse<ChatMessageModal> response;
   if (messageId != null && messageId != "") {
@@ -80,7 +80,7 @@ createUserAccountResponse({
   required bool isCreator,
 }) async {
   final mainProvider = Provider.of<MainProvider>(context, listen: false);
-  final categoryProvider = Provider.of<CategoryListProvider>(context, listen: false);
+  final categoryProvider = Provider.of<KeywordListProvider>(context, listen: false);
 
   NetworkResponse<AccountCredentialModal>? response;
 
@@ -123,7 +123,7 @@ createOrganizationAccountResponse({
   required BuildContext context,
 }) async {
   final mainProvider = Provider.of<MainProvider>(context, listen: false);
-  final categoryProvider = Provider.of<CategoryListProvider>(context, listen: false);
+  final categoryProvider = Provider.of<KeywordListProvider>(context, listen: false);
   final response = await createOrganization(
     profilePick: mainProvider.profilePick!,
     userID: mainProvider.userID.toString(),

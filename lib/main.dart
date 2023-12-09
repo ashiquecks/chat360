@@ -1,12 +1,14 @@
 import 'package:chat360/provider/category_list_provider.dart';
+import 'package:chat360/provider/keyword_list_provider.dart';
 import 'package:chat360/provider/home_page_provider.dart';
 import 'package:chat360/provider/main_provider.dart';
+import 'package:chat360/provider/sub_category_list_provider.dart';
 import 'package:chat360/screens/authentication/organization_account.dart';
 import 'package:chat360/screens/authentication/creator_approval.dart';
 import 'package:chat360/screens/authentication/otp_verification.dart';
 import 'package:chat360/screens/authentication/phone_verification.dart';
 import 'package:chat360/screens/authentication/user_account.dart';
-import 'package:chat360/screens/category/category_screen.dart';
+import 'package:chat360/screens/category/keyword_screen.dart';
 import 'package:chat360/screens/category/select_category_type.dart';
 import 'package:chat360/screens/chat_room/image_chat.dart';
 import 'package:chat360/screens/location/location_screen.dart';
@@ -48,7 +50,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => ChatRoomProvider()),
         ChangeNotifierProvider(create: (context) => HomePageProvider()),
+        ChangeNotifierProvider(create: (context) => KeywordListProvider()),
         ChangeNotifierProvider(create: (context) => CategoryListProvider()),
+        ChangeNotifierProvider(create: (context) => SubCategoryListProvider()),
         ChangeNotifierProvider(create: (context) => MainProvider())
       ],
       child: MaterialApp(
@@ -68,7 +72,7 @@ class MyApp extends StatelessWidget {
           'filter_screen': (context) => const FilterChatScreen(),
           'phone_verification': (context) => const PhoneVerification(),
           'otp_verification': (context) => const OTPVerification(),
-          'category_screen': (context) => const CategoryScreen(),
+          'category_screen': (context) => const KeywordScreen(),
           'profile_screen': (context) => const ProfileScreen(),
           'user_launch': (context) => const UserLaunch(),
           'creator_account': (context) => const OrganizationAccount(),

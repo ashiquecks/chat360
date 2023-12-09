@@ -2,6 +2,7 @@ import 'package:chat360/modal/chat_message_modal.dart';
 import 'package:chat360/provider/chat_room_provider.dart';
 import 'package:chat360/provider/main_provider.dart';
 import 'package:chat360/resources/app_them.dart';
+import 'package:chat360/resources/colors.dart';
 import 'package:flutter/material.dart';
 
 Widget textColumCard({
@@ -58,13 +59,35 @@ Widget imageMessageBox({
           ),
           child: Image.network(response.photoMessage.url),
         ),
-        response.message !="" && response.message !=null ? Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            response.message,
-          ),
-        ) : const SizedBox(),
+        response.message != "" && response.message != null
+            ? Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  response.message,
+                ),
+              )
+            : const SizedBox(),
       ],
+    ),
+  );
+}
+
+Widget searchBoxCard({required TextEditingController searchController, required void Function() searchAction}) {
+  return Expanded(
+    child: Card(
+      color: white,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: TextFormField(
+          controller: searchController,
+          decoration: InputDecoration(
+            enabledBorder: InputBorder.none,
+            focusedBorder: InputBorder.none,
+            hintText: "   Search Keyword",
+            suffixIcon: IconButton(onPressed: searchAction, icon: const Icon(Icons.search)),
+          ),
+        ),
+      ),
     ),
   );
 }
