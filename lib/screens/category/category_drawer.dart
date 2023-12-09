@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class DrawerCategory extends StatefulWidget {
-  const DrawerCategory({super.key});
+  final String drawerType;
+  const DrawerCategory({super.key, required this.drawerType});
 
   @override
   State<DrawerCategory> createState() => _DrawerCategoryState();
@@ -26,7 +27,7 @@ class _DrawerCategoryState extends State<DrawerCategory> {
               builder: (context, subCategoryValue, child) {
                 return ExpansionTile(
                   title: Text(categoryResponse.categoryName),
-                  children: [ 
+                  children: [
                     if (subCategoryValue.drawerList.isNotEmpty)
                       ListView.builder(
                         shrinkWrap: true,
@@ -35,13 +36,18 @@ class _DrawerCategoryState extends State<DrawerCategory> {
                           var response = subCategoryValue.drawerList[categoryResponse.objectId]?[index];
                           return ListTile(
                             onTap: () {
-                              getKeywordListResponse(
-                                    context: context,
-                                    searchKeyword: '',
-                                    subCategory: response.objectId,
-                                  );
-                              // subCategoryValue.setSelectedSubCategory(response);
-                              Navigator.pop(context);
+                              if (widget.drawerType == "select") {
+                                getKeywordListResponse(
+                                  context: context,
+                                  searchKeyword: '',
+                                  subCategory: response.objectId,
+                                );
+                                Navigator.pop(context);
+                              } else {
+                                categoryValue.setSubCategoryElements(response);
+                                Navigator.pop(context);
+
+                              }
                             },
                             title: Text(response.subCategory ?? "No name"),
                           );

@@ -8,8 +8,9 @@ import 'package:chat360/screens/authentication/creator_approval.dart';
 import 'package:chat360/screens/authentication/otp_verification.dart';
 import 'package:chat360/screens/authentication/phone_verification.dart';
 import 'package:chat360/screens/authentication/user_account.dart';
+import 'package:chat360/screens/category/create_keywords.dart';
 import 'package:chat360/screens/category/keyword_screen.dart';
-import 'package:chat360/screens/category/select_category_type.dart';
+import 'package:chat360/screens/category/select_keyword_type.dart';
 import 'package:chat360/screens/chat_room/image_chat.dart';
 import 'package:chat360/screens/home/home_screen_live.dart';
 import 'package:chat360/screens/location/location_screen.dart';
@@ -80,11 +81,12 @@ class MyApp extends StatelessWidget {
           'user_account': (context) => const UserAccount(),
           'creator_approval': (context) => const CreatorApproval(),
           'edit_profile': (context) => const EditProfile(),
-          'category_types': (context) => const SelectCategoryType(navigateScreen: ''),
+          'category_types': (context) => const SelectKeyword(navigateScreen: ''),
           'manage_creator': (context) => const ManageCreator(),
           'chat_screen': (context) => const ChatScreen(),
           'image_chat': (context) => const ImageChat(),
           'home_screen_live': (context) => const HomeScreenLive(),
+          'create_keyword': (context) => const CreateKeyword(),
         },
       ),
     );

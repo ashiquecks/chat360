@@ -44,7 +44,7 @@ class _ChatRoomsState extends State<ChatRooms> {
               size: 15,
             ),
             label: Text(
-              "Kozhokode",
+              mainProvider.address ??"Missing Location",
               style: TextStyle(color: white),
             ),
           ),

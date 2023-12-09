@@ -14,4 +14,6 @@ setSharedPreferences(NetworkResponse<AccountCredentialModal> response) async {
   userPreferences.setString('accountType', response.data!.accountType);
   userPreferences.setBool("isCreator", response.data!.creator);
   userPreferences.setBool("isVerified", response.data!.verified);
+  userPreferences.setString('address', response.data!.address);
+  userPreferences.setString('latLong', response.data!.latLong);
 }

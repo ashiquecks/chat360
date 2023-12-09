@@ -124,7 +124,7 @@ categoryButtonCard({
       child: IconButton(
         onPressed: () {
           SideSheet.left(
-            body: const DrawerCategory(),
+            body: const DrawerCategory(drawerType: 'select',),
             context: context,
           );
         },
@@ -133,3 +133,5 @@ categoryButtonCard({
     ),
   );
 }
+
+

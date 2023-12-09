@@ -17,6 +17,8 @@ Future<NetworkResponse<AccountCredentialModal>> createOrganization({
   required bool creator,
   required Object categoryTypes,
   required String accountType,
+  required String latLong,
+  required String address,
 }) async {
   ParseFile convertName = ParseFile(name: phoneNumber + gstNumber, null);
   convertName.file = File(profilePick.file!.path);
@@ -31,7 +33,9 @@ Future<NetworkResponse<AccountCredentialModal>> createOrganization({
       ..set('verifiedOrganization', false)
       ..set('categoryTypes', categoryTypes)
       ..set('accountType', accountType)
-      ..set('creator', creator);
+      ..set('creator', creator)
+      ..set('latLong', latLong)
+      ..set('address', address);
     await response.save();
 
     QueryBuilder queryPublisher = QueryBuilder(response);

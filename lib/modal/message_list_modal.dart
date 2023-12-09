@@ -19,14 +19,14 @@ class MessageListModal {
 
   factory MessageListModal.fromJson(Map<String, dynamic> json) =>
       MessageListModal(
-        className: json["className"],
-        objectId: json["objectId"],
+        className: json["className"] ??"",
+        objectId: json["objectId"] ??"",
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
-        userId: json["userId"],
-        chatTitle: json["chatTitle"],
-        categoryTypes: Map.from(json["categoryTypes"])
-            .map((k, v) => MapEntry<String, String>(k, v)),
+        userId: json["userId"] ??"",
+        chatTitle: json["chatTitle"]??"",
+        categoryTypes: Map.from(json["categoryTypes"] ??{})
+            .map((k, v) => MapEntry<String, String>(k, v))
       );
 
   Map<String, dynamic> toJson() => {

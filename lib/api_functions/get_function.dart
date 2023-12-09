@@ -9,6 +9,7 @@ import 'package:chat360/service/api_integration/receive/get_keyword_list.dart';
 import 'package:chat360/service/api_integration/receive/get_chat_list.dart';
 import 'package:chat360/service/api_integration/receive/get_chat_message.dart';
 import 'package:chat360/service/api_integration/receive/get_subcategory_list.dart';
+import 'package:chat360/service/notification/notification.dart';
 import 'package:chat360/widgets/popup/message_box.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -35,13 +36,16 @@ getChatMessageResponse({required BuildContext context, required String messagedI
 
 getChatListResponse({
   required BuildContext context,
+  required bool isStream,
 }) async {
+  NotificationHelper notificationHelper = NotificationHelper();
   var provider = Provider.of<HomePageProvider>(context, listen: false);
   var mainProvider = Provider.of<MainProvider>(context, listen: false);
   var response = await getChatList(
       userId: mainProvider.userID.toString(), selectedKeys: mainProvider.categoryList, context: context);
   if (response.isSuccessful!) {
     if (provider.messageList.length < response.data!.length) {
+      // isStream? notificationHelper.sendNotification(title: response.data![0].chatTitle, body: response.data![0].userId) :print("empty notification");
       provider.messageList.clear();
       provider.setMessageList(response.data!);
     } else {}
@@ -58,7 +62,7 @@ getKeywordListResponse({
   required String subCategory,
 }) async {
   var provider = Provider.of<KeywordListProvider>(context, listen: false);
-  if (searchKeyword != "" || subCategory !="") {
+  if (searchKeyword != "" || subCategory != "") {
     provider.keywordList.clear();
   }
   var response = await getKeywordList(searchKeyword: searchKeyword, subCategory: subCategory);

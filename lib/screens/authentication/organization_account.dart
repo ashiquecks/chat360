@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:chat360/provider/main_provider.dart';
 import 'package:chat360/widgets/button/button_widget.dart';
+import 'package:chat360/widgets/popup/dialog_box_widget.dart';
 import 'package:chat360/widgets/text_field.dart/text_filed_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -60,10 +61,7 @@ class _OrganizationAccountState extends State<OrganizationAccount> {
               labelName: "organization name",
               controller: mainProvider.organizationController,
             ),
-            mainTextFieldDisable(
-              labelName: "phone number",
-              controller: mainProvider.phoneNumberController
-            ),
+            mainTextFieldDisable(labelName: "phone number", controller: mainProvider.phoneNumberController),
             mainTextField(
               labelName: "gst number",
               controller: mainProvider.gstNumberController,
@@ -76,6 +74,7 @@ class _OrganizationAccountState extends State<OrganizationAccount> {
               context: context,
               buttonText: "Continue",
               buttonAction: () {
+                // showAlertDialogLoading(context: context);
                 mainProvider.setProfilePick(
                   ParseFile(
                     File(pickedFile!.path),

@@ -30,7 +30,8 @@ class _HomeScreenLiveState extends State<HomeScreenLive> {
   final LiveQuery liveQuery = LiveQuery(debug: true);
   late Subscription<ParseObject> subscription;
 
-  final QueryBuilder<ParseObject> queryTodo = QueryBuilder<ParseObject>(ParseObject('ChatList'));
+  QueryBuilder<ParseObject> queryTodo = QueryBuilder<ParseObject>(ParseObject('ChatList'));
+
 
   @override
   void initState() {

@@ -2,22 +2,19 @@ import 'package:chat360/api_functions/get_function.dart';
 import 'package:chat360/modal/keyword_list_model.dart';
 import 'package:chat360/provider/keyword_list_provider.dart';
 import 'package:chat360/resources/colors.dart';
-import 'package:chat360/screens/category/category_drawer.dart';
-import 'package:chat360/widgets/button/button_widget.dart';
 import 'package:chat360/widgets/card/mini_size_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:side_sheet/side_sheet.dart';
 
-class SelectCategoryType extends StatefulWidget {
+class SelectKeyword extends StatefulWidget {
   final String navigateScreen;
-  const SelectCategoryType({super.key, required this.navigateScreen});
+  const SelectKeyword({super.key, required this.navigateScreen});
 
   @override
-  State<SelectCategoryType> createState() => _SelectMessageCategoryState();
+  State<SelectKeyword> createState() => _SelectMessageCategoryState();
 }
 
-class _SelectMessageCategoryState extends State<SelectCategoryType> {
+class _SelectMessageCategoryState extends State<SelectKeyword> {
   @override
   void initState() {
     super.initState();

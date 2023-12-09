@@ -5,9 +5,13 @@ import 'package:chat360/provider/keyword_list_provider.dart';
 import 'package:chat360/provider/main_provider.dart';
 import 'package:chat360/resources/colors.dart';
 import 'package:chat360/screens/category/category_drawer.dart';
+import 'package:chat360/screens/filter_chat/filter_chat.dart';
+import 'package:chat360/widgets/button/button_widget.dart';
 import 'package:chat360/widgets/card/mini_size_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:side_sheet/side_sheet.dart';
 
 class KeywordScreen extends StatefulWidget {
@@ -30,6 +34,7 @@ class _KeywordScreenState extends State<KeywordScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final widgetSize = MediaQuery.of(context).size;
     final mainProvider = Provider.of<MainProvider>(context, listen: false);
     return SafeArea(
       child: Scaffold(
@@ -82,19 +87,48 @@ class _KeywordScreenState extends State<KeywordScreen> {
             ),
           );
         }),
-        floatingActionButton: CircleAvatar(
-          radius: 30,
-          backgroundColor: primaryColor,
-          child: IconButton(
-            onPressed: () {
-              if (mainProvider.accountType == "UserAccount") {
-                createUserAccountResponse(context: context, isCreator: true);
-              } else {
-                createOrganizationAccountResponse(context: context);
-              }
-            },
-            icon: Icon(Icons.add, color: white),
-          ),
+        floatingActionButton: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            CircleAvatar(
+              radius: 30,
+              backgroundColor: primaryColor,
+              child: IconButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, 'create_keyword');
+                },
+                icon: Icon(Icons.add, color: white),
+              ),
+            ),
+            const SizedBox(width: 10),
+            CircleAvatar(
+              radius: 30,
+              backgroundColor: primaryColor,
+              child: IconButton(
+                onPressed: () {
+                  QuickAlert.show(
+                    context: context,
+                    text: "Your Account has a Creator Type",
+                    confirmBtnColor: Colors.black,
+                    type: QuickAlertType.confirm,
+                    confirmBtnText: "Confirm",
+                    onConfirmBtnTap: () {
+                      // Navigator.pushNamed(context, 'filter_screen');
+                      if (mainProvider.accountType == "UserAccount") {
+                        createUserAccountResponse(context: context, isCreator: true);
+                      } else {
+                        createOrganizationAccountResponse(context: context);
+                      }
+                      Future.delayed(const Duration(seconds: 3), () {
+                        Navigator.pop(context);
+                      });
+                    },
+                  );
+                },
+                icon: Icon(Icons.arrow_forward_ios, color: white),
+              ),
+            ),
+          ],
         ),
       ),
     );
