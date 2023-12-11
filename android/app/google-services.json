@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "13164411425",
-    "project_id": "chat360-bc4d8",
-    "storage_bucket": "chat360-bc4d8.appspot.com"
+    "project_number": "23872579208",
+    "project_id": "chat-360-firebase",
+    "storage_bucket": "chat-360-firebase.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:13164411425:android:286cafeee678cf01fd4160",
+        "mobilesdk_app_id": "1:23872579208:android:925dddc66768c95c65a13d",
         "android_client_info": {
           "package_name": "com.example.chat360"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCXbWQHKrtpKaF0jlqtwE_vZXeSloJZ7l4"
+          "current_key": "AIzaSyBgEWfycesqJ_qvF2jMudHz5o9pbKQ7Rao"
         }
       ],
       "services": {
