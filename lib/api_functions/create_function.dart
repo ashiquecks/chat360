@@ -4,6 +4,7 @@ import 'package:chat360/modal/account_credential_modal.dart';
 import 'package:chat360/modal/chat_message_modal.dart';
 import 'package:chat360/modal/keyword_list_model.dart';
 import 'package:chat360/provider/category_list_provider.dart';
+import 'package:chat360/provider/home_page_provider.dart';
 import 'package:chat360/provider/keyword_list_provider.dart';
 import 'package:chat360/provider/main_provider.dart';
 import 'package:chat360/service/api_integration/authentication/organization_create.dart';
@@ -27,7 +28,8 @@ createMessageResponse({
   required bool isFirst,
 }) async {
   final mainProvider = Provider.of<MainProvider>(context, listen: false);
-  final categoryProvider = Provider.of<KeywordListProvider>(context, listen: false);
+  final categoryProvider =
+      Provider.of<KeywordListProvider>(context, listen: false);
 
   NetworkResponse<ChatMessageModal> response;
   if (messageId != null && messageId != "") {
@@ -53,6 +55,10 @@ createMessageResponse({
         categoryTypes: categoryProvider.categoryList,
         messageCount: 10,
         photo: ParseFile(File(mainProvider.pickedFile!.path)),
+        userName: mainProvider.userName.toString(),
+        userPhone: mainProvider.userPhone.toString(),
+        userLatlong: mainProvider.latLong.toString(),
+        userAddress: mainProvider.address.toString(),
       );
     } else {
       response = await createMessageText(
@@ -60,6 +66,10 @@ createMessageResponse({
         message: mainProvider.chatLink.text,
         categoryTypes: categoryProvider.categoryList,
         messageCount: 10,
+        userName: mainProvider.userName.toString(),
+        userPhone: mainProvider.userPhone.toString(),
+        userLatlong: mainProvider.latLong.toString(),
+        userAddress: mainProvider.address.toString(),
       );
     }
   }
@@ -71,7 +81,12 @@ createMessageResponse({
     categoryProvider.categoryList.clear();
     mainProvider.clearImage();
     // ignore: use_build_context_synchronously
-    getChatMessageResponse(context: context, messagedId: response.data!.messageId, isFirst: isFirst);
+    getChatMessageResponse(
+        context: context,
+        messagedId: response.data!.messageId,
+        isFirst: isFirst,
+        userName: '',
+        userId: '');
     // ignore: use_build_context_synchronously
     getChatListResponse(context: context, isStream: false);
   }
@@ -87,7 +102,8 @@ createUserAccountResponse({
   required bool isCreator,
 }) async {
   final mainProvider = Provider.of<MainProvider>(context, listen: false);
-  final categoryProvider = Provider.of<KeywordListProvider>(context, listen: false);
+  final categoryProvider =
+      Provider.of<KeywordListProvider>(context, listen: false);
 
   NetworkResponse<AccountCredentialModal>? response;
 
@@ -140,7 +156,8 @@ createOrganizationAccountResponse({
   required BuildContext context,
 }) async {
   final mainProvider = Provider.of<MainProvider>(context, listen: false);
-  final categoryProvider = Provider.of<KeywordListProvider>(context, listen: false);
+  final categoryProvider =
+      Provider.of<KeywordListProvider>(context, listen: false);
   final response = await createOrganization(
     profilePick: mainProvider.profilePick!,
     userID: mainProvider.userID.toString(),
@@ -183,13 +200,15 @@ createOrganizationAccountResponse({
 }
 
 createKeywordResponse({required BuildContext context}) async {
-  final categoryProvider = Provider.of<CategoryListProvider>(context, listen: false);
+  final categoryProvider =
+      Provider.of<CategoryListProvider>(context, listen: false);
   QueryBuilder<ParseObject> keywordResponse = QueryBuilder<ParseObject>(
     ParseObject('Keywords'),
   );
   ParseResponse keyword = await keywordResponse.query();
   if (keyword.success == true) {
-    int keywordType = int.parse(keyword.results!.last['keywordType'].toString()) + 1;
+    int keywordType =
+        int.parse(keyword.results!.last['keywordType'].toString()) + 1;
 
     if (keywordType != null) {
       // ignore: use_build_context_synchronously

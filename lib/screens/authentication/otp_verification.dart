@@ -1,4 +1,5 @@
 import 'package:chat360/resources/colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
@@ -7,17 +8,79 @@ import '../../widgets/button/button_widget.dart';
 import '../../widgets/text/text_widgets.dart';
 
 class OTPVerification extends StatefulWidget {
-  const OTPVerification({super.key});
+  final String phoneNumber;
+  const OTPVerification({super.key, required this.phoneNumber});
 
   @override
   State<OTPVerification> createState() => _OTPVerificationState();
 }
 
 class _OTPVerificationState extends State<OTPVerification> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // verifyphoneNumber();
+  }
 
+  var _verificationId = "";
 
+  final pinController = TextEditingController();
 
-  // final pinController = TextEditingController();
+  // Future<void> _verifyPhoneNumber() async {
+  //   await FirebaseAuth.instance.verifyPhoneNumber(
+  //     phoneNumber: widget.phoneNumber,
+  //     verificationCompleted: (PhoneAuthCredential credential) async {
+  //       await FirebaseAuth.instance.signInWithCredential(credential);
+  //     },
+  //     verificationFailed: (FirebaseAuthException e) {
+  //       // Handle error
+  //     },
+  //     codeSent: (String verificationId, int? resendToken) {
+  //       setState(() {
+  //         _verificationId = verificationId;
+  //       });
+  //     },
+  //     codeAutoRetrievalTimeout: (String verificationId) {
+  //       setState(() {
+  //         _verificationId = verificationId;
+  //       });
+  //     },
+  //   );
+  // }
+
+  UserCredential? responseCredential;
+
+  verifyphoneNumber() async {
+    await FirebaseAuth.instance.verifyPhoneNumber(
+      phoneNumber: widget.phoneNumber,
+      verificationCompleted: (PhoneAuthCredential credential) async {
+        final response =
+            await FirebaseAuth.instance.signInWithCredential(credential);
+        setState(() {
+          responseCredential = response;
+        });
+      },
+      verificationFailed: (FirebaseAuthException e) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(e.toString()),
+          duration: Duration(seconds: 3),
+        ));
+      },
+      codeSent: (String vID, int? resendToken) {
+        setState(() {
+          _verificationId = vID;
+        });
+      },
+      codeAutoRetrievalTimeout: (String vID) {
+        setState(() {
+          _verificationId = vID;
+        });
+      },
+      timeout: const Duration(seconds: 60),
+    );
+  }
+
   final FocusNode _pinOTPCodeFocus = FocusNode();
 
   final defaultPinTheme = PinTheme(
@@ -48,12 +111,34 @@ class _OTPVerificationState extends State<OTPVerification> {
             child: Pinput(
               length: 6,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              controller: mainProvider.passwordController,
+              controller: pinController,
               focusNode: _pinOTPCodeFocus,
               androidSmsAutofillMethod:
                   AndroidSmsAutofillMethod.smsUserConsentApi,
               listenForMultipleSmsOnAndroid: true,
               defaultPinTheme: defaultPinTheme,
+              // onCompleted: (pin) async {
+              //   try {
+              //     await FirebaseAuth.instance
+              //         .signInWithCredential(PhoneAuthProvider.credential(
+              //             verificationId: _verificationId, smsCode: pin))
+              //         .then((value) async {
+              //       if (value.user != null) {
+              //         Navigator.pushNamed(context, 'user_account');
+              //         mainProvider.setFirebaseCredential(
+              //           responseCredential!.user!.uid,
+              //           _verificationId,
+              //         );
+              //       }
+              //     });
+              //   } catch (e) {
+              //     FocusScope.of(context).unfocus();
+              //     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              //       content: Text("Invalid OTP"),
+              //       duration: Duration(seconds: 3),
+              //     ));
+              //   }
+              // },
             ),
           ),
           SizedBox(

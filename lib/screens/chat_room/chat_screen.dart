@@ -9,7 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ChatScreen extends StatefulWidget {
-  const ChatScreen({super.key});
+  final String userId;
+  final String userName;
+  const ChatScreen({super.key, required this.userId, required this.userName});
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -20,6 +22,7 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     final mainProvider = Provider.of<MainProvider>(context);
     final chatRoomProvider = Provider.of<ChatRoomProvider>(context);
+    bool isOwnMessage = widget.userId == mainProvider.userID;
     return WillPopScope(
       onWillPop: () async {
         chatRoomProvider.messageList.clear();
@@ -32,10 +35,13 @@ class _ChatScreenState extends State<ChatScreen> {
           foregroundColor: white,
           backgroundColor: primaryColor,
           elevation: 12,
-          title: const Text("User Name"),
+          title: Text(isOwnMessage ? "Your Message" : widget.userName),
           actions: [
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                print(widget.userName);
+                print(widget.userId);
+              },
               icon: Icon(
                 Icons.more_vert,
                 color: white,
@@ -62,26 +68,28 @@ class _ChatScreenState extends State<ChatScreen> {
                 );
               },
             ),
-            mainProvider.createReply? Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: replyMessageCard(
-                imageButton: true,
-                controller: mainProvider.chatLink,
-                sendMessage: () async {
-                  createMessageResponse(
-                    context: context,
-                    messageId: mainProvider.messageId.toString(),
-                    isFirst: true,
-                  );
-                },
-                getImage: () {
-                  Navigator.pushNamed(context, 'image_chat');
-                },
-                navigateScreen: 'chat_screen',
-              ),
-            ): const SizedBox()
+            mainProvider.createReply
+                ? Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: replyMessageCard(
+                      imageButton: true,
+                      controller: mainProvider.chatLink,
+                      sendMessage: () async {
+                        createMessageResponse(
+                          context: context,
+                          messageId: mainProvider.messageId.toString(),
+                          isFirst: true,
+                        );
+                      },
+                      getImage: () {
+                        Navigator.pushNamed(context, 'image_chat');
+                      },
+                      navigateScreen: 'chat_screen',
+                    ),
+                  )
+                : const SizedBox()
           ],
         ),
       ),

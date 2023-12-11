@@ -54,6 +54,8 @@ dependencies:
   geocoding: ^2.1.1
   quickalert: ^1.0.0
   lottie: ^2.7.0
+  firebase_core: ^2.24.2
+  firebase_auth: ^4.15.2
 
 dev_dependencies:
   flutter_test:

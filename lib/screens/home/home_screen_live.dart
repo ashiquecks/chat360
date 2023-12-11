@@ -20,7 +20,10 @@ class HomeScreenLive extends StatefulWidget {
 
 class _HomeScreenLiveState extends State<HomeScreenLive> {
   Future<bool> showExitPopup() async {
-    return await showDialog(context: context, builder: (context) => exitDialogBox(context: context)) ?? false;
+    return await showDialog(
+            context: context,
+            builder: (context) => exitDialogBox(context: context)) ??
+        false;
   }
 
   List<ParseObject> taskList = [];
@@ -30,8 +33,8 @@ class _HomeScreenLiveState extends State<HomeScreenLive> {
   final LiveQuery liveQuery = LiveQuery(debug: true);
   late Subscription<ParseObject> subscription;
 
-  QueryBuilder<ParseObject> queryTodo = QueryBuilder<ParseObject>(ParseObject('ChatList'));
-
+  QueryBuilder<ParseObject> queryTodo =
+      QueryBuilder<ParseObject>(ParseObject('ChatList'));
 
   @override
   void initState() {
@@ -69,7 +72,8 @@ class _HomeScreenLiveState extends State<HomeScreenLive> {
   @override
   Widget build(BuildContext context) {
     var mainProvider = Provider.of<MainProvider>(context, listen: false);
-    var subCategory = Provider.of<SubCategoryListProvider>(context, listen: false);
+    var subCategory =
+        Provider.of<SubCategoryListProvider>(context, listen: false);
     var category = Provider.of<CategoryListProvider>(context, listen: false);
     return WillPopScope(
       onWillPop: showExitPopup,
@@ -102,7 +106,10 @@ class _HomeScreenLiveState extends State<HomeScreenLive> {
                   case ConnectionState.none:
                   case ConnectionState.waiting:
                     return const Center(
-                      child: SizedBox(width: 100, height: 100, child: CircularProgressIndicator()),
+                      child: SizedBox(
+                          width: 100,
+                          height: 100,
+                          child: CircularProgressIndicator()),
                     );
                   default:
                     if (snapshot.hasError) {
@@ -125,11 +132,11 @@ class _HomeScreenLiveState extends State<HomeScreenLive> {
                           return messageListCard(
                             cardAction: () async {
                               mainProvider.setMessageId(objectId);
-                              getChatMessageResponse(
-                                context: context,
-                                messagedId: objectId,
-                                isFirst: false,
-                              );
+                              // getChatMessageResponse(
+                              //   context: context,
+                              //   messagedId: objectId,
+                              //   isFirst: false,
+                              // );
                             },
                             messageTitle: title,
                           );

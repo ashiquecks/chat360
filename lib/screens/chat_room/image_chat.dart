@@ -45,14 +45,15 @@ class _ImageChatState extends State<ImageChat> {
                 mainProvider.getImage();
               },
               child: Container(
-                  width: widgetSize.width,
-                  height: widgetSize.height,
-                  margin: const EdgeInsets.all(15),
-                  child: mainProvider.pickedFile != null
-                      ? Image.file(
-                          File(mainProvider.pickedFile!.path),
-                        )
-                      : const Text("Image not picked")),
+                width: widgetSize.width,
+                height: widgetSize.height,
+                margin: const EdgeInsets.all(15),
+                child: mainProvider.pickedFile != null
+                    ? Image.file(
+                        File(mainProvider.pickedFile!.path),
+                      )
+                    : const SizedBox(),
+              ),
             ),
             Positioned(
               bottom: 0,

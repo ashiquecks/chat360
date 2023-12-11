@@ -15,6 +15,7 @@ class PhoneVerification extends StatefulWidget {
 }
 
 class _PhoneVerificationState extends State<PhoneVerification> {
+  String? phoneNumber;
   @override
   Widget build(BuildContext context) {
     final mainProvider = Provider.of<MainProvider>(context, listen: false);
@@ -43,7 +44,11 @@ class _PhoneVerificationState extends State<PhoneVerification> {
                       ),
                     ),
                     initialCountryCode: 'IN',
-                    onChanged: (phone) {},
+                    onChanged: (phone) {
+                      setState(() {
+                        phoneNumber = phone.completeNumber;
+                      });
+                    },
                   ),
                 ),
                 loginButton(
@@ -52,7 +57,9 @@ class _PhoneVerificationState extends State<PhoneVerification> {
                   buttonAction: () => showModalBottomSheet<void>(
                       context: context,
                       builder: (BuildContext context) {
-                        return const OTPVerification();
+                        return OTPVerification(
+                          phoneNumber: phoneNumber.toString(),
+                        );
                       }),
                 ),
                 const Text("we will send you one time password"),

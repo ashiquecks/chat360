@@ -20,19 +20,20 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   Future<bool> showExitPopup() async {
-    return await showDialog(context: context, builder: (context) => exitDialogBox(context: context)) ?? false;
+    return await showDialog(
+            context: context,
+            builder: (context) => exitDialogBox(context: context)) ??
+        false;
   }
 
   StreamController<List<ParseObject>> streamController = StreamController();
 
-  QueryBuilder<ParseObject> queryTodo = QueryBuilder<ParseObject>(ParseObject('ChatList'));
+  QueryBuilder<ParseObject> queryTodo =
+      QueryBuilder<ParseObject>(ParseObject('ChatList'));
 
   final LiveQuery liveQuery = LiveQuery(debug: true);
   late Subscription<ParseObject> subscription;
-
-
 
   @override
   void initState() {
@@ -58,7 +59,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     var mainProvider = Provider.of<MainProvider>(context, listen: false);
 
-    var subCategory = Provider.of<SubCategoryListProvider>(context, listen: false);
+    var subCategory =
+        Provider.of<SubCategoryListProvider>(context, listen: false);
     var category = Provider.of<CategoryListProvider>(context, listen: false);
     return WillPopScope(
       onWillPop: showExitPopup,
@@ -101,6 +103,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     context: context,
                     messagedId: responsePost.objectId,
                     isFirst: false,
+                    userName: responsePost.userName,
+                    userId: responsePost.userId,
                   );
                 },
                 messageTitle: responsePost.chatTitle,

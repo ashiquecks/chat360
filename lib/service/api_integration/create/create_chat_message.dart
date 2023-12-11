@@ -9,6 +9,10 @@ Future<NetworkResponse<ChatMessageModal>> createMessageImage({
   required String message,
   required Object categoryTypes,
   required int messageCount,
+  required String userName,
+  required String userPhone,
+  required String userLatlong,
+  required String userAddress,
   required ParseFile photo,
 }) async {
   ParseFile convertNamePhoto = ParseFile(name: "image$userId", null);
@@ -18,7 +22,11 @@ Future<NetworkResponse<ChatMessageModal>> createMessageImage({
     ..set("userId", userId)
     ..set('chatTitle', message)
     ..set('categoryTypes', categoryTypes)
-    ..set('messageCount', messageCount);
+    ..set('messageCount', messageCount)
+    ..set('userName', userName)
+    ..set('phone', userPhone)
+    ..set('userLatlong', userLatlong)
+    ..set('userAddress', userAddress);
   await listResponse.save();
 
   if (listResponse.objectId != null) {
@@ -38,7 +46,8 @@ Future<NetworkResponse<ChatMessageModal>> createMessageImage({
     return NetworkResponse(
       false,
       null,
-      message: 'Invalid response received from server! please try again in a minutes or two',
+      message:
+          'Invalid response received from server! please try again in a minutes or two',
     );
   }
 }
@@ -48,13 +57,20 @@ Future<NetworkResponse<ChatMessageModal>> createMessageText({
   required String message,
   required Object categoryTypes,
   required int messageCount,
+  required String userName,
+  required String userPhone,
+  required String userLatlong,
+  required String userAddress,
 }) async {
-
   final listResponse = ParseObject('ChatList')
     ..set("userId", userId)
     ..set('chatTitle', message)
     ..set('categoryTypes', categoryTypes)
-    ..set('messageCount', messageCount);
+    ..set('messageCount', messageCount)
+    ..set('userName', userName)
+    ..set('phone', userPhone)
+    ..set('userLatlong', userLatlong)
+    ..set('userAddress', userAddress);
   await listResponse.save();
 
   if (listResponse.objectId != null) {
@@ -73,7 +89,8 @@ Future<NetworkResponse<ChatMessageModal>> createMessageText({
     return NetworkResponse(
       false,
       null,
-      message: 'Invalid response received from server! please try again in a minutes or two',
+      message:
+          'Invalid response received from server! please try again in a minutes or two',
     );
   }
 }

@@ -6,6 +6,12 @@ import 'package:parse_server_sdk/parse_server_sdk.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MainProvider extends ChangeNotifier {
+  // FirebaseCredential
+
+  String? firebaseUid;
+
+  String? firebaseVerificationId;
+
   // It's a categoryListCard Widget property
   String selectedCategory = "";
 
@@ -68,6 +74,13 @@ class MainProvider extends ChangeNotifier {
   XFile? emptyImage;
 
   bool createReply = false;
+
+  setFirebaseCredential(String uid, verificationId) {
+    firebaseUid = uid;
+    firebaseVerificationId = verificationId;
+    passwordController.text = uid;
+    notifyListeners();
+  }
 
   setCreateReply() {
     createReply = !createReply;
@@ -174,7 +187,8 @@ class MainProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> setCategoryList({required Map<String, dynamic> categoryTypes}) async {
+  Future<void> setCategoryList(
+      {required Map<String, dynamic> categoryTypes}) async {
     categoryValue.clear();
     await categoryBox.add({'category': categoryTypes});
     getCategoryList();

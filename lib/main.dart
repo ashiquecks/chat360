@@ -17,6 +17,7 @@ import 'package:chat360/screens/location/location_screen.dart';
 import 'package:chat360/screens/manage_creator/manage_creator.dart';
 import 'package:chat360/screens/profile/edit_profile.dart';
 import 'package:chat360/screens/profile/profile_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:provider/provider.dart';
@@ -31,13 +32,15 @@ import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await Firebase.initializeApp();
   const keyApplicationId = 'pYLM3p7I3jiAocohGfLQMvWgx486muD1QtvD9mxk';
   const keyClientKey = 'PLnQc8VAHS4mXEC9PkmuopSco2dchkmtD6tse1C4';
   const keyParseServerUrl = 'https://parseapi.back4app.com';
 
   await Parse().initialize(keyApplicationId, keyParseServerUrl,
-      clientKey: keyClientKey, liveQueryUrl: 'https://chat360.b4a.io', debug: true);
+      clientKey: keyClientKey,
+      liveQueryUrl: 'https://chat360.b4a.io',
+      debug: true);
   await Hive.initFlutter();
   await Hive.openBox('selectedCategories');
   runApp(const MyApp());
@@ -73,7 +76,9 @@ class MyApp extends StatelessWidget {
           'location_screen': (context) => const LocationScreen(),
           'filter_screen': (context) => const FilterChatScreen(),
           'phone_verification': (context) => const PhoneVerification(),
-          'otp_verification': (context) => const OTPVerification(),
+          'otp_verification': (context) => const OTPVerification(
+                phoneNumber: '',
+              ),
           'category_screen': (context) => const KeywordScreen(),
           'profile_screen': (context) => const ProfileScreen(),
           'user_launch': (context) => const UserLaunch(),
@@ -81,9 +86,13 @@ class MyApp extends StatelessWidget {
           'user_account': (context) => const UserAccount(),
           'creator_approval': (context) => const CreatorApproval(),
           'edit_profile': (context) => const EditProfile(),
-          'category_types': (context) => const SelectKeyword(navigateScreen: ''),
+          'category_types': (context) =>
+              const SelectKeyword(navigateScreen: ''),
           'manage_creator': (context) => const ManageCreator(),
-          'chat_screen': (context) => const ChatScreen(),
+          'chat_screen': (context) => const ChatScreen(
+                userId: '',
+                userName: '',
+              ),
           'image_chat': (context) => const ImageChat(),
           'home_screen_live': (context) => const HomeScreenLive(),
           'create_keyword': (context) => const CreateKeyword(),
